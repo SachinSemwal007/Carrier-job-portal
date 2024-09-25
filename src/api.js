@@ -16,3 +16,13 @@ export const getJobPosts = (params) => API.get('/posts', { params });
 
 // Apply for a Job
 export const applyForJob = (id, applicantData) => API.post(`/posts/${id}/apply`, applicantData);
+
+// Create a Job Post with token
+export const createJobPost = (postData, token) =>
+  API.post('/createpost', postData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+export const deleteJob = (id, applicantData) => API.delete(`/posts/${id}`, applicantData);

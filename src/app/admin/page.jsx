@@ -3,6 +3,7 @@ import React from "react";
 import Login from "@/components/Login";
 import { AuthProvider, useAuth } from "@/context/authcontext";
 import AdminJobList from "@/components/AdminJoblist";
+import Link from "next/link";
 
 const App = () => {
   const { user, checkUser, logout } = useAuth(); // Use auth context
@@ -19,6 +20,9 @@ const App = () => {
         </>
       ) : (
         <div>
+          <div>
+            <Link href='/admin/createjob'><h2>Create Job</h2></Link>
+          </div>
             <h2 onClick={()=>logout()}>logout</h2>
             <AdminJobList/>
         </div>
