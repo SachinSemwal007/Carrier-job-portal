@@ -42,7 +42,7 @@ const AdminJobList = () => {
       </select>
       <div className="flex flex-wrap">
         {jobs.map((job) => (
-          <AdminJobCard key={job._id} job={job} />
+          <AdminJobCard key={job._id} job={job}  refreshJobs={fetchJobs}/>
         ))}
       </div>
     </div>

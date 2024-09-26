@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { deleteJob } from "@/api"; // Assuming the deleteJob function is in api.js
 import * as XLSX from "xlsx"; // Import xlsx for Excel file generation
 
-const AdminJobCard = ({ job }) => {
+const AdminJobCard = ({ job, refreshJobs }) => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
@@ -18,7 +18,11 @@ const AdminJobCard = ({ job }) => {
       await deleteJob(id);
       setMessage("Job deleted successfully!");
       setError("");
-      // Optionally, you can trigger a re-fetch of the job list or remove the job from the UI
+
+      // Trigger a re-fetch of the job list
+      if (refreshJobs) {
+        refreshJobs();
+      }
     } catch (err) {
       console.error("Error deleting job:", err);
       setMessage("");
@@ -27,8 +31,8 @@ const AdminJobCard = ({ job }) => {
   };
 
   const deleteApplicant = async (email) => {
-    const confirmed = window.confirm("Are you sure you want to delete this job?");
-    if (!confirmed) return; 
+    const confirmed = window.confirm("Are you sure you want to delete this applicant?");
+    if (!confirmed) return;
     try {
       const response = await fetch(`http://localhost:5000/api/posts/${job._id}/applicants/${email}`, {
         method: "DELETE",
@@ -36,7 +40,11 @@ const AdminJobCard = ({ job }) => {
 
       if (response.ok) {
         alert("Applicant removed successfully.");
-        // Optionally, refresh the applicants list or remove the applicant from the UI
+
+        // Trigger a re-fetch of the job list
+        if (refreshJobs) {
+          refreshJobs();
+        }
       } else {
         const data = await response.json();
         alert("Error: " + data.message);
