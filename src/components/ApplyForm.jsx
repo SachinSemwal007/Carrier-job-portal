@@ -1,21 +1,32 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
-import { applyForJob } from '../api';
+import { applyForJob } from '../api'; // Make sure this function makes a POST request to `/api/posts/:id/apply`
 
 const ApplyForm = ({ jobId }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [resume, setResume] = useState('');
   const [message, setMessage] = useState('');
+  const [error, setError] = useState(''); // State for error messages
 
   const handleApply = async (e) => {
     e.preventDefault();
     try {
       const applicantData = { name, email, resume };
-      await applyForJob(jobId, applicantData); // Send applicant data to the backend
-      setMessage('Application submitted successfully!');
+      const response = await applyForJob(jobId, applicantData); // Send applicant data to the backend
+
+      if (response.ok) {
+        const data = await response.json();
+        setMessage(data.message);
+        setError('');
+      } else {
+        const data = await response.json();
+        setMessage('');
+        setError(data.message || 'Error submitting application. Please try again.');
+      }
     } catch (error) {
-      setMessage('Error submitting application. Please try again.');
+      setMessage('');
+      setError('Error submitting application. Please try again.');
     }
   };
 
@@ -52,7 +63,8 @@ const ApplyForm = ({ jobId }) => {
         </div>
         <button type="submit">Submit Application</button>
       </form>
-      {message && <p>{message}</p>}
+      {message && <p className="text-green-600">{message}</p>}
+      {error && <p className="text-red-600">{error}</p>}
     </div>
   );
 };
