@@ -1,4 +1,4 @@
-"use client";
+"use client"; 
 import Link from "next/link";
 import React, { useState } from "react";
 import { deleteJob } from "@/api"; // Assuming the deleteJob function is in api.js
