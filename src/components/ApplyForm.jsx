@@ -1,8 +1,11 @@
 'use client';
 import React, { useState } from 'react';
 import { applyForJob } from '../api'; // Make sure this function makes a POST request to `/api/posts/:id/apply`
+import { useApplicantAuth } from '@/context/ApplicantAuthProvider';
 
 const ApplyForm = ({ jobId }) => {
+  const { applicant } = useApplicantAuth();
+console.log(applicant)
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [resume, setResume] = useState('');

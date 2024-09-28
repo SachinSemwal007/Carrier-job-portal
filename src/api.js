@@ -92,3 +92,19 @@ export const applicantLogIn = async ({ email, password }) => {
     throw error;
   }
 };
+
+// API call to get applicant details
+export const getApplicantDetails = async (token) => {
+  const response = await fetch('http://localhost:5000/api/applicant/details', {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch applicant details.');
+  }
+
+  return await response.json();
+};

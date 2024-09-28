@@ -20,8 +20,7 @@ const App = () => {
         </>
       ) : (
         <div>
-                <button onClick={applicantLogout}>Log Out</button>
-
+            <button onClick={applicantLogout}>Log Out</button>
           <JobList />
         </div>
       )}

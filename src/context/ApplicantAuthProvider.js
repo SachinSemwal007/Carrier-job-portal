@@ -1,5 +1,11 @@
-import { applicantLogIn, applicantSignUp } from '@/api';
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { applicantLogIn, applicantSignUp, getApplicantDetails } from "@/api"; // Import getApplicantDetails API function
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
 
 const ApplicantAuthContext = createContext();
 
@@ -14,13 +20,29 @@ export const ApplicantAuthProvider = ({ children }) => {
   }, []);
 
   // Function to check for a saved token and set the applicant state
-  const checkUser = useCallback(() => {
-    const token = localStorage.getItem('applicantToken');
+  const checkUser = useCallback(async () => {
+    const token = localStorage.getItem("applicantToken");
     if (token) {
-      // Set a placeholder applicant object since the token is present
-      setApplicant({ email: 'applicant@example.com' }); // Optionally, you can decode the token to get the email
+      // Fetch applicant details if token exists
+      await fetchApplicantDetails(token);
     }
   }, []);
+
+  // Function to fetch applicant details from the server
+  const fetchApplicantDetails = async (token) => {
+    try {
+      const data = await getApplicantDetails(token); // Assume this API call returns applicant details
+     console.log(data)
+      setApplicant({
+        name: data.name,
+        email: data.email,
+        age: data.age,
+        resume: data.resume,
+      });
+    } catch (error) {
+      console.error("Error fetching applicant details:", error);
+    }
+  };
 
   // Applicant Login function using API call
   const applicantLogin = async (email, password) => {
@@ -29,14 +51,17 @@ export const ApplicantAuthProvider = ({ children }) => {
 
       if (data.token) {
         const { token } = data;
-        localStorage.setItem('applicantToken', token);
-        setApplicant({ email });
+        localStorage.setItem("applicantToken", token);
+
+        // Fetch and store applicant details after login
+        await fetchApplicantDetails(token);
+
         return true;
       } else {
-        throw new Error('Invalid login response.');
+        throw new Error("Invalid login response.");
       }
     } catch (error) {
-      console.error('Applicant login failed:', error);
+      console.error("Applicant login failed:", error);
       return false;
     }
   };
@@ -47,14 +72,14 @@ export const ApplicantAuthProvider = ({ children }) => {
       await applicantSignUp({ name, email, password, age, resume });
       return true;
     } catch (error) {
-      console.error('Applicant signup failed:', error);
+      console.error("Applicant signup failed:", error);
       return false;
     }
   };
 
   // Applicant Logout function
   const applicantLogout = () => {
-    localStorage.removeItem('applicantToken');
+    localStorage.removeItem("applicantToken");
     setApplicant(null);
   };
 
@@ -66,5 +91,9 @@ export const ApplicantAuthProvider = ({ children }) => {
     checkUser,
   };
 
-  return <ApplicantAuthContext.Provider value={value}>{children}</ApplicantAuthContext.Provider>;
+  return (
+    <ApplicantAuthContext.Provider value={value}>
+      {children}
+    </ApplicantAuthContext.Provider>
+  );
 };
