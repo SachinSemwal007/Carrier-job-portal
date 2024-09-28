@@ -14,9 +14,7 @@ const App = () => {
     <div>
       {!applicant ? (
         <>
-          <ApplicantLogin /> 
-                or
-          <ApplicantSignup />
+          <ApplicantLogin />  
         </>
       ) : (
         <div>

@@ -110,7 +110,6 @@ const ApplicantLogin = () => {
         <button className='w-full text-blue-600 hover:underline' onClick={()=>handleRegisterClick()}>
             New User Register Here
           </button>
-        <button className='w-full text-blue-600 hover:underline'>User Manual</button>
       </div>
     </div>
   </div>

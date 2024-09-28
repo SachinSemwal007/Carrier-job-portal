@@ -31,8 +31,6 @@ const ApplicantSignup = () => {
           name: '',
           email: '',
           password: '',
-          age: '',
-          resume: '',
         });
       } else {
         setMessage('Signup failed. Please check the form and try again.');
@@ -130,21 +128,10 @@ const ApplicantSignup = () => {
       </div>
       <div className='relative'>
         <input
-          type="number"
-          name="age"
-          placeholder="Age"
-          value={formData.age}
-          onChange={handleChange}
-          required
-          className='w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
-        />
-      </div>
-      <div className='relative'>
-        <input
-          type="text"
-          name="resume"
-          placeholder="Resume URL"
-          value={formData.resume}
+          type="password"
+          name="password"
+          placeholder="Confirm Password"
+          value={formData.password}
           onChange={handleChange}
           required
           className='w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500'
