@@ -1,11 +1,5 @@
 import { applicantLogIn, applicantSignUp, getApplicantDetails } from "@/api"; // Import getApplicantDetails API function
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-} from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 
 const ApplicantAuthContext = createContext();
 
@@ -32,7 +26,7 @@ export const ApplicantAuthProvider = ({ children }) => {
   const fetchApplicantDetails = async (token) => {
     try {
       const data = await getApplicantDetails(token); // Assume this API call returns applicant details
-     console.log(data)
+      console.log(data);
       setApplicant({
         name: data.name,
         email: data.email,
@@ -67,9 +61,9 @@ export const ApplicantAuthProvider = ({ children }) => {
   };
 
   // Applicant Signup function using API call
-  const applicantSignup = async (name, email, password, age, resume) => {
+  const applicantSignup = async (name, email, password) => {
     try {
-      await applicantSignUp({ name, email, password, age, resume });
+      await applicantSignUp({ name, email, password });
       return true;
     } catch (error) {
       console.error("Applicant signup failed:", error);
@@ -91,9 +85,5 @@ export const ApplicantAuthProvider = ({ children }) => {
     checkUser,
   };
 
-  return (
-    <ApplicantAuthContext.Provider value={value}>
-      {children}
-    </ApplicantAuthContext.Provider>
-  );
+  return <ApplicantAuthContext.Provider value={value}>{children}</ApplicantAuthContext.Provider>;
 };

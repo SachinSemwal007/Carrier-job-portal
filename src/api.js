@@ -55,13 +55,13 @@ export const deleteApplicant = async (postId, email) => {
 
 // api.js
 
-export const applicantSignUp = async ({ name, email, password, age, resume }) => {
+export const applicantSignUp = async ({ name, email, password }) => {
   const response = await fetch('http://localhost:5000/api/applicant/signup', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ name, email, password, age, resume }),
+    body: JSON.stringify({ name, email, password }),
   });
 
   if (!response.ok) {
