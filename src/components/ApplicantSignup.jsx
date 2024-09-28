@@ -1,4 +1,3 @@
-// components/ApplicantSignup.js
 "use client";
 
 import { useState } from "react";
@@ -10,8 +9,7 @@ const ApplicantSignup = () => {
     name: "",
     email: "",
     password: "",
-    age: "",
-    resume: "",
+    confirmPassword: "",
   });
   const [message, setMessage] = useState("");
 
@@ -21,18 +19,24 @@ const ApplicantSignup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { name, email, password, age, resume } = formData;
+    const { name, email, password, confirmPassword } = formData;
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match.");
+      return;
+    }
 
     try {
-      const success = await applicantSignup(name, email, password, age, resume);
+      // Only send name, email, and password to the backend
+      const success = await applicantSignup(name, email, password);
       if (success) {
-        setMessage(
-          "Signup successful! Please check your email to verify your account."
-        );
+        setMessage("Signup successful! Please check your email to verify your account.");
         setFormData({
           name: "",
           email: "",
           password: "",
+          confirmPassword: "",
         });
       } else {
         setMessage("Signup failed. Please check the form and try again.");
@@ -43,59 +47,16 @@ const ApplicantSignup = () => {
   };
 
   return (
-    //   <div>
-    //     <h1>Applicant Signup</h1>
-    //     {message && <p>{message}</p>}
-    //     <form onSubmit={handleSubmit}>
-    //       <input
-    //         type="text"
-    //         name="name"
-    //         placeholder="Name"
-    //         value={formData.name}
-    //         onChange={handleChange}
-    //         required
-    //       />
-    //       <input
-    //         type="email"
-    //         name="email"
-    //         placeholder="Email"
-    //         value={formData.email}
-    //         onChange={handleChange}
-    //         required
-    //       />
-    //       <input
-    //         type="password"
-    //         name="password"
-    //       placeholder="Password"
-    //       value={formData.password}
-    //       onChange={handleChange}
-    //       required
-    //     />
-    //     <input
-    //       type="number"
-    //       name="age"
-    //       placeholder="Age"
-    //       value={formData.age}
-    //       onChange={handleChange}
-    //       required
-    //     />
-    //     <input
-    //       type="text"
-    //       name="resume"
-    //       placeholder="Resume URL"
-    //       value={formData.resume}
-    //       onChange={handleChange}
-    //       required
-    //     />
-    //     <button type="submit">Sign Up</button>
-    //   </form>
-    // </div>
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
       <div className="w-full max-w-md bg-white p-8 rounded-md shadow-md">
-        <h1 className="text-2xl font-semibold mb-4 text-center">
+        <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-4 text-center">
           Applicant Signup
         </h1>
-        {message && <p className="text-center text-red-500 mb-4">{message}</p>}
+        {message && (
+          <p className="text-center text-red-500 mb-4 text-sm md:text-base">
+            {message}
+          </p>
+        )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="relative">
             <input
@@ -105,7 +66,7 @@ const ApplicantSignup = () => {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base"
             />
           </div>
           <div className="relative">
@@ -116,7 +77,7 @@ const ApplicantSignup = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base"
             />
           </div>
           <div className="relative">
@@ -127,7 +88,7 @@ const ApplicantSignup = () => {
               value={formData.password}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base"
             />
           </div>
           <div className="relative">
@@ -138,12 +99,12 @@ const ApplicantSignup = () => {
               value={formData.confirmPassword}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm md:text-base"
             />
           </div>
           <button
             type="submit"
-            className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-md transition-colors"
+            className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-md transition-colors text-sm md:text-base"
           >
             Sign Up
           </button>
