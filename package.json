@@ -14,7 +14,11 @@
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "axios": "^1.7.7",
+<<<<<<< HEAD
     "jspdf": "^2.5.2",
+=======
+    "fortawesome": "^0.0.1-security",
+>>>>>>> 8527645fecff8c99a9ad23cbffabc3cfef34d3a1
     "jwt-decode": "^4.0.0",
     "next": "14.2.13",
     "react": "^18",

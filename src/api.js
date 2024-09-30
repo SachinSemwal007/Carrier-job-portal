@@ -56,6 +56,25 @@ export const deleteApplicant = async (postId, email) => {
 // api.js 
 
 export const applicantSignUp = async ({ name, email, password }) => {
+<<<<<<< HEAD
+=======
+  const response = await fetch('http://localhost:5000/api/applicant/signup', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ name, email, password }),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to sign up');
+  }
+
+  return response.json();
+};
+
+export const applicantLogIn = async ({ email, password }) => {
+>>>>>>> 8527645fecff8c99a9ad23cbffabc3cfef34d3a1
   try {
     const response = await fetch('http://localhost:5000/api/applicant/signup', {
       method: 'POST',
