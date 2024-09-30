@@ -2,17 +2,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
-const VerifyEmail = () => {
+const VerifyEmail = ({params}) => {
   const [message, setMessage] = useState("");
   const [finalMessage, setFinalMessage] = useState(false); // Tracks if the final message should be shown
-  const searchParams = useSearchParams();
-  const router = useRouter();
-
+  const router = useRouter(); 
+console.log(params)
   useEffect(() => {
     const verifyEmail = async () => {
-      const token = searchParams.get("token"); // Extract the token from URL parameters
+      const token =params.page; // Extract the token from URL parameters
       if (!token) {
         setMessage("Invalid verification link.");
         return;
@@ -40,7 +39,7 @@ const VerifyEmail = () => {
     };
 
     verifyEmail();
-  }, [searchParams, router]);
+  }, [router]);
 
   return (
     <div>

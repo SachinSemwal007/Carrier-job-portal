@@ -13,9 +13,9 @@ const App = () => {
   return (
     <div>
       {!applicant ? (
-        <>
+        <> 
           <ApplicantLogin />  
-        </>
+        </> 
       ) : (
         <div>
             <button onClick={applicantLogout}>Log Out</button>

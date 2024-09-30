@@ -1,0 +1,236 @@
+/* FormPreview.module.css */
+
+/* Modal container styling */
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1050;
+  width: 100%;
+  max-width: fit-content; /* Adjust the width as needed */
+  /* background-color: white; */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.modal-header {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  font-size: 18px;
+  font-weight: bold;
+  position: relative;
+  text-align: center;
+}
+
+.modal-body {
+  max-height: 70vh; /* To make the modal body scrollable */
+  overflow-y: auto;  /* Enable vertical scrolling */
+  padding: 20px;
+  background-color: #f7f7f7;
+  text-align: justify; /* Center the form content */
+}
+
+.modal-footer {
+  background-color: #f1f1f1;
+  padding: 10px;
+  display: flex;
+  justify-content: center; /* Center the buttons */
+  align-items: center;
+}
+
+/* Close button styling */
+.close-button {
+  background-color: red;
+  color: white;
+  border: none;
+  font-size: 18px;
+  border-radius: 50%;
+  padding: 5px 10px;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* h4 {
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #007bff;
+} */
+
+/* Label and paragraph styling */
+/* p {
+  margin: 5px 0;
+  font-size: 18px;
+  line-height: 1.5;
+} */
+
+/* strong {
+  font-weight: 600;
+  color: #333;
+} */
+
+/* Course, Experience, and Reference section styling */
+.course-section,
+.experience-section,
+.reference-section {
+  padding: 10px;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+/* Course, Experience, and Reference Title Styling */
+.course-section h5,
+.experience-section h5,
+.reference-section h5 {
+  font-size: 15px;
+  color: #0056b3;
+  margin-bottom: 10px;
+}
+
+/* Table styling */
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 14px;
+  text-align: left;
+}
+
+.table th, .table td {
+  padding: 12px;
+  border: 1px solid #a8a7a7; /* Border around the table */
+}
+
+.table th {
+  background-color: #f3efef;
+  font-weight: bold;
+  text-align: center;
+}
+
+.table td {
+  text-align: center;
+}
+
+/* Button styling */
+.modal-footer .btn-primary {
+  background-color: #007bff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.modal-footer .btn-secondary {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+}
+
+.declaration {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f9f9f9; /* Light gray background */
+  border: 1px solid #ddd; /* Light border */
+  border-radius: 8px; /* Rounded corners */
+  font-size: 14px; /* Adjust font size */
+  line-height: 1.6; /* Better readability */
+  color: #333; /* Text color */
+  text-align: justify; /* Justified text alignment */
+}
+
+.declaration p {
+  margin: 0; /* Remove default paragraph margin */
+  font-size: 0.9rem; /* Slightly smaller font size */
+  color: #555; /* Text color slightly lighter */
+}
+
+.personal-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.photo-container {
+  margin-left: auto; /* Ensures the photo is on the right */
+}
+
+.passport-photo {
+  width: 120px; /* Fixed size for passport photo */
+  height: 150px;
+  object-fit: cover;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.personal-info {
+  flex: 1;
+  margin-right: 20px; /* Spacing between info and photo */
+}
+
+.declaration {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+  text-align: justify;
+}
+
+.sign-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.left-side {
+  flex: 1;
+}
+
+.right-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.signature-photo {
+  width: 150px;
+  height: 50px;
+  object-fit: contain;
+  border: 1px solid #ccc;
+  margin-bottom: 5px;
+}
+
+.signature-text {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .modal-body {
+    padding: 10px;
+  }
+/* 
+  p {
+    font-size: 13px; */
+  /* }
+
+  h5 {
+    font-size: 14px;
+  } */
+}

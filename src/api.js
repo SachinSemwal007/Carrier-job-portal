@@ -33,7 +33,7 @@ export const applyForJob = async (jobId, applicantData) => {
     body: JSON.stringify(applicantData),
   });
 
-  return response; // Return the full response to handle status in the component
+  return response;
 };
 
 export const deleteApplicant = async (postId, email) => {
@@ -53,35 +53,41 @@ export const deleteApplicant = async (postId, email) => {
   }
 };
 
-// api.js
+// api.js 
 
-export const applicantSignUp = async ({ name, email, password, age, resume }) => {
-  const response = await fetch('http://localhost:5000/api/applicant/signup', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ name, email, password, age, resume }),
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to sign up');
-  }
-
-  return response.json();
-};
-
-export const applicantLogIn = async ({ email, password }) => {
+export const applicantSignUp = async ({ name, email, password }) => {
   try {
-    const response = await fetch('http://localhost:5000/api/applicant/login', {
+    const response = await fetch('http://localhost:5000/api/applicant/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, email, password }), // Ensure only the necessary data is sent
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to sign up');
+    }
+
+    return response.json();
+  } catch (error) {
+    console.error('Error during signup:', error);
+    throw error;
+  }
+};
+ 
+
+export const applicantLogIn = async ({ email, password }) => { 
+  try {
+    const response = await fetch('http://localhost:5000/api/applicant/login', { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ email, password }),
-    });
+    }); 
 
-    if (!response.ok) {
+    if (!response.ok) { 
       const errorData = await response.json();
       throw new Error(errorData.message || 'Login failed');
     }
@@ -90,21 +96,65 @@ export const applicantLogIn = async ({ email, password }) => {
   } catch (error) {
     console.error('Error during login:', error);
     throw error;
-  }
+  } 
 };
 
 // API call to get applicant details
 export const getApplicantDetails = async (token) => {
+  try {
   const response = await fetch('http://localhost:5000/api/applicant/details', {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json',
     },
   });
 
+  // Log response status for debugging
+  console.log('Response status:', response.status);
   if (!response.ok) {
+    const errorData = await response.json();
+    console.error('Error response from server:', errorData);
     throw new Error('Failed to fetch applicant details.');
   }
 
-  return await response.json();
+  const data = await response.json();
+  return data;
+} catch (error) {
+  console.error('Error in getApplicantDetails:', error);
+  throw error;
+}
+}
+
+export const sendPasswordResetEmail = async (email) => {
+  try {
+    const response = await fetch('http://localhost:5000/api/forgot-password', { 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email }),
+    });
+    return response;
+  } catch (error) {
+    console.error('Error sending password reset email:', error);
+    throw error;
+  }
+};
+
+export const resetPassword = async (token, newPassword) => {
+  try {
+    const response = await fetch(`http://localhost:5000/api/reset-password/${token}`, { 
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ password: newPassword }),
+    });
+
+    return response; // This returns the response object; make sure you handle this in your frontend code
+  } catch (error) {
+    console.error('Error resetting password:', error);
+    throw error;
+  }
 };

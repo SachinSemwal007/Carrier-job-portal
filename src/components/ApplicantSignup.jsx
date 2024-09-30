@@ -20,13 +20,13 @@ const ApplicantSignup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, email, password, confirmPassword } = formData;
-
+  
     // Check if passwords match
     if (password !== confirmPassword) {
       setMessage("Passwords do not match.");
       return;
     }
-
+  
     try {
       // Only send name, email, and password to the backend
       const success = await applicantSignup(name, email, password);
@@ -42,9 +42,15 @@ const ApplicantSignup = () => {
         setMessage("Signup failed. Please check the form and try again.");
       }
     } catch (error) {
-      setMessage("Signup failed. Error: " + error.message);
+      // Check for specific error messages from the server
+      if (error.message.includes("Applicant already exists")) {
+        setMessage("Email already in use. Please use a different email.");
+      } else {
+        setMessage("Signup failed. Error: " + error.message);
+      }
     }
   };
+  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
