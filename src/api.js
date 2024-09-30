@@ -56,8 +56,7 @@ export const deleteApplicant = async (postId, email) => {
 // api.js 
 
 export const applicantSignUp = async ({ name, email, password }) => {
-<<<<<<< HEAD
-=======
+
   const response = await fetch('http://localhost:5000/api/applicant/signup', {
     method: 'POST',
     headers: {
@@ -74,7 +73,6 @@ export const applicantSignUp = async ({ name, email, password }) => {
 };
 
 export const applicantLogIn = async ({ email, password }) => {
->>>>>>> 8527645fecff8c99a9ad23cbffabc3cfef34d3a1
   try {
     const response = await fetch('http://localhost:5000/api/applicant/signup', {
       method: 'POST',
@@ -93,29 +91,6 @@ export const applicantLogIn = async ({ email, password }) => {
     console.error('Error during signup:', error);
     throw error;
   }
-};
- 
-
-export const applicantLogIn = async ({ email, password }) => { 
-  try {
-    const response = await fetch('http://localhost:5000/api/applicant/login', { 
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    }); 
-
-    if (!response.ok) { 
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Login failed');
-    }
-
-    return await response.json(); // Return the JSON data
-  } catch (error) {
-    console.error('Error during login:', error);
-    throw error;
-  } 
 };
 
 // API call to get applicant details

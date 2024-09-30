@@ -25,15 +25,9 @@ export const ApplicantAuthProvider = ({ children }) => {
   // Function to fetch applicant details from the server
   const fetchApplicantDetails = async (token) => {
     try {
-<<<<<<< HEAD
       console.log('Token used for fetching details:', token);
-      const data = await getApplicantDetails(token); 
-      console.log('Fetched applicant data:', data);
-  
-=======
       const data = await getApplicantDetails(token); // Assume this API call returns applicant details
       console.log(data);
->>>>>>> 8527645fecff8c99a9ad23cbffabc3cfef34d3a1
       setApplicant({
         name: data.name,
         email: data.email,
@@ -95,11 +89,7 @@ export const ApplicantAuthProvider = ({ children }) => {
   };
 
   // Applicant Signup function using API call
-<<<<<<< HEAD
-  const applicantSignup = async (name, email, password ) => {
-=======
   const applicantSignup = async (name, email, password) => {
->>>>>>> 8527645fecff8c99a9ad23cbffabc3cfef34d3a1
     try {
       await applicantSignUp({ name, email, password });
       return true;
