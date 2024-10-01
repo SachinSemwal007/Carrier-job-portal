@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation'; // Use Next.js app router for params
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
-import Navigation from '../components/Navigation';
-//import { useApplicantAuth } from '@/context/ApplicantAuthProvider'; // Use the logged-in applicant's details
+// import Navigation from '../components/Navigation';
+// import { useApplicantAuth } from '@/context/ApplicantAuthProvider'; // Use the logged-in applicant's details
 import { applyForJob } from '@/api'; // Function to handle job application
 
 
@@ -24,7 +24,9 @@ const ApplyForm = () => {
   const [middleName, setMiddleName] = useState('');
   const [lastName, setLastName] = useState('');
   const [fhName, setFhName] = useState('');
-  const [email, setEmail] = useState( '');
+  const [email, setEmail] = useState('');
+  const [contact, setContact] = useState('');
+  const [whatsapp, setWhatsapp] = useState( '');
   const [gender, setGender] = useState('');
   const [dob, setDob] = useState('');
   const [maritalStatus, setMaritalStatus] = useState('');
@@ -67,16 +69,17 @@ const ApplyForm = () => {
     scaleOfType: '',
     natureOfDuties: ''
   }]);
+
+  const [references, setReferences] = useState([{
+    refName: '',
+    refContact:''
+  }])
+  
   const [achievement, setAchievement] = useState('');
   const [description, setDescription] = useState('');
   const [passportPhoto, setPassportPhoto] = useState(null);
   const [certification, setCertification] = useState(null);
   const [signature, setSignature] = useState(null);
-  const [references, setReferences] = useState([{
-    refName: '',
-    refContact:''
-}])
-
 
   const handleFileChange = async (e, type) => {
     const file = e.target.files[0];
@@ -174,6 +177,7 @@ const ApplyForm = () => {
     setExperiences(newExperiences);
   };
 
+
   const handleReferencesChange = (index, event) => {
     const { name, value } = event.target;
     const newReferences = [...references];
@@ -260,8 +264,8 @@ const ApplyForm = () => {
 
   return (
     <div>
-    <Navigation/>
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
+    {/* <Navigation/> */}
+    <div className="max-w-screen-md mx-auto p-6 bg-white rounded-lg shadow-md">
   <h2 className="text-2xl font-semibold mb-4">Apply for Vacancy ID: {id}</h2>
   <form onSubmit={handleSubmit}>
     {/* Name Fields */}
@@ -360,7 +364,10 @@ const ApplyForm = () => {
     </div>
 
     {/* Email Field */}
-    <div className="mb-4">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+      
+          
+      <div>
       <label className="block font-medium mb-1">Email:</label>
       <input
         type="email"
@@ -370,8 +377,36 @@ const ApplyForm = () => {
         required
         className="w-full p-2 border border-gray-300 rounded-md"
       />
+      </div>
+      <div>
+        <label className="block font-medium mb-1">Contact:</label>
+          <input 
+            type="text" 
+            placeholder="Contact"
+            value={contact}
+            onChange={(e) => setContact(e.target.value)}
+            maxLength={10}
+            pattern="\d{10}"
+            title="Please enter correct contact"
+            required
+            className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+          />
+      </div>
+      <div>
+        <label className="block font-medium mb-1">Whatsapp Contact:</label>
+        <input
+          type="text" 
+          placeholder="whatsapp"
+          value={whatsapp}
+          onChange={(e) => setWhatsapp(e.target.value)}
+          maxLength={10}
+          pattern="\d{10}"
+          title="Please enter correct whatsapp number"
+          required
+          className="w-full p-2 border border-gray-300 rounded-md"
+        />
+      </div>
     </div>
-
     {/* Country, State, District Fields */}
     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
       <div>
@@ -433,258 +468,438 @@ const ApplyForm = () => {
           className="w-full p-2 border border-gray-300 rounded-md"
         />
       </div>
-      <div className="w-full">
-  <h3 className="text-lg font-semibold mb-4">Professional Details</h3>
-
-  {/* Professional Qualifications Section */}
-  <div className="w-full mb-4">
-    <label className="block text-sm font-medium mb-2">Professional Qualifications / Diploma / Certification Course</label>
-  </div>
-  
-  {courses.map((course, index) => (
-    <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4 w-full">
-      <input
-        type="text"
-        name="courseName"
-        placeholder="Course Name"
-        value={course.courseName}
-        onChange={(e) => handleCourseChange(index, e)}
-        required
-        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-      />
-      <input
-        type="text"
-        name="specialSubject"
-        placeholder="Special Subject"
-        value={course.specialSubject}
-        onChange={(e) => handleCourseChange(index, e)}
-        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-      />
-      <input
-        type="number"
-        name="yearOfPassing"
-        placeholder="Year of Passing"
-        value={course.yearOfPassing}
-        onChange={(e) => handleCourseChange(index, e)}
-        required
-        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-      />
-      <input
-        type="number"
-        name="duration"
-        placeholder="Duration (months)"
-        value={course.duration}
-        onChange={(e) => handleCourseChange(index, e)}
-        required
-        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-      />
-      <input
-        type="text"
-        name="gradeDivision"
-        placeholder="Grade/Division"
-        value={course.gradeDivision}
-        onChange={(e) => handleCourseChange(index, e)}
-        required
-        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-      />
-      <input
-        type="number"
-        name="percent"
-        placeholder="Percentage"
-        value={course.percent}
-        onChange={(e) => handleCourseChange(index, e)}
-        required
-        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-      />
-      <input
-        type="text"
-        name="instituteName"
-        placeholder="Name of Institute/College"
-        value={course.instituteName}
-        onChange={(e) => handleCourseChange(index, e)}
-        required
-        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-      />
-      <button
-        type="button"
-        onClick={() => removeCourse(index)}
-        className="bg-red-600 text-white py-1 px-3 rounded-md"
-      >
-        Remove
-      </button>
+          </div>
+          {/* Physical Handicapped and Community Fields */}
+<div className="flex justify-between gap-4">
+  {/* Physical Handicapped Radio Button */}
+  <div className="flex flex-col">
+    <label className="mb-2">Whether Physical Handicapped?</label>
+    <div className="flex space-x-4">
+      <label className="flex items-center">
+        <input
+          type="radio"
+          value="Yes"
+          name="handicapped"
+          checked={isHandicapped === 'Yes'}
+          onChange={(e) => setIsHandicapped(e.target.value)}
+          required
+          className="mr-2"
+        />
+        Yes
+      </label>
+      <label className="flex items-center">
+        <input
+          type="radio"
+          value="No"
+          name="handicapped"
+          checked={isHandicapped === 'No'}
+          onChange={(e) => setIsHandicapped(e.target.value)}
+          required
+          className="mr-2"
+        />
+        No
+      </label>
     </div>
-  ))}
+  </div>
 
-  {/* Add Course Button */}
-  <div className="w-full flex justify-start mt-4">
+  {/* Community Dropdown */}
+  <div className="flex flex-col">
+    <label className="mb-2">Community:</label>
+    <select
+      value={community}
+      onChange={(e) => setCommunity(e.target.value)}
+      required
+      className="border border-gray-300 rounded-md p-2"
+    >
+      <option value="" disabled>Select Community</option>
+      <option value="Gen">General</option>
+      <option value="OBC">OBC</option>
+      <option value="SC">SC</option>
+      <option value="ST">ST</option>
+      <option value="EWS">EWS</option>
+    </select>
+  </div>
+</div>
+
+      
+
+            {/* Matriculation Field */}
+    <div>
+      <h3 className="text-xl font-bold mb-4">Educational Details</h3>
+    </div>
+    <div className="flex flex-col my-4">
+      <label className="mb-2 text-lg">Matriculation:</label>
+      <div className="flex justify-between gap-2">
+        <input
+          type="number"
+          placeholder="Year of Passing"
+          value={matriculationYear}
+          onChange={(e) => setMatriculationYear(e.target.value)}
+          className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border"
+          required
+        />
+        <input
+          type="text"
+          placeholder="Grade/Division"
+          value={matriculationGrade}
+          onChange={(e) => setMatriculationGrade(e.target.value)}
+          className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border"
+          required
+        />
+        <input
+          type="number"
+          placeholder="Percentage"
+          step="0.01"
+          value={matriculationPercentage}
+          onChange={(e) => setMatriculationPercentage(e.target.value)}
+          className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border"
+          required
+        />
+        <input
+          type="text"
+          placeholder="Board"
+          value={matriculationBoard}
+          onChange={(e) => setMatriculationBoard(e.target.value)}
+          required
+          className="flex-2 min-w-[150px] p-2 border border-gray-300 rounded-md box-border"
+        />
+      </div>
+    </div>
+
+    {/* Intermediate Field */}
+    <div className="flex flex-col my-4">
+      <label className="mb-2 text-lg">Intermediate / +2:</label>
+      <div className="flex justify-between gap-2">
+        <input
+          type="number"
+          placeholder="Year of Passing"
+          value={interYear}
+          onChange={(e) => setInterYear(e.target.value)}
+          className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border"
+          required
+        />
+        <input
+          type="text"
+          placeholder="Grade/Division"
+          value={interGrade}
+          onChange={(e) => setInterGrade(e.target.value)}
+          className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border"
+          required
+        />
+        <input
+          type="number"
+          placeholder="Percentage"
+          step="0.01"
+          value={interPercentage}
+          onChange={(e) => setInterPercentage(e.target.value)}
+          className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border"
+          required
+        />
+        <input
+          type="text"
+          placeholder="Board"
+          value={interBoard}
+          onChange={(e) => setInterBoard(e.target.value)}
+          required
+          className="flex-2 min-w-[150px] p-2 border border-gray-300 rounded-md box-border"
+        />
+      </div>
+    </div>
+
+    {/* Bachelor Degree/Graduation Field */}
+    <div className="flex flex-col my-4">
+      <label className="mb-2 text-lg">Bachelor Degree/Graduation (10+2+3):</label>
+      <div className="flex justify-between gap-2">
+        <input
+          type="number"
+          placeholder="Year of Passing"
+          value={bachelorYear}
+          onChange={(e) => setBachelorYear(e.target.value)}
+          className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border"
+          required
+        />
+        <input
+          type="text"
+          placeholder="Course"
+          value={bachelorCourse}
+          onChange={(e) => setBachelorCourse(e.target.value)}
+          className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border"
+          required
+        />
+        <input
+          type="text"
+          placeholder="Specialization"
+          value={bachelorSpecialization}
+          onChange={(e) => setBachelorSpecialization(e.target.value)}
+          className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border"
+          required
+        />
+        <input
+          type="text"
+          placeholder="Grade/Division"
+          value={bachelorGrade}
+          onChange={(e) => setBachelorGrade(e.target.value)}
+          className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border"
+          required
+        />
+        <input
+          type="number"
+          placeholder="Percentage"
+          step="0.01"
+          value={bachelorPercentage}
+          onChange={(e) => setBachelorPercentage(e.target.value)}
+          className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border"
+          required
+        />
+      </div>
+      <input
+        type="text"
+        placeholder="University"
+        value={bachelorUniversity}
+        onChange={(e) => setBachelorUniversity(e.target.value)}
+        required
+        className="flex-2 min-w-[150px] p-2 border border-gray-300 rounded-md box-border mt-2"
+            />
+    </div>
+    
+          {/* Professional Qualifications Section */}
+    <div>
+      <h3 className="text-lg font-semibold">Professional Details</h3>
+    </div>
+    <div>
+      <label className="block text-sm font-medium mb-2">Professional Qualifications / Diploma / Certification Course</label>
+    </div>
+    {courses.map((course, index) => (
+      <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
+        <input
+          type="text"
+          name="courseName"
+          placeholder="Course Name"
+          value={course.courseName}
+          onChange={(e) => handleCourseChange(index, e)}
+          required
+          className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+        />
+        <input
+          type="text"
+          name="specialSubject"
+          placeholder="Special Subject"
+          value={course.specialSubject}
+          onChange={(e) => handleCourseChange(index, e)}
+          className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+        />
+        <input
+          type="number"
+          name="yearOfPassing"
+          placeholder="Year of Passing"
+          value={course.yearOfPassing}
+          onChange={(e) => handleCourseChange(index, e)}
+          required
+          className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+        />
+        <input
+          type="number"
+          name="duration"
+          placeholder="Duration (months)"
+          value={course.duration}
+          onChange={(e) => handleCourseChange(index, e)}
+          required
+          className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+        />
+        <input
+          type="text"
+          name="gradeDivision"
+          placeholder="Grade/Division"
+          value={course.gradeDivision}
+          onChange={(e) => handleCourseChange(index, e)}
+          required
+          className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+        />
+        <input
+          type="number"
+          name="percent"
+          placeholder="Percentage"
+          value={course.percent}
+          onChange={(e) => handleCourseChange(index, e)}
+          required
+          className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+        />
+        <input
+          type="text"
+          name="instituteName"
+          placeholder="Name of Institute/College"
+          value={course.instituteName}
+          onChange={(e) => handleCourseChange(index, e)}
+          required
+          className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+        />
+        <button
+          type="button"
+          onClick={() => removeCourse(index)}
+          className="bg-red-600 text-white py-1 px-3 rounded-md"
+        >
+          Remove
+        </button>
+      </div>
+    ))}
     <button
       type="button"
       onClick={addCourse}
-      className="bg-green-600 text-white py-1 px-3 rounded-md text-sm w-auto"
+      className="bg-green-600 text-white py-2 px-4 rounded-md mb-4"
     >
       Add Course
     </button>
-  </div>
-</div>
 
-
-<div className="w-full ">
-  {/* Experiences Section */}
-  <h3 className="text-lg font-semibold mb-4">Experience</h3>
-
-  <div className="w-full mb-4">
-    <label className="block text-sm font-medium mb-2">Experience</label>
-  </div>
-  
-  {experiences.map((experience, index) => (
-    <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4 w-full">
-      <input
-        type="text"
-        name="orgName"
-        placeholder="Office/Instt.Firm/Org"
-        value={experience.orgName}
-        onChange={(e) => handleExperiencesChange(index, e)}
-        required
-        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-      />
-      <input
-        type="text"
-        name="post"
-        placeholder="Post"
-        value={experience.post}
-        onChange={(e) => handleExperiencesChange(index, e)}
-        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-      />
-      <input
-        type="text"
-        name="jobType"
-        placeholder="Job Type"
-        value={experience.jobType}
-        onChange={(e) => handleExperiencesChange(index, e)}
-        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-      />
-      <input
-        type="date"
-        name="fromDate"
-        value={experience.fromDate}
-        onChange={(e) => handleExperiencesChange(index, e)}
-        required
-        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-      />
-      <input
-        type="date"
-        name="tillDate"
-        value={experience.tillDate}
-        onChange={(e) => handleExperiencesChange(index, e)}
-        required
-        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-      />
-      <input
-        type="text"
-        name="scaleOfType"
-        placeholder="Scale of Type"
-        value={experience.scaleOfType}
-        onChange={(e) => handleExperiencesChange(index, e)}
-        required
-        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-      />
-      <input
-        type="text"
-        name="natureOfDuties"
-        placeholder="Nature OF Duties"
-        value={experience.natureOfDuties}
-        onChange={(e) => handleExperiencesChange(index, e)}
-        required
-        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-      />
-      <button
-        type="button"
-        onClick={() => removeExperience(index)}
-        className="bg-red-600 text-white py-1 px-3 rounded-md"
-      >
-        Remove
-      </button>
+    {/* Experiences Section */}
+    <div>
+      <label className="block text-sm font-medium mb-2">Experience</label>
     </div>
-  ))}
-
-  {/* Add Experience Button */}
-  <div className="w-full flex justify-start mt-4">
+    {experiences.map((experience, index) => (
+      <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
+        <input
+          type="text"
+          name="orgName"
+          placeholder="Office/Instt.Firm/Org"
+          value={experience.orgName}
+          onChange={(e) => handleExperiencesChange(index, e)}
+          required
+          className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+        />
+        <input
+          type="text"
+          name="post"
+          placeholder="Post"
+          value={experience.post}
+          onChange={(e) => handleExperiencesChange(index, e)}
+          className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+        />
+        <input
+          type="text"
+          name="jobType"
+          placeholder="Job Type"
+          value={experience.jobType}
+          onChange={(e) => handleExperiencesChange(index, e)}
+          className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+        />
+        <input
+          type="date"
+          name="fromDate"
+          value={experience.fromDate}
+          onChange={(e) => handleExperiencesChange(index, e)}
+          required
+          className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+        />
+        <input
+          type="date"
+          name="tillDate"
+          value={experience.tillDate}
+          onChange={(e) => handleExperiencesChange(index, e)}
+          required
+          className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+        />
+        <input
+          type="text"
+          name="scaleOfType"
+          placeholder="Scale of Type"
+          value={experience.scaleOfType}
+          onChange={(e) => handleExperiencesChange(index, e)}
+          required
+          className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+        />
+        <input
+          type="text"
+          name="natureOfDuties"
+          placeholder="Nature OF Duties"
+          value={experience.natureOfDuties}
+          onChange={(e) => handleExperiencesChange(index, e)}
+          required
+          className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+        />
+        <button
+          type="button"
+          onClick={() => removeExperience(index)}
+          className="bg-red-600 text-white py-1 px-3 rounded-md"
+        >
+          Remove
+        </button>
+      </div>
+    ))}
     <button
       type="button"
       onClick={addExperience}
-      className="bg-green-600 text-white py-1 px-3 rounded-md text-sm w-auto"
+      className="bg-green-600 text-white py-2 px-4 rounded-md mb-4"
     >
       Add Experience
     </button>
-  </div>
-</div>
 
-
-{/* Achievement Field */}
-<div>
-  <label className="block text-sm font-medium mb-2">Achievement:</label>
-  <textarea
-    placeholder="Achievements"
-    value={achievement}
-    onChange={(e) => setAchievement(e.target.value)}
-    rows={3}
-    required
-    className="w-full p-2 border border-gray-300 rounded-md"
-  />
-</div>
-
-<div className="w-full ">
-  {/* References Section */}
-
-  <div className="w-full mb-4">
-    <label className="block text-sm font-medium mb-2">References</label>
-  </div>
-  
-  {references.map((reference, index) => (
-    <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4 w-full">
-      <input
-        type="text"
-        name="refName"
-        placeholder="Referral Name"
-        value={reference.refName}
-        onChange={(e) => handleReferencesChange(index, e)}
+    {/* Achievement Field */}
+    <div>
+      <label className="block text-sm font-medium mb-2">Achievement:</label>
+      <textarea
+        placeholder="Achievements"
+        value={achievement}
+        onChange={(e) => setAchievement(e.target.value)}
+        rows={3}
         required
-        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+        className="w-full p-2 border border-gray-300 rounded-md"
       />
-      <input
-        type="text"
-        name="refContact"
-        placeholder="Referral Contact Number"
-        value={reference.refContact}
-        onChange={(e) => handleReferencesChange(index, e)}
-        maxLength={10}
-        pattern="\d{10}"
-        title="Please enter a valid contact number"
-        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+              </div>
+              
+              {/* Achievement Field */}
+    <div>
+      <label className="block text-sm font-medium mb-2">Describe Yourself:</label>
+      <textarea
+        placeholder="Description"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        rows={10}
+        required
+        className="w-full p-2 border border-gray-300 rounded-md"
       />
-      <button
-        type="button"
-        onClick={() => removeReference(index)}
-        className="bg-red-600 text-white py-1 px-3 rounded-md"
-      >
-        Remove
-      </button>
     </div>
-  ))}
 
-  {/* Add Reference Button */}
-  <div className="w-full flex justify-start mt-4">
+    {/* References Section */}
+    <div>
+      <label className="block text-sm font-medium mb-2">References</label>
+    </div>
+    {references.map((reference, index) => (
+      <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
+        <input
+          type="text"
+          name="refName"
+          placeholder="Referral Name"
+          value={reference.refName}
+          onChange={(e) => handleReferencesChange(index, e)}
+          required
+          className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+        />
+        <input
+          type="text"
+          name="refContact"
+          placeholder="Referral Contact Number"
+          value={reference.refContact}
+          onChange={(e) => handleReferencesChange(index, e)}
+          maxLength={10}
+          pattern="\d{10}"
+          title="Please enter a valid contact number"
+          className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+        />
+        <button
+          type="button"
+          onClick={() => removeReference(index)}
+          className="bg-red-600 text-white py-1 px-3 rounded-md"
+        >
+          Remove
+        </button>
+      </div>
+    ))}
     <button
       type="button"
       onClick={addReference}
-      className="bg-green-600 text-white py-1 px-3 rounded-md text-sm w-auto"
+      className="bg-green-600 text-white py-2 px-4 rounded-md mb-4"
     >
       Add Reference
     </button>
-  </div>
-</div>
-
-    </div>
     {/* Upload Section */}
     <div className="mb-6">
       <h3 className="text-lg font-semibold mb-2">Upload Required Documents</h3>
