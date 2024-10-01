@@ -5,20 +5,11 @@ import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 // import Navigation from '../components/Navigation';
 // import { useApplicantAuth } from '@/context/ApplicantAuthProvider'; // Use the logged-in applicant's details
 import { applyForJob } from '@/api'; // Function to handle job application
-
-
-// Function to convert a file to base64
-const getBase64 = (file) => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-};
+import FormPreview from './FormPreview';
 
 const ApplyForm = () => {
   const { id } = useParams(); // Job ID from the URL
+  const [showPreview, setShowPreview] = useState(false);//state for Preview
   //const { applicant } = useApplicantAuth(); // Get logged-in applicant's details
   const [firstName, setFirstName] = useState('');
   const [middleName, setMiddleName] = useState('');
@@ -110,16 +101,16 @@ const ApplyForm = () => {
     }
 
     if (isValid) {
-      const base64File = await getBase64(file);
+      const fileURL = URL.createObjectURL(file);
       switch (type) {
         case 'passport':
-          setPassportPhoto(base64File);
+          setPassportPhoto(fileURL);
           break;
         case 'certification':
-          setCertification(base64File);
+          setCertification(fileURL);
           break;
         case 'signature':
-          setSignature(base64File);
+          setSignature(fileURL);
           break;
         default:
           break;
@@ -195,7 +186,114 @@ const ApplyForm = () => {
   const removeReference = (index) => {
     const newReferences = references.filter((_, i) => i !== index);
     setReferences(newReferences);
-};
+  };
+
+  // Handle Preview
+  const handlePreview = () => {
+      
+    setShowPreview(true);
+    };
+  
+  //Save as Draft
+  // Function to save form data to local storage
+  const saveAsDraft = () => {
+    const draftData = {
+      firstName,
+      middleName,
+      lastName,
+      fhName,
+      email,
+      contact,
+      whatsapp,
+      gender,
+      dob,
+      maritalStatus,
+      address,
+      pincode,
+      country,
+      state,
+      district,
+      isHandicapped,
+      community,
+      matriculationYear,
+      matriculationGrade,
+      matriculationPercentage,
+      matriculationBoard,
+      interYear,
+      interGrade,
+      interPercentage,
+      interBoard,
+      bachelorYear,
+      bachelorCourse,
+      bachelorSpecialization,
+      bachelorGrade,
+      bachelorPercentage,
+      bachelorUniversity,
+      courses,
+      experiences,
+      references,
+      achievement,
+      description,
+      passportPhoto,
+      certification,
+      signature,
+    };
+    
+    localStorage.setItem(`jobApplicationDraft_${id}`, JSON.stringify(draftData));
+    alert('Draft saved successfully!');
+  };
+
+  // Function to load form data from local storage
+  const loadDraft = () => {
+    const draftData = localStorage.getItem(`jobApplicationDraft_${id}`);
+    if (draftData) {
+      const parsedData = JSON.parse(draftData);
+      setFirstName(parsedData.firstName);
+      setMiddleName(parsedData.middleName);
+      setLastName(parsedData.lastName);
+      setFhName(parsedData.fhName);
+      setEmail(parsedData.email);
+      setContact(parsedData.contact);
+      setWhatsapp(parsedData.whatsapp);
+      setGender(parsedData.gender);
+      setDob(parsedData.dob);
+      setMaritalStatus(parsedData.maritalStatus);
+      setAddress(parsedData.address);
+      setPincode(parsedData.pincode);
+      setCountry(parsedData.country);
+      setState(parsedData.state);
+      setDistrict(parsedData.district);
+      setIsHandicapped(parsedData.isHandicapped);
+      setCommunity(parsedData.community);
+      setMatriculationYear(parsedData.matriculationYear);
+      setMatriculationGrade(parsedData.matriculationGrade);
+      setMatriculationPercentage(parsedData.matriculationPercentage);
+      setMatriculationBoard(parsedData.matriculationBoard);
+      setInterYear(parsedData.interYear);
+      setInterGrade(parsedData.interGrade);
+      setInterPercentage(parsedData.interPercentage);
+      setInterBoard(parsedData.interBoard);
+      setBachelorYear(parsedData.bachelorYear);
+      setBachelorCourse(parsedData.bachelorCourse);
+      setBachelorSpecialization(parsedData.bachelorSpecialization);
+      setBachelorGrade(parsedData.bachelorGrade);
+      setBachelorPercentage(parsedData.bachelorPercentage);
+      setBachelorUniversity(parsedData.bachelorUniversity);
+      setCourses(parsedData.courses);
+      setExperiences(parsedData.experiences);
+      setReferences(parsedData.references);
+      setAchievement(parsedData.achievement);
+      setDescription(parsedData.description);
+      setPassportPhoto(parsedData.passportPhoto);
+      setCertification(parsedData.certification);
+      setSignature(parsedData.signature);
+    }
+  };
+
+  // Load draft data when component mounts
+  useEffect(() => {
+    loadDraft();
+  }, []);
 
   // useEffect(() => {
   //   if (authContext && authContext.applicant) {
@@ -950,18 +1048,58 @@ const ApplyForm = () => {
     </div>
 
     {/* Save as Draft and Submit buttons */}
-    <div className="flex justify-between mt-6">
-      {/* <button
+    <div className="flex justify-center space-x-4 mt-6">
+      <button
         type="button"
-        className="px-6 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 transition duration-200"
+        className="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-700 transition duration-200"
         onClick={saveAsDraft}
       >
         Save as Draft
-      </button> */}
-
+            </button>
+            <button type="button"className="px-6 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-700 transition duration-200" onClick={handlePreview}>Preview</button>
+        <FormPreview
+        show={showPreview}
+        handleClose={() => setShowPreview(false)}
+        firstName={firstName}
+        middleName={middleName}
+        lastName={lastName}
+        fhName={fhName}
+        email={email}
+        gender={gender}
+        dob={dob}
+        maritalStatus={maritalStatus}
+        address={address}
+        pincode={pincode}
+        country={country}
+        state={state}
+        district={district}
+        isHandicapped={isHandicapped}
+        community={community}
+        matriculationYear={matriculationYear}
+        matriculationGrade={matriculationGrade}
+        matriculationPercentage={matriculationPercentage}
+        matriculationBoard={matriculationBoard}
+        interYear={interYear}
+        interGrade={interGrade}
+        interPercentage={interPercentage}
+        interBoard={interBoard}
+        bachelorYear={bachelorYear}
+        bachelorCourse={bachelorCourse}
+        bachelorSpecialization={bachelorSpecialization}
+        bachelorGrade={bachelorGrade}
+        bachelorPercentage={bachelorPercentage}
+        bachelorUniversity={bachelorUniversity}
+        courses={courses}
+        experiences={experiences}
+        references={references}
+        achievement={achievement}      
+        description={description} 
+        passportPhoto={passportPhoto}  
+        signature={signature}      
+      />
       <button
         type="submit"
-        className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-200"
+        className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition duration-200"
       >
         Submit
       </button>
