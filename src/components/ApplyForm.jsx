@@ -1,12 +1,10 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import styles from '../styles/ApplyForm.module.css';
 import FormPreview from './FormPreview';
 
-const ApplyForm = () => {
-    const { id } = useParams(); // Job ID from the URL
+const ApplyForm = ({id}) => { // Job ID from the URL
     const [showPreview, setShowPreview] = useState(false);
     //const { applicant } = useApplicantAuth(); // Get logged-in applicant's details
     const [firstName, setFirstName] = useState('');

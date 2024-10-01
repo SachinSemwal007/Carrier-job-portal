@@ -74,7 +74,7 @@ export const applicantSignUp = async ({ name, email, password }) => {
 
 export const applicantLogIn = async ({ email, password }) => {
   try {
-    const response = await fetch('http://localhost:5000/api/applicant/signup', {
+    const response = await fetch('http://localhost:5000/api/applicant/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
