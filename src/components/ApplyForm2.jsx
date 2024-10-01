@@ -433,176 +433,192 @@ const ApplyForm = () => {
           className="w-full p-2 border border-gray-300 rounded-md"
         />
       </div>
-      <div>
-  <h3 className="text-lg font-semibold">Professional Details</h3>
-</div>
+      <div className="w-full">
+  <h3 className="text-lg font-semibold mb-4">Professional Details</h3>
 
-{/* Professional Qualifications Section */}
-<div>
-  <label className="block text-sm font-medium mb-2">Professional Qualifications / Diploma / Certification Course</label>
-</div>
-{courses.map((course, index) => (
-  <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
-    <input
-      type="text"
-      name="courseName"
-      placeholder="Course Name"
-      value={course.courseName}
-      onChange={(e) => handleCourseChange(index, e)}
-      required
-      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-    />
-    <input
-      type="text"
-      name="specialSubject"
-      placeholder="Special Subject"
-      value={course.specialSubject}
-      onChange={(e) => handleCourseChange(index, e)}
-      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-    />
-    <input
-      type="number"
-      name="yearOfPassing"
-      placeholder="Year of Passing"
-      value={course.yearOfPassing}
-      onChange={(e) => handleCourseChange(index, e)}
-      required
-      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-    />
-    <input
-      type="number"
-      name="duration"
-      placeholder="Duration (months)"
-      value={course.duration}
-      onChange={(e) => handleCourseChange(index, e)}
-      required
-      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-    />
-    <input
-      type="text"
-      name="gradeDivision"
-      placeholder="Grade/Division"
-      value={course.gradeDivision}
-      onChange={(e) => handleCourseChange(index, e)}
-      required
-      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-    />
-    <input
-      type="number"
-      name="percent"
-      placeholder="Percentage"
-      value={course.percent}
-      onChange={(e) => handleCourseChange(index, e)}
-      required
-      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-    />
-    <input
-      type="text"
-      name="instituteName"
-      placeholder="Name of Institute/College"
-      value={course.instituteName}
-      onChange={(e) => handleCourseChange(index, e)}
-      required
-      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-    />
+  {/* Professional Qualifications Section */}
+  <div className="w-full mb-4">
+    <label className="block text-sm font-medium mb-2">Professional Qualifications / Diploma / Certification Course</label>
+  </div>
+  
+  {courses.map((course, index) => (
+    <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4 w-full">
+      <input
+        type="text"
+        name="courseName"
+        placeholder="Course Name"
+        value={course.courseName}
+        onChange={(e) => handleCourseChange(index, e)}
+        required
+        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+      />
+      <input
+        type="text"
+        name="specialSubject"
+        placeholder="Special Subject"
+        value={course.specialSubject}
+        onChange={(e) => handleCourseChange(index, e)}
+        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+      />
+      <input
+        type="number"
+        name="yearOfPassing"
+        placeholder="Year of Passing"
+        value={course.yearOfPassing}
+        onChange={(e) => handleCourseChange(index, e)}
+        required
+        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+      />
+      <input
+        type="number"
+        name="duration"
+        placeholder="Duration (months)"
+        value={course.duration}
+        onChange={(e) => handleCourseChange(index, e)}
+        required
+        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+      />
+      <input
+        type="text"
+        name="gradeDivision"
+        placeholder="Grade/Division"
+        value={course.gradeDivision}
+        onChange={(e) => handleCourseChange(index, e)}
+        required
+        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+      />
+      <input
+        type="number"
+        name="percent"
+        placeholder="Percentage"
+        value={course.percent}
+        onChange={(e) => handleCourseChange(index, e)}
+        required
+        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+      />
+      <input
+        type="text"
+        name="instituteName"
+        placeholder="Name of Institute/College"
+        value={course.instituteName}
+        onChange={(e) => handleCourseChange(index, e)}
+        required
+        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+      />
+      <button
+        type="button"
+        onClick={() => removeCourse(index)}
+        className="bg-red-600 text-white py-1 px-3 rounded-md"
+      >
+        Remove
+      </button>
+    </div>
+  ))}
+
+  {/* Add Course Button */}
+  <div className="w-full flex justify-start mt-4">
     <button
       type="button"
-      onClick={() => removeCourse(index)}
-      className="bg-red-600 text-white py-1 px-3 rounded-md"
+      onClick={addCourse}
+      className="bg-green-600 text-white py-1 px-3 rounded-md text-sm w-auto"
     >
-      Remove
+      Add Course
     </button>
   </div>
-))}
-<button
-  type="button"
-  onClick={addCourse}
-  className="bg-green-600 text-white py-1 px-3 rounded-md mb-4 min-w-[50px] min-h-[80px]"
->
-  Add Course
-</button>
-
-{/* Experiences Section */}
-<div>
-  <label className="block text-sm font-medium mb-2">Experience</label>
 </div>
-{experiences.map((experience, index) => (
-  <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
-    <input
-      type="text"
-      name="orgName"
-      placeholder="Office/Instt.Firm/Org"
-      value={experience.orgName}
-      onChange={(e) => handleExperiencesChange(index, e)}
-      required
-      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-    />
-    <input
-      type="text"
-      name="post"
-      placeholder="Post"
-      value={experience.post}
-      onChange={(e) => handleExperiencesChange(index, e)}
-      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-    />
-    <input
-      type="text"
-      name="jobType"
-      placeholder="Job Type"
-      value={experience.jobType}
-      onChange={(e) => handleExperiencesChange(index, e)}
-      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-    />
-    <input
-      type="date"
-      name="fromDate"
-      value={experience.fromDate}
-      onChange={(e) => handleExperiencesChange(index, e)}
-      required
-      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-    />
-    <input
-      type="date"
-      name="tillDate"
-      value={experience.tillDate}
-      onChange={(e) => handleExperiencesChange(index, e)}
-      required
-      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-    />
-    <input
-      type="text"
-      name="scaleOfType"
-      placeholder="Scale of Type"
-      value={experience.scaleOfType}
-      onChange={(e) => handleExperiencesChange(index, e)}
-      required
-      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-    />
-    <input
-      type="text"
-      name="natureOfDuties"
-      placeholder="Nature OF Duties"
-      value={experience.natureOfDuties}
-      onChange={(e) => handleExperiencesChange(index, e)}
-      required
-      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-    />
+
+
+<div className="w-full ">
+  {/* Experiences Section */}
+  <h3 className="text-lg font-semibold mb-4">Experience</h3>
+
+  <div className="w-full mb-4">
+    <label className="block text-sm font-medium mb-2">Experience</label>
+  </div>
+  
+  {experiences.map((experience, index) => (
+    <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4 w-full">
+      <input
+        type="text"
+        name="orgName"
+        placeholder="Office/Instt.Firm/Org"
+        value={experience.orgName}
+        onChange={(e) => handleExperiencesChange(index, e)}
+        required
+        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+      />
+      <input
+        type="text"
+        name="post"
+        placeholder="Post"
+        value={experience.post}
+        onChange={(e) => handleExperiencesChange(index, e)}
+        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+      />
+      <input
+        type="text"
+        name="jobType"
+        placeholder="Job Type"
+        value={experience.jobType}
+        onChange={(e) => handleExperiencesChange(index, e)}
+        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+      />
+      <input
+        type="date"
+        name="fromDate"
+        value={experience.fromDate}
+        onChange={(e) => handleExperiencesChange(index, e)}
+        required
+        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+      />
+      <input
+        type="date"
+        name="tillDate"
+        value={experience.tillDate}
+        onChange={(e) => handleExperiencesChange(index, e)}
+        required
+        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+      />
+      <input
+        type="text"
+        name="scaleOfType"
+        placeholder="Scale of Type"
+        value={experience.scaleOfType}
+        onChange={(e) => handleExperiencesChange(index, e)}
+        required
+        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+      />
+      <input
+        type="text"
+        name="natureOfDuties"
+        placeholder="Nature OF Duties"
+        value={experience.natureOfDuties}
+        onChange={(e) => handleExperiencesChange(index, e)}
+        required
+        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+      />
+      <button
+        type="button"
+        onClick={() => removeExperience(index)}
+        className="bg-red-600 text-white py-1 px-3 rounded-md"
+      >
+        Remove
+      </button>
+    </div>
+  ))}
+
+  {/* Add Experience Button */}
+  <div className="w-full flex justify-start mt-4">
     <button
       type="button"
-      onClick={() => removeExperience(index)}
-      className="bg-red-600 text-white py-1 px-3 rounded-md"
+      onClick={addExperience}
+      className="bg-green-600 text-white py-1 px-3 rounded-md text-sm w-auto"
     >
-      Remove
+      Add Experience
     </button>
   </div>
-))}
-<button
-  type="button"
-  onClick={addExperience}
-  className="bg-green-600 text-white py-2 px-4 rounded-md mb-4"
->
-  Add Experience
-</button>
+</div>
+
 
 {/* Achievement Field */}
 <div>
@@ -617,48 +633,57 @@ const ApplyForm = () => {
   />
 </div>
 
-{/* References Section */}
-<div>
-  <label className="block text-sm font-medium mb-2">References</label>
-</div>
-{references.map((reference, index) => (
-  <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
-    <input
-      type="text"
-      name="refName"
-      placeholder="Referral Name"
-      value={reference.refName}
-      onChange={(e) => handleReferencesChange(index, e)}
-      required
-      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-    />
-    <input
-      type="text"
-      name="refContact"
-      placeholder="Referral Contact Number"
-      value={reference.refContact}
-      onChange={(e) => handleReferencesChange(index, e)}
-      maxLength={10}
-      pattern="\d{10}"
-      title="Please enter a valid contact number"
-      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-    />
+<div className="w-full ">
+  {/* References Section */}
+
+  <div className="w-full mb-4">
+    <label className="block text-sm font-medium mb-2">References</label>
+  </div>
+  
+  {references.map((reference, index) => (
+    <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4 w-full">
+      <input
+        type="text"
+        name="refName"
+        placeholder="Referral Name"
+        value={reference.refName}
+        onChange={(e) => handleReferencesChange(index, e)}
+        required
+        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+      />
+      <input
+        type="text"
+        name="refContact"
+        placeholder="Referral Contact Number"
+        value={reference.refContact}
+        onChange={(e) => handleReferencesChange(index, e)}
+        maxLength={10}
+        pattern="\d{10}"
+        title="Please enter a valid contact number"
+        className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+      />
+      <button
+        type="button"
+        onClick={() => removeReference(index)}
+        className="bg-red-600 text-white py-1 px-3 rounded-md"
+      >
+        Remove
+      </button>
+    </div>
+  ))}
+
+  {/* Add Reference Button */}
+  <div className="w-full flex justify-start mt-4">
     <button
       type="button"
-      onClick={() => removeReference(index)}
-      className="bg-red-600 text-white py-1 px-3 rounded-md"
+      onClick={addReference}
+      className="bg-green-600 text-white py-1 px-3 rounded-md text-sm w-auto"
     >
-      Remove
+      Add Reference
     </button>
   </div>
-))}
-<button
-  type="button"
-  onClick={addReference}
-  className="bg-green-600 text-white py-2 px-4 rounded-md mb-4"
->
-  Add Reference
-</button>
+</div>
+
     </div>
     {/* Upload Section */}
     <div className="mb-6">
