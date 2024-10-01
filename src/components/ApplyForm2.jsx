@@ -3,9 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation'; // Use Next.js app router for params
 import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 import Navigation from '../components/Navigation';
-import { useApplicantAuth } from '@/context/ApplicantAuthProvider'; // Use the logged-in applicant's details
+//import { useApplicantAuth } from '@/context/ApplicantAuthProvider'; // Use the logged-in applicant's details
 import { applyForJob } from '@/api'; // Function to handle job application
-import styles from '@/app/styles/ApplyForm.module.css';
 
 
 // Function to convert a file to base64
@@ -73,6 +72,10 @@ const ApplyForm = () => {
   const [passportPhoto, setPassportPhoto] = useState(null);
   const [certification, setCertification] = useState(null);
   const [signature, setSignature] = useState(null);
+  const [references, setReferences] = useState([{
+    refName: '',
+    refContact:''
+}])
 
 
   const handleFileChange = async (e, type) => {
@@ -170,6 +173,25 @@ const ApplyForm = () => {
     const newExperiences = experiences.filter((_, i) => i !== index);
     setExperiences(newExperiences);
   };
+
+  const handleReferencesChange = (index, event) => {
+    const { name, value } = event.target;
+    const newReferences = [...references];
+    newReferences[index][name] = value;
+    setReferences(newReferences);
+  };
+
+  const addReference = () => {
+    setReferences([...references, {
+      refName: '',
+      refContact: ''
+    }]);
+  };
+
+  const removeReference = (index) => {
+    const newReferences = references.filter((_, i) => i !== index);
+    setReferences(newReferences);
+};
 
   // useEffect(() => {
   //   if (authContext && authContext.applicant) {
@@ -411,6 +433,232 @@ const ApplyForm = () => {
           className="w-full p-2 border border-gray-300 rounded-md"
         />
       </div>
+      <div>
+  <h3 className="text-lg font-semibold">Professional Details</h3>
+</div>
+
+{/* Professional Qualifications Section */}
+<div>
+  <label className="block text-sm font-medium mb-2">Professional Qualifications / Diploma / Certification Course</label>
+</div>
+{courses.map((course, index) => (
+  <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
+    <input
+      type="text"
+      name="courseName"
+      placeholder="Course Name"
+      value={course.courseName}
+      onChange={(e) => handleCourseChange(index, e)}
+      required
+      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+    />
+    <input
+      type="text"
+      name="specialSubject"
+      placeholder="Special Subject"
+      value={course.specialSubject}
+      onChange={(e) => handleCourseChange(index, e)}
+      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+    />
+    <input
+      type="number"
+      name="yearOfPassing"
+      placeholder="Year of Passing"
+      value={course.yearOfPassing}
+      onChange={(e) => handleCourseChange(index, e)}
+      required
+      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+    />
+    <input
+      type="number"
+      name="duration"
+      placeholder="Duration (months)"
+      value={course.duration}
+      onChange={(e) => handleCourseChange(index, e)}
+      required
+      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+    />
+    <input
+      type="text"
+      name="gradeDivision"
+      placeholder="Grade/Division"
+      value={course.gradeDivision}
+      onChange={(e) => handleCourseChange(index, e)}
+      required
+      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+    />
+    <input
+      type="number"
+      name="percent"
+      placeholder="Percentage"
+      value={course.percent}
+      onChange={(e) => handleCourseChange(index, e)}
+      required
+      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+    />
+    <input
+      type="text"
+      name="instituteName"
+      placeholder="Name of Institute/College"
+      value={course.instituteName}
+      onChange={(e) => handleCourseChange(index, e)}
+      required
+      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+    />
+    <button
+      type="button"
+      onClick={() => removeCourse(index)}
+      className="bg-red-600 text-white py-1 px-3 rounded-md"
+    >
+      Remove
+    </button>
+  </div>
+))}
+<button
+  type="button"
+  onClick={addCourse}
+  className="bg-green-600 text-white py-1 px-3 rounded-md mb-4 min-w-[50px] min-h-[80px]"
+>
+  Add Course
+</button>
+
+{/* Experiences Section */}
+<div>
+  <label className="block text-sm font-medium mb-2">Experience</label>
+</div>
+{experiences.map((experience, index) => (
+  <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
+    <input
+      type="text"
+      name="orgName"
+      placeholder="Office/Instt.Firm/Org"
+      value={experience.orgName}
+      onChange={(e) => handleExperiencesChange(index, e)}
+      required
+      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+    />
+    <input
+      type="text"
+      name="post"
+      placeholder="Post"
+      value={experience.post}
+      onChange={(e) => handleExperiencesChange(index, e)}
+      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+    />
+    <input
+      type="text"
+      name="jobType"
+      placeholder="Job Type"
+      value={experience.jobType}
+      onChange={(e) => handleExperiencesChange(index, e)}
+      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+    />
+    <input
+      type="date"
+      name="fromDate"
+      value={experience.fromDate}
+      onChange={(e) => handleExperiencesChange(index, e)}
+      required
+      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+    />
+    <input
+      type="date"
+      name="tillDate"
+      value={experience.tillDate}
+      onChange={(e) => handleExperiencesChange(index, e)}
+      required
+      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+    />
+    <input
+      type="text"
+      name="scaleOfType"
+      placeholder="Scale of Type"
+      value={experience.scaleOfType}
+      onChange={(e) => handleExperiencesChange(index, e)}
+      required
+      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+    />
+    <input
+      type="text"
+      name="natureOfDuties"
+      placeholder="Nature OF Duties"
+      value={experience.natureOfDuties}
+      onChange={(e) => handleExperiencesChange(index, e)}
+      required
+      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+    />
+    <button
+      type="button"
+      onClick={() => removeExperience(index)}
+      className="bg-red-600 text-white py-1 px-3 rounded-md"
+    >
+      Remove
+    </button>
+  </div>
+))}
+<button
+  type="button"
+  onClick={addExperience}
+  className="bg-green-600 text-white py-2 px-4 rounded-md mb-4"
+>
+  Add Experience
+</button>
+
+{/* Achievement Field */}
+<div>
+  <label className="block text-sm font-medium mb-2">Achievement:</label>
+  <textarea
+    placeholder="Achievements"
+    value={achievement}
+    onChange={(e) => setAchievement(e.target.value)}
+    rows={3}
+    required
+    className="w-full p-2 border border-gray-300 rounded-md"
+  />
+</div>
+
+{/* References Section */}
+<div>
+  <label className="block text-sm font-medium mb-2">References</label>
+</div>
+{references.map((reference, index) => (
+  <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
+    <input
+      type="text"
+      name="refName"
+      placeholder="Referral Name"
+      value={reference.refName}
+      onChange={(e) => handleReferencesChange(index, e)}
+      required
+      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+    />
+    <input
+      type="text"
+      name="refContact"
+      placeholder="Referral Contact Number"
+      value={reference.refContact}
+      onChange={(e) => handleReferencesChange(index, e)}
+      maxLength={10}
+      pattern="\d{10}"
+      title="Please enter a valid contact number"
+      className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+    />
+    <button
+      type="button"
+      onClick={() => removeReference(index)}
+      className="bg-red-600 text-white py-1 px-3 rounded-md"
+    >
+      Remove
+    </button>
+  </div>
+))}
+<button
+  type="button"
+  onClick={addReference}
+  className="bg-green-600 text-white py-2 px-4 rounded-md mb-4"
+>
+  Add Reference
+</button>
     </div>
     {/* Upload Section */}
     <div className="mb-6">
