@@ -137,6 +137,9 @@ const AdminJobCard = ({ job, refreshJobs }) => {
         <h2 className="cursor-pointer text-red-600" onClick={() => handleDelete(job._id)}>
           Delete Job
         </h2>
+        <h2 className="cursor-pointer text-green-600" >
+          No. of Applicants{submittedApplicants.length}
+        </h2>
         <h3>{job.jobTitle}</h3>
         <h3>{job._id}</h3>
         <p>Location: {job.location}</p>
