@@ -31,7 +31,7 @@ const FormPreview = ({
     html2canvas(modalContent, {
       scale: 2, // Higher scale for better resolution
       useCORS: true, // Enable CORS if you're loading images from external sources
-      scrollY: -window.scrollY, // Capture from the top of the modal
+      scrollY: 0, // Capture from the top of the content
     }).then((canvas) => {
       const imgData = canvas.toDataURL('image/jpeg', 1.0); // Capture the modal content
   
@@ -54,6 +54,7 @@ const FormPreview = ({
         position -= pdfHeight;
         if (heightLeft > 0) {
           pdf.addPage(); // Add new page if content overflows
+          position = 0; // Reset position for the new page
         }
       }
   
@@ -68,6 +69,7 @@ const FormPreview = ({
       pdf.save('form-preview.pdf');
     });
   };
+
 
   return (
     <Modal show={show} onHide={handleClose} size="lg" className="w-full max-w-6xl mx-auto my-4 p-4 bg-white shadow-lg rounded-lg" id="modal-content">
