@@ -307,7 +307,7 @@ const FormPreview = ({
 
     </Modal.Body>
     <Modal.Footer className="flex justify-end space-x-4 p-4 border-t-2 border-gray-200">
-  <Button className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded" onClick={handleClose} id="close-button">
+  <Button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded" onClick={handleClose} id="close-button">
     Close
   </Button>
   <Button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded" onClick={handleDownloadPDF} id="download-button">

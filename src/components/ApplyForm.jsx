@@ -1047,7 +1047,7 @@ const ApplyForm = () => {
       </label>
     </div>
 
-    {/* Save as Draft and Submit buttons */}
+    {/* Save as Draft, Preview and Submit buttons */}
     <div className="flex justify-center space-x-4 mt-6">
       <button
         type="button"
