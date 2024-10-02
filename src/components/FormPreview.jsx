@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import jsPDF from 'jspdf';
-import styles from '../styles/FormPreview.module.css';
+import html2canvas from 'html2canvas';
 
 const FormPreview = ({
   show, // to control modal visibility
@@ -11,192 +11,191 @@ const FormPreview = ({
   matriculationYear, matriculationGrade, matriculationPercentage, matriculationBoard,
   interYear, interGrade, interPercentage, interBoard,
   bachelorYear, bachelorCourse, bachelorSpecialization, bachelorGrade, bachelorPercentage, bachelorUniversity,
-  courses, experiences, references, achievement,description, passportPhoto, signature
+  courses, experiences, references, achievement, description, passportPhoto, signature
 }) => {
 
   const handleDownloadPDF = () => {
-    const doc = new jsPDF();
-    doc.setFontSize(12);
-    doc.text('Form Preview', 10, 10);
-    doc.text(`Name: ${firstName} ${middleName} ${lastName}`, 10, 20);
-    doc.text(`Father/Husband Name: ${fhName}`, 10, 30);
-    doc.text(`Email: ${email}`, 10, 40);
-    doc.text(`Gender: ${gender}`, 10, 50);
-    doc.text(`DOB: ${dob}`, 10, 60);
-    doc.text(`Marital Status: ${maritalStatus}`, 10, 70);
-    doc.text(`Address: ${address}, ${district}, ${state}, ${country}, ${pincode}`, 10, 80);
-    doc.text(`Community: ${community}`, 10, 90);
-    doc.text(`Is Handicapped: ${isHandicapped}`, 10, 100);
-    
-    // Matriculation
-    doc.text('Matriculation Details:', 10, 110);
-    doc.text(`Year: ${matriculationYear}`, 10, 120);
-    doc.text(`Grade: ${matriculationGrade}`, 10, 130);
-    doc.text(`Percentage: ${matriculationPercentage}`, 10, 140);
-    doc.text(`Board: ${matriculationBoard}`, 10, 150);
-    
-    // Intermediate
-    doc.text('Intermediate Details:', 10, 160);
-    doc.text(`Year: ${interYear}`, 10, 170);
-    doc.text(`Grade: ${interGrade}`, 10, 180);
-    doc.text(`Percentage: ${interPercentage}`, 10, 190);
-    doc.text(`Board: ${interBoard}`, 10, 200);
-    
-    // Bachelor
-    doc.text('Bachelor Details:', 10, 210);
-    doc.text(`Year: ${bachelorYear}`, 10, 220);
-    doc.text(`Course: ${bachelorCourse}`, 10, 230);
-    doc.text(`Specialization: ${bachelorSpecialization}`, 10, 240);
-    doc.text(`Grade: ${bachelorGrade}`, 10, 250);
-    doc.text(`Percentage: ${bachelorPercentage}`, 10, 260);
-    doc.text(`University: ${bachelorUniversity}`, 10, 270);
-
-    // Courses
-    doc.text('Courses:', 10, 280);
-    courses.forEach((course, idx) => {
-      doc.text(`Course ${idx + 1}: ${course.courseName}, Subject: ${course.specialSubject}, Year of Passing: ${course.yearOfPassing}, Duration: ${course.duration}, Grade/Division: ${course.gradeDivision}, Percent: ${course.percent}, Institute: ${course.instituteName}`, 10, 290 + idx * 10);
+    const modalContent = document.getElementById('modal-content'); // Get the modal content
+    const closeButton = document.getElementById('close-button'); // Close button
+    const downloadButton = document.getElementById('download-button'); // Download button
+  
+    // Hide buttons before capturing the content
+    closeButton.style.display = 'none';
+    downloadButton.style.display = 'none';
+  
+    // Use scrollHeight to capture the full height of scrollable content
+    const originalHeight = modalContent.style.height;
+    modalContent.style.height = 'auto'; // Ensure the full height is captured
+    modalContent.style.maxHeight = 'none'; // Disable maxHeight if there was any
+  
+    html2canvas(modalContent, {
+      scale: 2, // Higher scale for better resolution
+      useCORS: true, // Enable CORS if you're loading images from external sources
+      scrollY: -window.scrollY, // Capture from the top of the modal
+    }).then((canvas) => {
+      const imgData = canvas.toDataURL('image/jpeg', 1.0); // Capture the modal content
+  
+      // Create a new PDF instance
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+  
+      // Calculate height and width based on the canvas size
+      const imgWidth = pdfWidth;
+      const imgHeight = (canvas.height * pdfWidth) / canvas.width; // Maintain aspect ratio
+  
+      let heightLeft = imgHeight;
+      let position = 0;
+  
+      // Add the captured image data to the PDF and handle multi-page PDFs
+      while (heightLeft > 0) {
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+        position -= pdfHeight;
+        if (heightLeft > 0) {
+          pdf.addPage(); // Add new page if content overflows
+        }
+      }
+  
+      // Restore the modal height after the capture
+      modalContent.style.height = originalHeight;
+  
+      // Restore the buttons after capturing the content
+      closeButton.style.display = 'block';
+      downloadButton.style.display = 'block';
+  
+      // Save the PDF
+      pdf.save('form-preview.pdf');
     });
-
-    // Experiences
-    doc.text('Experiences:', 10, 300);
-    experiences.forEach((experience, idx) => {
-      doc.text(`Experience ${idx + 1}: ${experience.orgName}, Post: ${experience.post}, Job Type: ${experience.jobType}, From: ${experience.fromDate}, Till: ${experience.tillDate}, Scale of Pay: ${experience.scaleOfType}, Duties: ${experience.natureOfDuties}`, 10, 310 + idx * 10);
-    });
-
-    // References
-    doc.text('References:', 10, 320);
-    references.forEach((ref, idx) => {
-      doc.text(`Reference ${idx + 1}: ${ref.refName}, Contact: ${ref.refContact}`, 10, 330 + idx * 10);
-    });
-
-    //Achievement
-    doc.text(`Achievement: ${achievement}`, 10, 340);
-    doc.text(`Description: ${description}`, 10, 350);
-
-    doc.save('form-preview.pdf');
   };
 
   return (
-    <Modal show={show} onHide={handleClose} size="lg" className={styles['modal-container']} >
-      <Modal.Header className={styles['modal-header']} closeButton>
-        <Modal.Title>Form Preview</Modal.Title>
+    <Modal show={show} onHide={handleClose} size="lg" className="w-full max-w-6xl mx-auto my-4 p-4 bg-white shadow-lg rounded-lg" id="modal-content">
+      <Modal.Header className="flex justify-between items-center border-b-2 border-gray-200 p-4" closeButton>
+        <Modal.Title className="text-lg font-semibold">Form Preview</Modal.Title>
       </Modal.Header>
-      <Modal.Body className={styles['modal-body']}>
-        {/* Passport Photo Section */}
-        <h4>Personal Details</h4>
-      {/* Personal Information */}
-      <div className={styles['personal-info']}>
-        <p><strong>Name:</strong> {firstName} {middleName} {lastName}</p>
-        <p><strong>Father/Husband Name:</strong> {fhName}</p>
-        <p><strong>Email:</strong> {email}</p>
-        <p><strong>Gender:</strong> {gender}</p>
-        <p><strong>Date of Birth:</strong> {dob}</p>
-        <p><strong>Marital Status:</strong> {maritalStatus}</p>
-        <p><strong>Address:</strong> {address}, {district}, {state}, {country}, {pincode}</p>
-        <p><strong>Community:</strong> {community}</p>
-        <p><strong>Is Handicapped:</strong> {isHandicapped}</p>
-     </div>
-
+      <Modal.Body className="overflow-y-auto max-h-[75vh] p-4 space-y-4">
+        <h4 className="text-xl font-semibold mb-2">Personal Details</h4>
+        {/* Personal Information */}
+        <div className="flex justify-between items-start my-4">
+          <div className="w-2/3 space-y-2">
+            <p><strong>Name:</strong> {firstName} {middleName} {lastName}</p>
+            <p><strong>Father/Husband Name:</strong> {fhName}</p>
+            <p><strong>Email:</strong> {email}</p>
+            <p><strong>Gender:</strong> {gender}</p>
+            <p><strong>Date of Birth:</strong> {dob}</p>
+            <p><strong>Marital Status:</strong> {maritalStatus}</p>
+            <p><strong>Address:</strong> {address}, {district}, {state}, {country}, {pincode}</p>
+            <p><strong>Community:</strong> {community}</p>
+            <p><strong>Is Handicapped:</strong> {isHandicapped}</p>
+          </div>
+          {/* Display Passport Photo */}
+          {passportPhoto && (
+            <div className="w-1/3 flex justify-center">
+              <div className="w-35 h-40 border border-black"><img src={passportPhoto} alt="Passport" className="w-full h-full object-cover" /></div>
+            </div>
+          )}
+        </div>
+  
         {/* Matriculation Section */}
-    <h4>Matriculation</h4>
-    <div className={styles['table-container']}>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Year</th>
-            <th>Course/Grade</th>
-            <th>Percentage</th>
-            <th>Board/University</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{matriculationYear}</td>
-            <td>{matriculationGrade}</td>
-            <td>{matriculationPercentage}</td>
-            <td>{matriculationBoard}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    {/* Intermediate Section */}
-    <h4>Intermediate/+2</h4>
-    <div className={styles['table-container']}>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Year</th>
-            <th>Course/Grade</th>
-            <th>Percentage</th>
-            <th>Board/University</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{interYear}</td>
-            <td>{interGrade}</td>
-            <td>{interPercentage}</td>
-            <td>{interBoard}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    {/* Bachelor Section */}
-    <h4>Bachelor Degree/Graduation/(10+2+3)</h4>
-    <div className={styles['table-container']}>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>Year</th>
-            <th>Course</th>
-            <th>Specialization</th>
-            <th>Grade/Division</th>
-            <th>Percentage</th>
-            <th>University</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{bachelorYear}</td>
-            <td>{bachelorCourse}</td>
-            <td>{bachelorSpecialization}</td>
-            <td>{bachelorGrade}</td>
-            <td>{bachelorPercentage}</td>
-            <td>{bachelorUniversity}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
+        <h4 className="text-xl font-semibold mt-4">Matriculation</h4>
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto border-collapse border border-gray-300">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border border-gray-300 p-2">Year</th>
+                <th className="border border-gray-300 p-2">Course/Grade</th>
+                <th className="border border-gray-300 p-2">Percentage</th>
+                <th className="border border-gray-300 p-2">Board/University</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border border-gray-300 p-2">{matriculationYear}</td>
+                <td className="border border-gray-300 p-2">{matriculationGrade}</td>
+                <td className="border border-gray-300 p-2">{matriculationPercentage}</td>
+                <td className="border border-gray-300 p-2">{matriculationBoard}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  
+        {/* Intermediate Section */}
+        <h4 className="text-xl font-semibold mt-4">Intermediate/+2</h4>
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto border-collapse border border-gray-300">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border border-gray-300 p-2">Year</th>
+                <th className="border border-gray-300 p-2">Course/Grade</th>
+                <th className="border border-gray-300 p-2">Percentage</th>
+                <th className="border border-gray-300 p-2">Board/University</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border border-gray-300 p-2">{interYear}</td>
+                <td className="border border-gray-300 p-2">{interGrade}</td>
+                <td className="border border-gray-300 p-2">{interPercentage}</td>
+                <td className="border border-gray-300 p-2">{interBoard}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  
+        {/* Bachelor Section */}
+        <h4 className="text-xl font-semibold mt-4">Bachelor Degree/Graduation/(10+2+3)</h4>
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto border-collapse border border-gray-300">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border border-gray-300 p-2">Year</th>
+                <th className="border border-gray-300 p-2">Course</th>
+                <th className="border border-gray-300 p-2">Specialization</th>
+                <th className="border border-gray-300 p-2">Grade/Division</th>
+                <th className="border border-gray-300 p-2">Percentage</th>
+                <th className="border border-gray-300 p-2">University</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border border-gray-300 p-2">{bachelorYear}</td>
+                <td className="border border-gray-300 p-2">{bachelorCourse}</td>
+                <td className="border border-gray-300 p-2">{bachelorSpecialization}</td>
+                <td className="border border-gray-300 p-2">{bachelorGrade}</td>
+                <td className="border border-gray-300 p-2">{bachelorPercentage}</td>
+                <td className="border border-gray-300 p-2">{bachelorUniversity}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  
         {/* Professional Course Details */}
-        <h4>Professional Qualification/Diploma/Certificate Course</h4>
+        <h4 className="text-xl font-semibold mt-4">Professional Qualification/Diploma/Certificate Course</h4>
         {courses && courses.length > 0 ? (
-          <div className={styles['table-container']}>
-            <table className={styles.table}>
+          <div className="overflow-x-auto">
+            <table className="min-w-full table-auto border-collapse border border-gray-300">
               <thead>
-                <tr>
-                  <th>Course Name</th>
-                  <th>Special Subject</th>
-                  <th>Year of Passing</th>
-                  <th>Duration(months)</th>
-                  <th>Grade/Division</th>
-                  <th>Percent</th>
-                  <th>Name of Institute/College</th>
-
+                <tr className="bg-gray-200">
+                  <th className="border border-gray-300 p-2">Course Name</th>
+                  <th className="border border-gray-300 p-2">Special Subject</th>
+                  <th className="border border-gray-300 p-2">Year of Passing</th>
+                  <th className="border border-gray-300 p-2">Duration(months)</th>
+                  <th className="border border-gray-300 p-2">Grade/Division</th>
+                  <th className="border border-gray-300 p-2">Percent</th>
+                  <th className="border border-gray-300 p-2">Name of Institute/College</th>
                 </tr>
               </thead>
               <tbody>
                 {courses.map((course, index) => (
                   <tr key={index}>
-                    <td>{course.courseName}</td>
-                    <td>{course.specialSubject}</td>
-                    <td>{course.yearOfPassing}</td>
-                    <td>{course.duration}</td>
-                    <td>{course.gradeDivision}</td>
-                    <td>{course.percent}</td>
-                    <td>{course.instituteName}</td>
+                    <td className="border border-gray-300 p-2">{course.courseName}</td>
+                    <td className="border border-gray-300 p-2">{course.specialSubject}</td>
+                    <td className="border border-gray-300 p-2">{course.yearOfPassing}</td>
+                    <td className="border border-gray-300 p-2">{course.duration}</td>
+                    <td className="border border-gray-300 p-2">{course.gradeDivision}</td>
+                    <td className="border border-gray-300 p-2">{course.percent}</td>
+                    <td className="border border-gray-300 p-2">{course.instituteName}</td>
                   </tr>
                 ))}
               </tbody>
@@ -205,105 +204,113 @@ const FormPreview = ({
         ) : (
           <p>No professional courses listed.</p>
         )}
-
+  
         {/* Experience Section */}
-        <h4>Experience</h4>
+        <h4 className="text-xl font-semibold mt-4">Experience</h4>
         {experiences && experiences.length > 0 ? (
-          <div className={styles['table-container']}>
-            <table className={styles.table}>
+          <div className="overflow-x-auto">
+            <table className="min-w-full table-auto border-collapse border border-gray-300">
               <thead>
-                <tr>
-                  <th>Office/Instt.Firm/Org</th>
-                  <th>Post</th>
-                  <th>Job Type</th>
-                  <th>From Date</th>
-                  <th>Till Date</th>
-                  <th>Scale of Type</th>
-                  <th>Nature of Duties</th>
+                <tr className="bg-gray-200">
+                  <th className="border border-gray-300 p-2">Office/Instt.Firm/Org</th>
+                  <th className="border border-gray-300 p-2">Post</th>
+                  <th className="border border-gray-300 p-2">Job Type</th>
+                  <th className="border border-gray-300 p-2">From Date</th>
+                  <th className="border border-gray-300 p-2">Till Date</th>
+                  <th className="border border-gray-300 p-2">Scale of Type</th>
+                  <th className="border border-gray-300 p-2">Nature of Duties</th>
                 </tr>
               </thead>
               <tbody>
                 {experiences.map((experience, index) => (
                   <tr key={index}>
-                    <td>{experience.orgName}</td>
-                    <td>{experience.post}</td>
-                    <td>{experience.jobType}</td>
-                    <td>{experience.fromDate}</td>
-                    <td>{experience.tillDate}</td>
-                    <td>{experience.scaleOfType}</td>
-                    <td>{experience.natureOfDuties}</td>
+                    <td className="border border-gray-300 p-2">{experience.orgName}</td>
+                    <td className="border border-gray-300 p-2">{experience.post}</td>
+                    <td className="border border-gray-300 p-2">{experience.jobType}</td>
+                    <td className="border border-gray-300 p-2">{experience.fromDate}</td>
+                    <td className="border border-gray-300 p-2">{experience.tillDate}</td>
+                    <td className="border border-gray-300 p-2">{experience.scaleOfType}</td>
+                    <td className="border border-gray-300 p-2">{experience.natureOfDuties}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         ) : (
-          <p>No experience listed.</p>
+          <p>No experience details available.</p>
         )}
-
+        
         {/* References Section */}
-        <h4>References</h4>
+        <h4 className="text-lg font-semibold mb-4">References</h4>
         {references && references.length > 0 ? (
-          <div className={styles['table-container']}>
-            <table className={styles.table}>
+          <div className="overflow-x-auto">
+            <table className="min-w-full table-auto border-collapse border border-gray-300">
               <thead>
-                <tr>
-                  <th>Reference Name</th>
-                  <th>Contact</th>
+                <tr className="bg-gray-200">
+                  <th className="border border-gray-300 p-2">Reference Name</th>
+                  <th className="border border-gray-300 p-2">Contact</th>
                 </tr>
               </thead>
               <tbody>
                 {references.map((reference, index) => (
-                  <tr key={index}>
-                    <td>{reference.refName}</td>
-                    <td>{reference.refContact}</td>
+                  <tr key={index} >
+                    <td className="border border-gray-300 p-2">{reference.refName}</td>
+                    <td className="border border-gray-300 p-2">{reference.refContact}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
         ) : (
-          <p>No references listed.</p>
+          <p className="text-gray-500">No references listed.</p>
         )}
+        
+        {/* Achiement */}
+        <h4 className="text-lg font-semibold mb-4">Achievements</h4>
+        <p>{achievement}</p>
 
-        <h4>Achievements</h4>
-        <p><strong>Achievement:</strong> {achievement}</p>
+        {/* Description */}
+        <h4 className="text-lg font-semibold mb-4">Describe Yourself</h4>
+        <p>{description}</p>
 
-        <h4>Describe Yourself</h4>
-        <p><strong>Describe Yourself:</strong> {description}</p>
-    <div className={styles['declaration']}>
-      <p>
-        I hereby declare that the information furnished in this Application Form
-        is true to the best of my knowledge and belief. If any wrong information is detected in future,
-        my candidature for the post may be cancelled at any stage and action can be taken accordingly.
-        I also agree with the terms and conditions mentioned in the detailed advertisement.
-      </p>
-    </div>
+        {/* Declaration*/}
+        <div className="mt-5 p-4 bg-gray-100 border border-gray-300 rounded-lg text-sm leading-relaxed text-gray-800 text-justify">
+          <p className="m-0 text-gray-600 text-[0.9rem]">
+            I hereby declare that the information furnished in this Application Form
+            is true to the best of my knowledge and belief. If any wrong information is detected in the future,
+            my candidature for the post may be cancelled at any stage and action can be taken accordingly.
+            I also agree with the terms and conditions mentioned in the detailed advertisement.
+          </p>
+        </div>
 
-    {/* Signature, Place, and Date Section */}
-    <div className={styles['sign-section']}>
-      <div className={styles['left-side']}>
-        <p><strong>Place:</strong> ___________</p>
-        <p><strong>Date:</strong> ___________</p>
-      </div>
-
-      <div className={styles['right-side']}>
-        {signature && ( <img src={URL.createObjectURL(signature)}  alt="Signature" className={styles['signature-photo']}
-          />
-        )}
-        <p className={styles['signature-text']}>Signature of Candidate</p>
+        <div className="flex justify-between items-start mt-5">
+          {/* Left Side: Place and Date */}
+          <div className="flex flex-col">
+            <p><strong>Place:</strong> {district}</p> {/* Placeholder for District */}
+            <p><strong>Date:</strong> ___________</p> {/* Placeholder for current date */}
           </div>
-          <div className="preview-container">
-              {passportPhoto && <img src={passportPhoto} alt="Uploaded Photo" className="preview-image" />}
-              {signature && <img src={signature} alt="Uploaded Signature" className="preview-signature" />}
+
+          {/* Right Side: Signature */}
+          <div className="flex flex-col items-center">
+            {signature && (
+              <img
+                src={signature}
+                alt="Signature"
+                className="w-32 h-18 object-contain border border-gray-300"
+              />
+            )}
+            <p className="mt-2 text-sm text-gray-600">Signature of Candidate</p>
           </div>
-    </div>
+        </div>
+
+
+
       </Modal.Body>
-      <Modal.Footer className={styles['modal-footer']}>
-        <Button variant="secondary" onClick={handleClose}>
+      <Modal.Footer className="flex justify-end space-x-4 p-4 border-t-2 border-gray-200">
+        <Button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded" onClick={handleClose} id="close-button">
           Close
         </Button>
-        <Button variant="primary" onClick={handleDownloadPDF}>
+        <Button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded" onClick={handleDownloadPDF} id="download-button">
           Download as PDF
         </Button>
       </Modal.Footer>
