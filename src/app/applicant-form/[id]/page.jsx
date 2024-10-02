@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import ApplyForm from '@/components/ApplyForm'; // Adjust the import path as necessary
+
 import { useParams } from 'next/navigation'; // Use App Router's `useParams`
 
 const ApplicantFormPage = () => {
