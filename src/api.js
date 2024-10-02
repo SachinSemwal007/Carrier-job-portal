@@ -152,3 +152,30 @@ export const resetPassword = async (token, newPassword) => {
     throw error;
   }
 };
+
+export const refreshAccessToken = async () => {
+  const refreshToken = localStorage.getItem('refreshToken');
+  
+  if (!refreshToken) {
+    throw new Error('Refresh token not found');
+  }
+
+  const response = await fetch('http://localhost:5000/api/refresh-token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ refreshToken }),
+  });
+
+  const data = await response.json();
+  
+  if (!response.ok) {
+    throw new Error(data.message || 'Failed to refresh token');
+  }
+
+  // Store the new access token
+  localStorage.setItem('token', data.accessToken);
+  return data.accessToken;
+};
+
