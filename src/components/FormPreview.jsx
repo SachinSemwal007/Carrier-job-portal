@@ -3,6 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
+
 const FormPreview = ({
   show, // to control modal visibility
   handleClose, // function to close modal
@@ -18,57 +19,68 @@ const FormPreview = ({
     const modalContent = document.getElementById('modal-content'); // Get the modal content
     const closeButton = document.getElementById('close-button'); // Close button
     const downloadButton = document.getElementById('download-button'); // Download button
-  
+
     // Hide buttons before capturing the content
     closeButton.style.display = 'none';
     downloadButton.style.display = 'none';
-  
-    // Use scrollHeight to capture the full height of scrollable content
+
+    // Save the original styles
     const originalHeight = modalContent.style.height;
-    modalContent.style.height = 'auto'; // Ensure the full height is captured
-    modalContent.style.maxHeight = 'none'; // Disable maxHeight if there was any
-  
+    const originalOverflow = modalContent.style.overflow;
+
+    // Temporarily expand the content to capture the full scrollable area
+    modalContent.style.height = 'auto';
+    modalContent.style.maxHeight = 'none';
+    modalContent.style.overflow = 'visible';
+
+    // Use html2canvas to capture the modal content
     html2canvas(modalContent, {
-      scale: 2, // Higher scale for better resolution
-      useCORS: true, // Enable CORS if you're loading images from external sources
-      scrollY: 0, // Capture from the top of the content
+        scale: 2, // Higher scale for better resolution
+        useCORS: true,
+        scrollY: 0,
+        scrollX: 0,
     }).then((canvas) => {
-      const imgData = canvas.toDataURL('image/jpeg', 1.0); // Capture the modal content
-  
-      // Create a new PDF instance
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-  
-      // Calculate height and width based on the canvas size
-      const imgWidth = pdfWidth;
-      const imgHeight = (canvas.height * pdfWidth) / canvas.width; // Maintain aspect ratio
-  
-      let heightLeft = imgHeight;
-      let position = 0;
-  
-      // Add the captured image data to the PDF and handle multi-page PDFs
-      while (heightLeft > 0) {
-        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;
-        position -= pdfHeight;
-        if (heightLeft > 0) {
-          pdf.addPage(); // Add new page if content overflows
-          position = 0; // Reset position for the new page
+        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+        
+        // Create a new PDF instance
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+
+        // Calculate image height based on the canvas aspect ratio
+        const imgWidth = pdfWidth;
+        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        // Add the captured image data to the PDF and handle multi-page PDFs
+        while (heightLeft > 0) {
+            pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pdfHeight;
+            if (heightLeft > 0) {
+                position -= pdfHeight; // Reset position for the next page
+                pdf.addPage(); // Add a new page if content overflows
+            }
         }
-      }
-  
-      // Restore the modal height after the capture
-      modalContent.style.height = originalHeight;
-  
-      // Restore the buttons after capturing the content
-      closeButton.style.display = 'block';
-      downloadButton.style.display = 'block';
-  
-      // Save the PDF
-      pdf.save('form-preview.pdf');
+
+        // Restore the original styles
+        modalContent.style.height = originalHeight;
+        modalContent.style.overflow = originalOverflow;
+
+        // Restore the buttons after capturing the content
+        closeButton.style.display = 'block';
+        downloadButton.style.display = 'block';
+
+        // Save the PDF
+        pdf.save('form-preview.pdf');
     });
-  };
+};
+
+
+
+
+  
 
 
   return (
