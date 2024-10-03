@@ -7,6 +7,12 @@ import * as XLSX from "xlsx"; // Import xlsx for Excel file generation
 const AdminJobCard = ({ job, refreshJobs }) => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [showApplicants, setShowApplicants] = useState(false); // State to toggle applicants' visibility
+
+    // Handle Apply button click
+    const handleToggleApplicants = () => {
+      setShowApplicants((prev) => !prev);
+    };
 
   // Function to handle job deletion
   const handleDelete = async (id) => {
@@ -128,49 +134,71 @@ const AdminJobCard = ({ job, refreshJobs }) => {
   // Filter applicants to show only those with `submitted` set to `true`
   const submittedApplicants = job.applicants.filter((applicant) => applicant.submitted);
 
-  return (
-    <div className="m-5 max-w-[400px] w-[100%] flex-shrink-0 relative">
-      <div className="job-card border">
-        <div>
-          <Link href={`/admin/${job._id}`}>Edit</Link>
-        </div>
-        <h2 className="cursor-pointer text-red-600" onClick={() => handleDelete(job._id)}>
-          Delete Job
-        </h2>
-        <h2 className="cursor-pointer text-green-600" >
-          No. of Applicants{submittedApplicants.length}
-        </h2>
-        <h3>{job.jobTitle}</h3>
-        <h3>{job._id}</h3>
-        <p>Location: {job.location}</p>
-        <p>Salary: {job.salary}</p>
-        <p>Posted: {new Date(job.postedDate).toLocaleDateString()}</p>
+   
 
-        {/* Button to download the applicant list as an Excel file */}
-        <button onClick={handleDownloadApplicants} className="bg-blue-500 text-white px-4 py-2 mt-4">
-          Download Submitted Applicants
-        </button>
-      </div>
-      <div className="border h-6 overflow-hidden hover:h-auto bg-white">
-        <h2>Show Submitted Applicants</h2>
-        {submittedApplicants.map((applicant, index) => (
-          <ul key={index} className="p-5">
-            <li>Name: {applicant.firstName} {applicant.middleName} {applicant.lastName}</li>
-            <li>Email: {applicant.email}</li>
-            <li>Contact: {applicant.contact}</li>
-            <li>Gender: {applicant.gender}</li>
-            <li>DOB: {new Date(applicant.dob).toLocaleDateString()}</li>
-            {/* Render more fields as needed */}
-            <li className="text-red-600 cursor-pointer" onClick={() => deleteApplicant(applicant.applicantId)}>
-              Remove Applicant
-            </li>
-            <hr />
-          </ul>
-        ))}
-      </div>
-      {message && <p className="text-green-600">{message}</p>}
-      {error && <p className="text-red-600">{error}</p>}
-    </div>
+  return (
+    <div className="m-5 max-w-[400px] w-full flex-shrink-0 relative bg-white rounded-lg shadow-lg p-4">
+  {/* Job Card Header */}
+  <div className="flex justify-between items-center mb-4">
+    <Link href={`/admin/${job._id}`} className="text-blue-600 hover:underline">
+      Edit
+    </Link>
+    <h2
+      className="cursor-pointer text-red-600 hover:text-red-800"
+      onClick={() => handleDelete(job._id)}
+    >
+      Delete Job
+    </h2>
+  </div>
+
+  {/* Job Information */}
+  <h2 className="text-lg font-semibold text-green-600 mb-2">
+    No. of Applicants: {submittedApplicants.length}
+  </h2>
+  <h3 className="text-xl font-bold mb-1">{job.jobTitle}</h3>
+  <h4 className="text-gray-600 text-sm mb-1">Job ID: {job._id}</h4>
+  <p className="text-gray-800 mb-1">Location: {job.location}</p>
+  <p className="text-gray-800 mb-1">Salary: {job.salary}</p>
+  <p className="text-gray-500 mb-4">
+    Posted: {new Date(job.postedDate).toLocaleDateString()}
+  </p>
+
+  {/* Download Button */}
+  <button
+    onClick={handleDownloadApplicants}
+    className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+  >
+    Download Submitted Applicants
+  </button>
+
+  {/* Show Submitted Applicants */}
+  <div className="border mt-4 p-4 rounded-lg overflow-hidden bg-gray-100 transition-all duration-300 hover:overflow-visible">
+    <h2 className="text-md font-semibold mb-2">Show Submitted Applicants</h2>
+    {submittedApplicants.map((applicant, index) => (
+      <ul key={index} className="bg-white p-3 mb-2 rounded-lg shadow-sm">
+        <li className="text-gray-700">
+          Name: {applicant.firstName} {applicant.middleName} {applicant.lastName}
+        </li>
+        <li className="text-gray-700">Email: {applicant.email}</li>
+        <li className="text-gray-700">Contact: {applicant.contact}</li>
+        <li className="text-gray-700">Gender: {applicant.gender}</li>
+        <li className="text-gray-700">DOB: {new Date(applicant.dob).toLocaleDateString()}</li>
+        {/* Remove Applicant */}
+        <li
+          className="text-red-600 cursor-pointer mt-2 hover:text-red-800"
+          onClick={() => deleteApplicant(applicant.applicantId)}
+        >
+          Remove Applicant
+        </li>
+      </ul>
+    ))}
+  </div>
+
+  {/* Success and Error Messages */}
+  {message && <p className="text-green-600 mt-4">{message}</p>}
+  {error && <p className="text-red-600 mt-4">{error}</p>}
+</div>
+
   );
 };
 

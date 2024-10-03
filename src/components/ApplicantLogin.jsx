@@ -13,9 +13,9 @@ const ApplicantLogin = () => {
   const [message, setMessage] = useState('');
   const router = useRouter();
 
-  const handleChange = (e) => {
+  const handleChange = (e) => { 
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  }; 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
