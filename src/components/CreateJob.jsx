@@ -4,7 +4,7 @@ import { AuthProvider, useAuth } from "@/context/authcontext";
 import { useRouter } from 'next/router'; // For redirection after creating the post
 import Link from 'next/link';
 
-const App = () => {
+const CreateJob = () => {
   const { user, checkUser } = useAuth(); // Use auth context
 
   React.useEffect(() => {
@@ -49,6 +49,8 @@ const App = () => {
       if (response.ok) {
         setMessage('Job post created successfully!');
         setError('');
+        // Optionally redirect after creating the post
+        // useRouter().push('/some-page');
       } else {
         setMessage('');
         setError('Error creating job post. Please try again.');
@@ -62,11 +64,11 @@ const App = () => {
 
   // Check if user is authenticated and allowed to create a post
   if (!checkUser) {
-    return <Link href='/admin'>Please Log In To Create Post</Link>; // Redirecting message if the user is not authenticated
+    return <Link href='/admin' className="text-teal-600">Please Log In To Create Post</Link>; // Redirecting message if the user is not authenticated
   }
 
   return (
-    <div className="bg-gray-100 min-h-screen flex items-center justify-center p-6">
+    <div className="min-h-screen flex items-center justify-center p-6">
       <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg">
         <h2 className="text-2xl font-bold mb-6 text-center text-teal-600">Create Job Post</h2>
         <form onSubmit={handleSubmit}>
@@ -147,10 +149,4 @@ const App = () => {
   );
 };
 
-export default function AppWrapper() {
-  return (
-    <AuthProvider>
-      <App />
-    </AuthProvider>
-  );
-}
+export default CreateJob;
