@@ -14,21 +14,45 @@ const JobCard = ({ job }) => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-gray-700 via-blue-800 to-gray-900 rounded-xl shadow-lg p-6 text-white min-w-[280px] max-w-[350px] mx-auto">
-      <h3 className="text-2xl font-bold mb-2">{job.jobTitle}</h3>
-      <p className="text-lg mb-1">Company: <span className="font-medium">{job.companyName}</span></p>
-      <p className="text-lg mb-1">Location: <span className="font-medium">{job.location}</span></p>
-      <p className="text-lg mb-1">Salary: <span className="font-medium">{job.salary}</span></p>
-      <p className="text-lg mb-4">Posted: <span className="font-medium">{new Date(job.postedDate).toLocaleDateString()}</span></p>
-      
-      <button 
-        onClick={handleApply} 
-        className="w-full py-2 mt-4 bg-white text-blue-700 rounded-lg font-semibold hover:bg-blue-100 transition duration-300"
+    <div className="relative bg-white bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl shadow-lg p-5 w-[320px] h-[360px] mx-auto flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-2xl hover:bg-gradient-to-r hover:from-blue-50 hover:to-white duration-300 ease-in-out">
+      {/* Decorative Circles for a Stylish Look */}
+      <div className="absolute top-[-10px] right-[-10px] bg-blue-400 rounded-full h-16 w-16 opacity-20 blur-2xl"></div>
+      <div className="absolute bottom-[-20px] left-[-20px] bg-purple-400 rounded-full h-20 w-20 opacity-20 blur-3xl"></div>
+
+      {/* Application Deadline */}
+      <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold py-1 px-3 rounded-full animate-bounce shadow-lg z-10">
+        Deadline: {new Date().toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" })}
+      </div>
+
+      {/* Job Title */}
+      <h3 className="text-xl font-bold text-gray-800 mb-3 truncate-2-lines">{job.jobTitle}</h3>
+
+      {/* Job Details */}
+      <div>
+        <p className="text-sm text-gray-500 mb-1">
+          <span className="font-semibold">Company:</span> {job.companyName}
+        </p>
+        <p className="text-sm text-gray-500 mb-1">
+          <span className="font-semibold">Location:</span> {job.location}
+        </p>
+        <p className="text-sm text-gray-500 mb-1">
+          <span className="font-semibold">Salary:</span> {job.salary}
+        </p>
+        <p className="text-sm text-gray-500">
+          <span className="font-semibold">Posted:</span> {new Date(job.postedDate).toLocaleDateString()}
+        </p>
+      </div>
+
+      {/* Call to Action Button */}
+      <button
+        onClick={handleApply}
+        className="mt-4 py-2 bg-gradient-to-r from-teal-400 via-cyan-500 to-teal-600 text-white rounded-full font-medium hover:from-teal-500 hover:via-cyan-600 hover:to-teal-700 transition-all duration-300 shadow-md"
       >
-        Apply
+        Apply Now
       </button>
 
-      {message && <p className="mt-4 text-sm">{message}</p>}
+      {/* Message Display */}
+      {message && <p className="mt-4 text-sm text-gray-600">{message}</p>}
     </div>
   );
 };

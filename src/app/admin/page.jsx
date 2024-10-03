@@ -8,6 +8,7 @@ import Image from "next/image"; // Next.js optimized image component
 import CreateJob from "@/components/CreateJob"; // Create Job component
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Font Awesome icons
 import { faBars, faTimes, faUser } from '@fortawesome/free-solid-svg-icons'; // Import toggle icons
+import Link from "next/link";
 
 const AdminDashboard = () => {
   const { user, checkUser, logout } = useAuth(); // Use auth context
@@ -51,16 +52,25 @@ const AdminDashboard = () => {
         <>
           {/* Top Navbar */}
           <header className="w-full bg-teal-600 text-white py-4 px-6 flex justify-between items-center shadow-lg">
-            <div className="flex items-center">
-              <Image
-                src="/JSSPS-Logo.png" // Replace with your logo path
-                alt="Admin Logo"
-                width={60}
-                height={80}
-                className="mr-4"
-              />
-              <h1 className="text-2xl font-bold text-blue-900">Admin Dashboard</h1>
-            </div>
+          <div className="flex items-center">
+          <Link href="/"> {/* Wrap the Image component with Link */}
+            <Image
+              src="/JSSPS-Logo.png" // Replace with your logo path
+              alt="Company Logo"
+              width={60}
+              height={80}
+              className="mr-4" // Adjust size as necessary
+            />
+          </Link>
+          <div>
+            <h1 className="text-xl font-bold text-teal-950">
+              Jharkhand State Sports Promotion Society
+            </h1>
+            <p className="text-md text-teal-950">
+              (A State Govt. of Jharkhand and CCL Joint Initiative)
+            </p>
+          </div>
+        </div>
 
             <div className="flex items-center">
               <p className="mr-4">Admin Name</p> {/* Dynamic admin name */}
