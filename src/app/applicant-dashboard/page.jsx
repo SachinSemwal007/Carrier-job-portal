@@ -207,10 +207,11 @@ const ApplicantDashboard = () => {
   );
 };
 
-const ApplicantDashboardWrapper = () => (
-  <ApplicantAuthProvider>
-    <ApplicantDashboard />
-  </ApplicantAuthProvider>
-);
 
-export default ApplicantDashboardWrapper;
+export default function AppWrapper({ params }) { 
+  return ( 
+    <ApplicantAuthProvider> 
+      <ApplicantDashboard /> 
+    </ApplicantAuthProvider> 
+  );
+} 
