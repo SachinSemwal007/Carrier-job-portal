@@ -106,36 +106,36 @@ const ApplicantDashboard = () => {
                 height={100}
                 className="mb-4 h-16 w-16 mx-auto"
               />
-              <h1 className="text-3xl font-bold mb-4">Welcome to Your Dashboard</h1>
-              <p className="text-lg text-gray-600">Please select an option from the menu to get started.</p>
-            </div>
+              <h1 className="text-3xl font-bold mb-4">Welcome to Your Dashboard</h1> 
+              <p className="text-lg text-gray-600">Please select an option from the menu to get started.</p> 
+            </div> 
           ) : (
             <div className="bg-white p-6 rounded-lg shadow-md w-full">
-              {/* Render content based on the active state */}
-              {active === "vacancies" && <div>Vacancies Content</div>}
-              {active === "profile" && <div>Profile Content</div>}
-              {active === "change-password" && (
-                <div>
-                  {" "}
-                  Change Password
-                  <h2 onClick={handleForgotPassword}>YES</h2>
-                  <span>{message}</span>
-
-                </div>
-              )}
-              {active === "logout" && <div>Logout Content</div>}
-            </div>
-          )}
+              {/* Render content based on the active state */} 
+              {active === "vacancies" && <div>Vacancies Content</div>} 
+              {active === "profile" && <div>Profile Content</div>} 
+              {active === "change-password" && ( 
+                <div> 
+                  {" "} 
+                  Change Password 
+                  <h2 onClick={handleForgotPassword}>YES</h2> 
+                  <span>{message}</span> 
+ 
+                </div> 
+              )} 
+              {active === "logout" && <div>Logout Content</div>} 
+            </div> 
+          )} 
         </main>
       </div>
     </div>
   );
 };
 
-export default function AppWrapper({ params }) {
-  return (
-    <ApplicantAuthProvider>
-      <ApplicantDashboard />
-    </ApplicantAuthProvider>
+export default function AppWrapper({ params }) { 
+  return ( 
+    <ApplicantAuthProvider> 
+      <ApplicantDashboard /> 
+    </ApplicantAuthProvider> 
   );
 }
