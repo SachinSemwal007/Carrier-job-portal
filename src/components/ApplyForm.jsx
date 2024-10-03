@@ -6,9 +6,12 @@ import { CountryDropdown, RegionDropdown } from 'react-country-region-selector';
 // import { useApplicantAuth } from '@/context/ApplicantAuthProvider'; // Use the logged-in applicant's details
 import { applyForJob } from '@/api'; // Function to handle job application
 import FormPreview from './FormPreview';
+import Navbar from './Navbar';
 
 const ApplyForm = () => {
   const { id } = useParams(); // Job ID from the URL
+  const [job, setJob] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [showPreview, setShowPreview] = useState(false);//state for Preview
   //const { applicant } = useApplicantAuth(); // Get logged-in applicant's details
   const [firstName, setFirstName] = useState('');
@@ -187,10 +190,78 @@ const ApplyForm = () => {
     setReferences(newReferences);
   };
 
-  // Handle Preview
+  // Fetch job details using jobId
+  useEffect(() => {
+    if (id) {
+      fetch(`http://localhost:5000/api/jobs/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log("Fetched Data:", data);
+          if (data.length > 0) {
+            console.log("Setting Job Data:", data[0]);
+            setJob(data[0]); // Assuming the first job matches the title
+          } else {
+            alert("Job not found");
+          }
+          setLoading(false);
+        })
+        .catch((err) => {
+          console.error("Error fetching job:", err);
+          setLoading(false);
+        });
+    }
+  }, [id]);
+
+  // Age validation based on job id
+  const getAgeLimits = (id) => {
+    if (!id) return { min: 0, max: 100 }; // Default limits if id is not set
+
+    switch (id) {
+      case '66f3bbd0358f00b6a0974674':
+        return { min: 40, max: 70 };
+      case '66f3bbda358f00b6a0974676':
+        return { min: 30, max: 50 };
+      case '66f3bbe4358f00b6a0974678':
+        return { min: 23, max: 40 };
+      default:
+        return { min: 0, max: 100 };
+    }
+  };
+
+  // Function to calculate the age based on DOB
+  const calculateAge = (dob) => {
+    const birthDate = new Date(dob);
+    const today = new Date();
+    
+    // Check if the birth date is in the future
+    if (birthDate > today) {
+      alert("Date of birth cannot be in the future.");
+      return -1; // Indicate invalid age
+    }
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  // Handle form preview with age validation
   const handlePreview = () => {
-    setShowPreview(true);
-    };
+    const age = calculateAge(dob);
+    if (age < 0) return; // Exit if the DOB is invalid
+
+    const { min, max } = getAgeLimits(id); // Check limits based on job ID
+
+    if (age >= min && age <= max) {
+      setShowPreview(true);
+    } else {
+      alert(`You are not eligible for the job due to age requirements. Minimum age: ${min}, Maximum age: ${max}.`);
+      setShowPreview(false);
+    }
+  };
   
   //Save as Draft
   // Function to save form data to local storage
@@ -360,9 +431,12 @@ const ApplyForm = () => {
 
   return (
     <div>
-    {/* <Navigation/> */}
+    <Navbar/>
     <div className="max-w-screen-md mx-auto p-6 bg-white rounded-lg shadow-md">
-  <h2 className="text-2xl font-semibold mb-4">Apply for Vacancy ID: {id}</h2>
+    <h2 className="text-2xl font-bold mb-4 bg-teal-100 p-4 rounded-lg">
+    Apply for Vacancy: 
+    <span className="text-red-500 px-2 rounded-md"> {id} </span>
+    </h2>
   <form onSubmit={handleSubmit}>
     {/* Name Fields */}
     <div>
@@ -1043,7 +1117,8 @@ const ApplyForm = () => {
       <label htmlFor="declaration" className="text-sm">
         I hereby declare that the information furnished in this Application Form is true to the best of my knowledge and belief. If any wrong information is detected in future, my candidature for the post may be cancelled at any stage and action can be taken accordingly. I also agree with the terms and conditions mentioned in the detailed advertisement.
       </label>
-    </div>
+          </div>
+          
 
     {/* Save as Draft, Preview and Submit buttons */}
     <div className="flex justify-center space-x-4 mt-6">

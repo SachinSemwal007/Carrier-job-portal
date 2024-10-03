@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
+import { useParams } from 'next/navigation';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 
@@ -15,80 +16,87 @@ const FormPreview = ({
   courses, experiences, references, achievement, description, passportPhoto, signature
 }) => {
 
+  const { id } = useParams();
   const handleDownloadPDF = () => {
-    const modalContent = document.getElementById('modal-content'); // Get the modal content
-    const closeButton = document.getElementById('close-button'); // Close button
-    const downloadButton = document.getElementById('download-button'); // Download button
+    const modalContent = document.getElementById('modal-content');
+    const closeButton = document.getElementById('close-button');
+    const downloadButton = document.getElementById('download-button');
 
-    // Hide buttons before capturing the content
     closeButton.style.display = 'none';
     downloadButton.style.display = 'none';
 
-    // Save the original styles
     const originalHeight = modalContent.style.height;
     const originalOverflow = modalContent.style.overflow;
 
-    // Temporarily expand the content to capture the full scrollable area
     modalContent.style.height = 'auto';
     modalContent.style.maxHeight = 'none';
     modalContent.style.overflow = 'visible';
 
-    // Use html2canvas to capture the modal content
     html2canvas(modalContent, {
-        scale: 2, // Higher scale for better resolution
-        useCORS: true,
-        scrollY: 0,
-        scrollX: 0,
+      scale: 2,
+      useCORS: true,
+      scrollY: 0,
+      scrollX: 0,
     }).then((canvas) => {
-        const imgData = canvas.toDataURL('image/jpeg', 1.0);
-        
-        // Create a new PDF instance
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
 
-        // Calculate image height based on the canvas aspect ratio
-        const imgWidth = pdfWidth;
-        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+      const imgWidth = pdfWidth;
+      const imgHeight = (canvas.height * pdfWidth) / canvas.width;
 
-        let heightLeft = imgHeight;
-        let position = 0;
+      let heightLeft = imgHeight;
+      let position = 0;
 
-        // Add the captured image data to the PDF and handle multi-page PDFs
-        while (heightLeft > 0) {
-            pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-            heightLeft -= pdfHeight;
-            if (heightLeft > 0) {
-                position -= pdfHeight; // Reset position for the next page
-                pdf.addPage(); // Add a new page if content overflows
-            }
+      while (heightLeft > 0) {
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+        if (heightLeft > 0) {
+          position -= pdfHeight;
+          pdf.addPage();
         }
+      }
 
-        // Restore the original styles
-        modalContent.style.height = originalHeight;
-        modalContent.style.overflow = originalOverflow;
+      modalContent.style.height = originalHeight;
+      modalContent.style.overflow = originalOverflow;
 
-        // Restore the buttons after capturing the content
-        closeButton.style.display = 'block';
-        downloadButton.style.display = 'block';
+      closeButton.style.display = 'block';
+      downloadButton.style.display = 'block';
 
-        // Save the PDF
-        pdf.save('form-preview.pdf');
+      pdf.save('form-preview.pdf');
     });
-};
+  };
 
-
-
-
-  
 
 
   return (
-    <Modal show={show} onHide={handleClose} size="lg" className="w-full max-w-6xl mx-auto my-4 p-4 bg-white shadow-lg rounded-lg" id="modal-content">
-      <Modal.Header className="flex justify-between items-center border-b-2 border-gray-200 p-4" closeButton>
-        <Modal.Title className="text-lg font-semibold">Form Preview</Modal.Title>
-      </Modal.Header>
+    <Modal show={show} onHide={handleClose} size="lg" className=" max-w-6xl mx-auto my-4 p-4 bg-white shadow-lg rounded-lg" id="modal-content">
+     <Modal.Header className="flex flex-col border-b-2 border-gray-200 p-4">
+  {/* Logo and Title Section */}
+  <div className="flex items-center justify-center mb-4">
+    <img src="/JSSPS-Logo.png" alt="JSSP Logo" className="h-16 object-contain" />
+    <div className="ml-4 text-center">
+      <h1 className="text-lg font-bold">Jharkhand State Sports Promotion Society</h1>
+      <h2 className="text-sm">(A State Govt. of Jharkhand and CCL Joint Initiative)</h2>
+    </div>
+  </div>
+  {/* Applied For and ID Section */}
+  <div className="flex justify-between items-center">
+    <h2 className="text-xl font-bold">
+      Applied For: <span className="text-red-500 px-2 rounded-md">{id}</span>
+    </h2>
+    <div className="flex flex-col items-end text-right">
+    <span className="text-sm text-gray-700">
+        Application ID: <span className="text-gray-400 font-bold">____________</span>
+      </span>
+      <span className="text-sm text-gray-700">Date: {new Date().toLocaleDateString()}</span>
+      
+    </div>
+  </div>
+</Modal.Header>
       <Modal.Body className="overflow-y-auto max-h-[75vh] p-4 space-y-4">
+
         <h4 className="text-xl font-semibold mb-2">Personal Details</h4>
         {/* Personal Information */}
         <div className="flex justify-between items-start my-4">
