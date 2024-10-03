@@ -63,20 +63,6 @@ const ApplicantDashboard = () => {
                 </li>
                 <li className="mb-2">
                   <Link
-                    href="/applicant-dashboard/profile"
-                    className={`block p-2 rounded transition duration-300 
-                      ${
-                        active === "profile"
-                          ? "bg-teal-600 text-white"
-                          : "text-gray-700 hover:bg-teal-100"
-                      }`}
-                    onClick={() => handleSetActive("profile")}
-                  >
-                    Profile
-                  </Link>
-                </li>
-                <li className="mb-2">
-                  <Link
                     href="/applicant-dashboard/change-password"
                     className={`block p-2 rounded transition duration-300 
                       ${

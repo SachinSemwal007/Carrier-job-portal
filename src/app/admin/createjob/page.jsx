@@ -68,68 +68,84 @@ const App = () => {
   }
 
   return (
-    <div>
-      <h2>Create Job Post</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Company Name"
-          value={companyName}
-          onChange={(e) => setCompanyName(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Job Title"
-          value={jobTitle}
-          onChange={(e) => setJobTitle(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Skills Required (comma-separated)"
-          value={skillsRequired}
-          onChange={(e) => setSkillsRequired(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Experience Required"
-          value={experienceRequired}
-          onChange={(e) => setExperienceRequired(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Educational Background"
-          value={educationalBackground}
-          onChange={(e) => setEducationalBackground(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          required
-        />
-        <input
-          type="text"
-          placeholder="Salary"
-          value={salary}
-          onChange={(e) => setSalary(e.target.value)}
-        />
-        <textarea
-          placeholder="Job Description"
-          value={jobDescription}
-          onChange={(e) => setJobDescription(e.target.value)}
-          required
-        ></textarea>
-        <button type="submit">Create Job Post</button>
-      </form>
-      {message && <p>{message}</p>}
-      {error && <p>{error}</p>}
+    <div className="max-w-4xl mx-auto p-4">
+  <h2 className="text-2xl font-semibold mb-4 text-center">Create Job Post</h2>
+  <form onSubmit={handleSubmit} className="space-y-4 bg-white p-6 rounded-lg shadow-md">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <input
+        type="text"
+        placeholder="Job Title"
+        value={companyName}
+        onChange={(e) => setCompanyName(e.target.value)}
+        required
+        className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <input
+        type="text"
+        placeholder="Experience"
+        value={jobTitle}
+        onChange={(e) => setJobTitle(e.target.value)}
+        required
+        className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <input
+        type="text"
+        placeholder="Skills Required (comma-separated)"
+        value={skillsRequired}
+        onChange={(e) => setSkillsRequired(e.target.value)}
+        required
+        className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <input
+        type="text"
+        placeholder="Age Limit"
+        value={experienceRequired}
+        onChange={(e) => setExperienceRequired(e.target.value)}
+        required
+        className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <input
+        type="text"
+        placeholder="Educational Background"
+        value={educationalBackground}
+        onChange={(e) => setEducationalBackground(e.target.value)}
+        required
+        className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <input
+        type="text"
+        placeholder="Location"
+        value={location}
+        onChange={(e) => setLocation(e.target.value)}
+        required
+        className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
+      <input
+        type="text"
+        placeholder="Salary"
+        value={salary}
+        onChange={(e) => setSalary(e.target.value)}
+        className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+      />
     </div>
+    <textarea
+      placeholder="Job Description"
+      value={jobDescription}
+      onChange={(e) => setJobDescription(e.target.value)}
+      required
+      className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+    ></textarea>
+    <button
+      type="submit"
+      className="w-full py-2 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+      Create Job Post
+    </button>
+  </form>
+  {message && <p className="mt-4 text-green-600">{message}</p>}
+  {error && <p className="mt-4 text-red-600">{error}</p>}
+</div>
+
   );
 };
 

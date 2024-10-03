@@ -25,10 +25,9 @@ const App = () => {
             <Link href="/admin/createjob">
               <h2>Create Job</h2>
             </Link>
-            <div className="h-5 overflow-hidden hover:h-auto">
-              <h2 className="border bg-slate-300">Create admin</h2>
-              <Signup />
-            </div>
+            <Link href="/admin/createadmin">
+              <h2 className="text-lg font-semibold text-blue-500 hover:underline">Create Admin</h2>
+            </Link>
           </div>
           <h2 onClick={() => logout()}>logout</h2>
           <AdminJobList />

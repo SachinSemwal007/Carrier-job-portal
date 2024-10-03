@@ -3,6 +3,8 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { deleteJob } from "@/api"; // Assuming the deleteJob function is in api.js
 import * as XLSX from "xlsx"; // Import xlsx for Excel file generation
+import { jsPDF } from "jspdf"; // Import jsPDF for PDF generation
+import { FaDownload } from 'react-icons/fa'; // Import the download icon
 
 const AdminJobCard = ({ job, refreshJobs }) => {
   const [message, setMessage] = useState("");
@@ -131,6 +133,103 @@ const AdminJobCard = ({ job, refreshJobs }) => {
     XLSX.writeFile(workbook, fileName);
   };
 
+   // Function to handle downloading an individual applicant's data as a PDF
+   // Function to handle downloading an individual applicant's data as a PDF
+const handleDownloadApplicantPDF = (applicant) => {
+  const doc = new jsPDF();
+  let line = 10; // Initial line position
+  
+  // Adding content to the PDF
+  doc.setFontSize(16);
+  doc.text('Applicant Information', 10, line);
+  doc.setFontSize(12);
+  line += 10; // Move to the next line
+
+  doc.text(`Applicant ID: ${applicant.applicantId}`, 10, line);
+  line += 10;
+  doc.text(`Name: ${applicant.firstName} ${applicant.middleName || ''} ${applicant.lastName}`, 10, line);
+  line += 10;
+  doc.text(`Father's/Husband's Name: ${applicant.fhName}`, 10, line);
+  line += 10;
+  doc.text(`Email: ${applicant.email}`, 10, line);
+  line += 10;
+  doc.text(`Contact: ${applicant.contact}`, 10, line);
+  line += 10;
+  doc.text(`Whatsapp: ${applicant.whatsapp}`, 10, line);
+  line += 10;
+  doc.text(`Gender: ${applicant.gender}`, 10, line);
+  line += 10;
+  doc.text(`DOB: ${new Date(applicant.dob).toLocaleDateString()}`, 10, line);
+  line += 10;
+  doc.text(`Marital Status: ${applicant.maritalStatus}`, 10, line);
+  line += 10;
+  doc.text(`Address: ${applicant.address}`, 10, line);
+  line += 10;
+  doc.text(`Pincode: ${applicant.pincode}`, 10, line);
+  line += 10;
+  doc.text(`Country: ${applicant.country}`, 10, line);
+  line += 10;
+  doc.text(`State: ${applicant.state}`, 10, line);
+  line += 10;
+  doc.text(`District: ${applicant.district}`, 10, line);
+  line += 10;
+  doc.text(`Is Handicapped: ${applicant.isHandicapped ? 'Yes' : 'No'}`, 10, line);
+  line += 10;
+  doc.text(`Community: ${applicant.community}`, 10, line);
+  line += 10;
+  doc.text(`Matriculation Year: ${applicant.matriculationYear}`, 10, line);
+  line += 10;
+  doc.text(`Matriculation Grade: ${applicant.matriculationGrade}`, 10, line);
+  line += 10;
+  doc.text(`Matriculation Percentage: ${applicant.matriculationPercentage}`, 10, line);
+  line += 10;
+  doc.text(`Matriculation Board: ${applicant.matriculationBoard}`, 10, line);
+  line += 10;
+  doc.text(`Inter Year: ${applicant.interYear}`, 10, line);
+  line += 10;
+  doc.text(`Inter Grade: ${applicant.interGrade}`, 10, line);
+  line += 10;
+  doc.text(`Inter Percentage: ${applicant.interPercentage}`, 10, line);
+  line += 10;
+  doc.text(`Inter Board: ${applicant.interBoard}`, 10, line);
+  line += 10;
+  doc.text(`Bachelor Year: ${applicant.bachelorYear}`, 10, line);
+  line += 10;
+  doc.text(`Bachelor Course: ${applicant.bachelorCourse}`, 10, line);
+  line += 10;
+  doc.text(`Bachelor Specialization: ${applicant.bachelorSpecialization}`, 10, line);
+  line += 10;
+  doc.text(`Bachelor Grade: ${applicant.bachelorGrade}`, 10, line);
+  line += 10;
+  doc.text(`Bachelor Percentage: ${applicant.bachelorPercentage}`, 10, line);
+  line += 10;
+  doc.text(`Bachelor University: ${applicant.bachelorUniversity}`, 10, line);
+  line += 10;
+  doc.text(`Courses: ${applicant.courses.map((course) => course.name).join(', ')}`, 10, line);
+  line += 10;
+  doc.text(`Experiences: ${applicant.experiences.map((exp) => `${exp.title} at ${exp.company} (${exp.years} years)`).join('; ')}`, 10, line);
+  line += 10;
+  doc.text(`References: ${applicant.references.map((ref) => `${ref.name} (${ref.relation}): ${ref.contact}`).join('; ')}`, 10, line);
+  line += 10;
+  doc.text(`Achievement: ${applicant.achievement}`, 10, line);
+  line += 10;
+  doc.text(`Description: ${applicant.description}`, 10, line);
+  line += 10;
+  doc.text(`Passport Photo: ${applicant.passportPhoto ? 'Attached' : 'Not Provided'}`, 10, line);
+  line += 10;
+  doc.text(`Certification: ${applicant.certification ? 'Attached' : 'Not Provided'}`, 10, line);
+  line += 10;
+  doc.text(`Signature: ${applicant.signature ? 'Attached' : 'Not Provided'}`, 10, line);
+  line += 10;
+  doc.text(`Submitted: ${applicant.submitted ? 'Yes' : 'No'}`, 10, line);
+  line += 10;
+  doc.text(`Job ID: ${applicant.jobId}`, 10, line);
+
+  // Save the PDF with the applicant's name
+  doc.save(`${applicant.firstName}_${applicant.lastName}_Info.pdf`);
+};
+
+
   // Filter applicants to show only those with `submitted` set to `true`
   const submittedApplicants = job.applicants.filter((applicant) => applicant.submitted);
 
@@ -171,35 +270,50 @@ const AdminJobCard = ({ job, refreshJobs }) => {
     Download Submitted Applicants
   </button>
 
-  {/* Show Submitted Applicants */}
-  <div className="border mt-4 p-4 rounded-lg overflow-hidden bg-gray-100 transition-all duration-300 hover:overflow-visible">
-    <h2 className="text-md font-semibold mb-2">Show Submitted Applicants</h2>
-    {submittedApplicants.map((applicant, index) => (
-      <ul key={index} className="bg-white p-3 mb-2 rounded-lg shadow-sm">
-        <li className="text-gray-700">
-          Name: {applicant.firstName} {applicant.middleName} {applicant.lastName}
-        </li>
-        <li className="text-gray-700">Email: {applicant.email}</li>
-        <li className="text-gray-700">Contact: {applicant.contact}</li>
-        <li className="text-gray-700">Gender: {applicant.gender}</li>
-        <li className="text-gray-700">DOB: {new Date(applicant.dob).toLocaleDateString()}</li>
-        {/* Remove Applicant */}
-        <li
-          className="text-red-600 cursor-pointer mt-2 hover:text-red-800"
-          onClick={() => deleteApplicant(applicant.applicantId)}
-        >
-          Remove Applicant
-        </li>
-      </ul>
-    ))}
-  </div>
+  
+      {/* Show Submitted Applicants Button */}
+      <button
+        onClick={handleToggleApplicants}
+        className="w-full bg-green-600 text-white px-4 py-2 mt-4 rounded-lg hover:bg-green-700 transition duration-300"
+      >
+        {showApplicants ? "Hide Submitted Applicants" : "Show Submitted Applicants"}
+      </button>
 
-  {/* Success and Error Messages */}
-  {message && <p className="text-green-600 mt-4">{message}</p>}
-  {error && <p className="text-red-600 mt-4">{error}</p>}
-</div>
+      {/* Submitted Applicants List (conditionally rendered) */}
+      {showApplicants && (
+        <div className="border mt-4 p-4 rounded-lg overflow-hidden bg-gray-100 transition-all duration-300">
+          {submittedApplicants.map((applicant, index) => (
+            <ul key={index} className="bg-white p-3 mb-2 rounded-lg shadow-sm">
+              <li className="text-gray-700">
+                Name: {applicant.firstName} {applicant.middleName} {applicant.lastName}
+              </li>
+              <li className="text-gray-700">Email: {applicant.email}</li>
+              <li className="text-gray-700">Contact: {applicant.contact}</li>
+              <li className="text-gray-700">Gender: {applicant.gender}</li>
+              <li className="text-gray-700">DOB: {new Date(applicant.dob).toLocaleDateString()}</li>
+                {/* Download PDF Button */}
+                <button
+                onClick={() => handleDownloadApplicantPDF(applicant)}
+                className="mt-2 text-blue-600 hover:text-blue-800 flex items-center"
+              >
+                <FaDownload className="mr-2" /> Download PDF
+              </button>
+              {/* Remove Applicant */}
+              <li
+                className="text-red-600 cursor-pointer mt-2 hover:text-red-800"
+                onClick={() => deleteApplicant(applicant.applicantId)}
+              >
+                Remove Applicant
+              </li>
+            </ul>
+          ))}
+        </div>
+      )}
 
+      {/* Success and Error Messages */}
+      {message && <p className="text-green-600 mt-4">{message}</p>}
+      {error && <p className="text-red-600 mt-4">{error}</p>}
+    </div>
   );
 };
-
 export default AdminJobCard;

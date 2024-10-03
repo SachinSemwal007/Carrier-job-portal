@@ -3,6 +3,7 @@
 import ApplyForm from "@/components/ApplyForm";
 import React from "react";
 import { AuthProvider, useAuth } from "@/context/authcontext";
+import Link from "next/link";
 
 const App = ({ params }) => {
   const { user, checkUser, logout } = useAuth(); // Use auth context
@@ -19,6 +20,7 @@ const App = ({ params }) => {
         </>
       ) : (
         <div>
+
           <ApplyForm jobId={params.apply} />
         </div>
       )}

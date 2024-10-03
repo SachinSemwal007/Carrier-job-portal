@@ -2,11 +2,16 @@
 import React, { useState, useEffect } from "react";
 import { getJobPosts } from "../api";
 import AdminJobCard from "./AdminJobCard";
+import Link from "next/link";
 
 const AdminJobList = () => {
   const [jobs, setJobs] = useState([]);
   const [search, setSearch] = useState("");
-  const [filters, setFilters] = useState({ location: "", experience: "", salary: "" });
+  const [filters, setFilters] = useState({
+    location: "",
+    experience: "",
+    salary: "",
+  });
   const [sort, setSort] = useState("desc");
   const [page, setPage] = useState(1);
 
@@ -29,12 +34,19 @@ const AdminJobList = () => {
   return (
     <div>
       <h2>Job Listings</h2>
-      <input type="text" placeholder="Search Job Title" value={search} onChange={(e) => setSearch(e.target.value)} />
+      <input
+        type="text"
+        placeholder="Search Job Title"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
       <select onChange={(e) => setSort(e.target.value)}>
         <option value="desc">Newest</option>
         <option value="asc">Oldest</option>
       </select>
-      <select onChange={(e) => setFilters({ ...filters, location: e.target.value })}>
+      <select
+        onChange={(e) => setFilters({ ...filters, location: e.target.value })}
+      >
         <option value="">All Locations</option>
         <option value="Remote">Remote</option>
         <option value="New York">New York</option>
@@ -42,7 +54,7 @@ const AdminJobList = () => {
       </select>
       <div className="flex flex-wrap">
         {jobs.map((job) => (
-          <AdminJobCard key={job._id} job={job}  refreshJobs={fetchJobs}/>
+          <AdminJobCard key={job._id} job={job} refreshJobs={fetchJobs} />
         ))}
       </div>
     </div>
