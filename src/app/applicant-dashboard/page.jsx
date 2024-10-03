@@ -138,4 +138,4 @@ export default function AppWrapper({ params }) {
       <ApplicantDashboard /> 
     </ApplicantAuthProvider> 
   );
-}
+} 

@@ -10,12 +10,12 @@ import Navbar from '@/components/Navbar'; // Assuming you have a Navbar componen
 import Footer from '@/components/Footer'; // Assuming you have a Footer component
 import Image from 'next/image';
 
-const ApplicantLogin = () => {
-  const { applicantLogin } = useApplicantAuth();
-  const [formData, setFormData] = useState({ email: '', password: '' });
+const ApplicantLogin = () => { 
+  const { applicantLogin } = useApplicantAuth(); 
+  const [formData, setFormData] = useState({ email: '', password: '' }); 
   const [message, setMessage] = useState('');
-  const router = useRouter();
-
+  const router = useRouter(); 
+ 
   const handleChange = (e) => { 
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }; 
