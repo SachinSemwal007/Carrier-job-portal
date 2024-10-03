@@ -82,13 +82,13 @@ const FormPreview = ({
 
   
 
-
   return (
     <Modal show={show} onHide={handleClose} size="lg" className="w-full max-w-6xl mx-auto my-4 p-4 bg-white shadow-lg rounded-lg" id="modal-content">
       <Modal.Header className="flex justify-between items-center border-b-2 border-gray-200 p-4" closeButton>
         <Modal.Title className="text-lg font-semibold">Form Preview</Modal.Title>
       </Modal.Header>
       <Modal.Body className="overflow-y-auto max-h-[75vh] p-4 space-y-4">
+
         <h4 className="text-xl font-semibold mb-2">Personal Details</h4>
         {/* Personal Information */}
         <div className="flex justify-between items-start my-4">
