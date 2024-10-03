@@ -1,5 +1,5 @@
 "use client";
-import { useAuth } from '@/context/authcontext';
+import { AuthProvider, useAuth } from '@/context/authcontext';
 import React, { useState } from 'react';
 
 const Signup = () => {
@@ -68,4 +68,11 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default function HomeWrapper() {
+  return (
+    <AuthProvider>
+      <Signup />
+    </AuthProvider>
+  );
+}
+
