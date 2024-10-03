@@ -1,16 +1,15 @@
 "use client";
-import { AuthProvider, useAuth } from '@/context/authcontext';
+import { useAuth } from '@/context/authcontext';
 import React, { useState } from 'react';
 
 const Signup = () => {
-  const { signup } = useAuth(); // Access signup function from the auth context
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
- 
+  const { signup } = useAuth(); // Access signup function from the auth context
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -25,54 +24,46 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-    <div className="max-w-md w-full bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-6 text-center">Create Admin Account</h2>
-      <form onSubmit={handleSignup} className="space-y-4">
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        <button
-          type="submit"
-          className="w-full bg-blue-500 text-white p-3 rounded-md font-semibold hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          Signup
-        </button>
-      </form>
-      {message && <p className="mt-4 text-green-600 text-center">{message}</p>}
-      {error && <p className="mt-4 text-red-600 text-center">{error}</p>}
+    <div className="flex justify-center">
+      <div className="bg-white p-8 rounded-lg shadow-md w-96">
+        <h2 className="text-2xl font-semibold text-center mb-6 text-teal-600">Create Admin</h2>
+        <form onSubmit={handleSignup}>
+          <input
+            type="text"
+            placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+            className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
+          <button
+            type="submit"
+            className="w-full p-2 bg-teal-600 text-white rounded hover:bg-teal-500 transition duration-200"
+          >
+            Create
+          </button>
+        </form>
+        {message && <p className="text-green-600 text-center mt-4">{message}</p>}
+        {error && <p className="text-red-600 text-center mt-4">{error}</p>}
+      </div>
     </div>
-  </div>
-  
   );
 };
 
-export default function HomeWrapper() {
-  return (
-    <AuthProvider>
-      <Signup />
-    </AuthProvider>
-  );
-}
-
+export default Signup;

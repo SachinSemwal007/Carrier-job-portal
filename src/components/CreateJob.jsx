@@ -68,80 +68,82 @@ const CreateJob = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg">
+    <div className="flex items-center justify-center p-6">
+      <div className="bg-teal rounded-lg shadow-lg p-8 w-full max-w-lg">
         <h2 className="text-2xl font-bold mb-6 text-center text-teal-600">Create Job Post</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Company Name"
-            value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
-            required
-            className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-          <input
-            type="text"
-            placeholder="Job Title"
-            value={jobTitle}
-            onChange={(e) => setJobTitle(e.target.value)}
-            required
-            className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-          <input
-            type="text"
-            placeholder="Skills Required (comma-separated)"
-            value={skillsRequired}
-            onChange={(e) => setSkillsRequired(e.target.value)}
-            required
-            className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-          <input
-            type="text"
-            placeholder="Experience Required"
-            value={experienceRequired}
-            onChange={(e) => setExperienceRequired(e.target.value)}
-            required
-            className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-          <input
-            type="text"
-            placeholder="Educational Background"
-            value={educationalBackground}
-            onChange={(e) => setEducationalBackground(e.target.value)}
-            required
-            className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-          <input
-            type="text"
-            placeholder="Location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            required
-            className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-          <input
-            type="text"
-            placeholder="Salary"
-            value={salary}
-            onChange={(e) => setSalary(e.target.value)}
-            className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-          <textarea
-            placeholder="Job Description"
-            value={jobDescription}
-            onChange={(e) => setJobDescription(e.target.value)}
-            required
-            className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-            rows="4"
-          ></textarea>
-          <button
-            type="submit"
-            className="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-500 transition duration-300"
-          >
-            Create Job Post
-          </button>
-        </form>
+        <div className="overflow-y-auto max-h-96"> {/* Add scrollable container */}
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Company Name"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+              required
+              className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+            />
+            <input
+              type="text"
+              placeholder="Job Title"
+              value={jobTitle}
+              onChange={(e) => setJobTitle(e.target.value)}
+              required
+              className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+            />
+            <input
+              type="text"
+              placeholder="Skills Required (comma-separated)"
+              value={skillsRequired}
+              onChange={(e) => setSkillsRequired(e.target.value)}
+              required
+              className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+            />
+            <input
+              type="text"
+              placeholder="Experience Required"
+              value={experienceRequired}
+              onChange={(e) => setExperienceRequired(e.target.value)}
+              required
+              className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+            />
+            <input
+              type="text"
+              placeholder="Educational Background"
+              value={educationalBackground}
+              onChange={(e) => setEducationalBackground(e.target.value)}
+              required
+              className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+            />
+            <input
+              type="text"
+              placeholder="Location"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
+              required
+              className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+            />
+            <input
+              type="text"
+              placeholder="Salary"
+              value={salary}
+              onChange={(e) => setSalary(e.target.value)}
+              className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+            />
+            <textarea
+              placeholder="Job Description"
+              value={jobDescription}
+              onChange={(e) => setJobDescription(e.target.value)}
+              required
+              className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+              rows="4"
+            ></textarea>
+            <button
+              type="submit"
+              className="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-500 transition duration-300"
+            >
+              Create Job Post
+            </button>
+          </form>
+        </div> {/* End of scrollable container */}
         {message && <p className="mt-4 text-green-600">{message}</p>}
         {error && <p className="mt-4 text-red-600">{error}</p>}
       </div>

@@ -34,6 +34,13 @@ const AdminDashboard = () => {
     setSidebarOpen(false); // Close the sidebar when the toggle menu is opened
   };
 
+  const menuItems = [
+    { label: "Create Job", value: "create-job" },
+    { label: "Job List", value: "job-list" },
+    { label: "Admin List", value: "admin-list" },
+    { label: "Create Admin", value: "create-admin" },
+  ];
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 transition-all duration-300 ease-in-out">
       {!user ? (
@@ -80,42 +87,17 @@ const AdminDashboard = () => {
                   <h2 className="text-2xl font-bold text-center mb-4">Admin Panel</h2>
                   <nav>
                     <ul>
-                      <li className="mb-2">
-                        <button
-                          className={`block p-2 rounded transition duration-300 w-full text-left 
-                            ${active === "create-job" ? "bg-teal-600" : "hover:bg-teal-700"}`}
-                          onClick={() => handleSetActive("create-job")}
-                        >
-                          Create Job
-                        </button>
-                      </li>
-                      <li className="mb-2">
-                        <button
-                          className={`block p-2 rounded transition duration-300 w-full text-left 
-                            ${active === "job-list" ? "bg-teal-600" : "hover:bg-teal-700"}`}
-                          onClick={() => handleSetActive("job-list")}
-                        >
-                          Job List
-                        </button>
-                      </li>
-                      <li className="mb-2">
-                        <button
-                          className={`block p-2 rounded transition duration-300 w-full text-left 
-                            ${active === "admin-list" ? "bg-teal-600" : "hover:bg-teal-700"}`}
-                          onClick={() => handleSetActive("admin-list")}
-                        >
-                          Admin List
-                        </button>
-                      </li>
-                      <li className="mb-2">
-                        <button
-                          className={`block p-2 rounded transition duration-300 w-full text-left 
-                            ${active === "create-admin" ? "bg-teal-600" : "hover:bg-teal-700"}`}
-                          onClick={() => handleSetActive("create-admin")}
-                        >
-                          Create Admin
-                        </button>
-                      </li>
+                      {menuItems.map(item => (
+                        <li className="mb-2" key={item.value}>
+                          <button
+                            className={`block p-2 rounded transition duration-300 w-full text-left 
+                              ${active === item.value ? "bg-teal-600" : "hover:bg-teal-700"}`}
+                            onClick={() => handleSetActive(item.value)}
+                          >
+                            {item.label}
+                          </button>
+                        </li>
+                      ))}
                       <li>
                         <button
                           className="block p-2 rounded transition duration-300 text-gray-300 hover:bg-teal-700 w-full text-left"
@@ -128,6 +110,36 @@ const AdminDashboard = () => {
                   </nav>
                 </div>
               </aside>
+            )}
+
+            {/* Toggle Menu */}
+            {menuOpen && (
+              <div className="absolute top-16 left-0 right-0 bg-gray-800 text-white z-50 p-4 shadow-lg">
+                <h2 className="text-xl font-bold text-center mb-4">Admin Menu</h2>
+                <nav>
+                  <ul>
+                    {menuItems.map(item => (
+                      <li className="mb-2" key={item.value}>
+                        <button
+                          className={`block p-2 rounded transition duration-300 w-full text-left 
+                            ${active === item.value ? "bg-teal-600" : "hover:bg-teal-700"}`}
+                          onClick={() => handleSetActive(item.value)}
+                        >
+                          {item.label}
+                        </button>
+                      </li>
+                    ))}
+                    <li>
+                      <button
+                        className="block p-2 rounded transition duration-300 text-gray-300 hover:bg-teal-700 w-full text-left"
+                        onClick={() => logout()}
+                      >
+                        Logout
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
             )}
 
             {/* Main Content */}
