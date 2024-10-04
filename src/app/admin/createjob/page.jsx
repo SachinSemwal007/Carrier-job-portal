@@ -12,30 +12,34 @@ const App = () => {
   }, [checkUser]);
 
   // Form state
-  const [companyName, setCompanyName] = useState('');
-  const [jobTitle, setJobTitle] = useState('');
-  const [skillsRequired, setSkillsRequired] = useState('');
-  const [experienceRequired, setExperienceRequired] = useState('');
-  const [educationalBackground, setEducationalBackground] = useState('');
-  const [location, setLocation] = useState('');
-  const [salary, setSalary] = useState('');
-  const [jobDescription, setJobDescription] = useState('');
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [jobTitle, setJobTitle] = useState("");
+  const [skillsRequired, setSkillsRequired] = useState("");
+  const [experienceRequired, setExperienceRequired] = useState("");
+  const [ageEligibility, setAgeEligibility] = useState("");
+  const [ageEligibilityDate, setAgeEligibilityDate] = useState("");
+  const [deadline, setDeadline] = useState("");
+  const [location, setLocation] = useState("");
+  const [salary, setSalary] = useState("");
+  const [jobDescription, setJobDescription] = useState("");
+  const [jobDetail, setJobDetail] = useState(null);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const postData = {
-        companyName,
         jobTitle,
-        skillsRequired: skillsRequired.split(',').map(skill => skill.trim()), // Convert to array
+        skillsRequired: skillsRequired.split(",").map((skill) => skill.trim()), // Convert to array
         experienceRequired,
-        educationalBackground,
+        ageEligibility,
+        ageEligibilityDate,
+        deadline,
         location,
         salary,
         jobDescription,
+        jobDetail
       };
 
       const response = await fetch('http://localhost:5000/api/createpost', {
@@ -66,80 +70,171 @@ const App = () => {
   }
 
   return (
-    <div className="bg-gray-100 min-h-screen flex items-center justify-center p-6">
-      <div className="bg-white rounded-lg shadow-lg p-8 w-full max-w-lg">
-        <h2 className="text-2xl font-bold mb-6 text-center text-teal-600">Create Job Post</h2>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Company Name"
-            value={companyName}
-            onChange={(e) => setCompanyName(e.target.value)}
-            required
-            className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-          <input
-            type="text"
-            placeholder="Job Title"
-            value={jobTitle}
-            onChange={(e) => setJobTitle(e.target.value)}
-            required
-            className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-          <input
-            type="text"
-            placeholder="Skills Required (comma-separated)"
-            value={skillsRequired}
-            onChange={(e) => setSkillsRequired(e.target.value)}
-            required
-            className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-          <input
-            type="text"
-            placeholder="Experience Required"
-            value={experienceRequired}
-            onChange={(e) => setExperienceRequired(e.target.value)}
-            required
-            className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-          <input
-            type="text"
-            placeholder="Educational Background"
-            value={educationalBackground}
-            onChange={(e) => setEducationalBackground(e.target.value)}
-            required
-            className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-          <input
-            type="text"
-            placeholder="Location"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            required
-            className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-          <input
-            type="text"
-            placeholder="Salary"
-            value={salary}
-            onChange={(e) => setSalary(e.target.value)}
-            className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-          />
-          <textarea
-            placeholder="Job Description"
-            value={jobDescription}
-            onChange={(e) => setJobDescription(e.target.value)}
-            required
-            className="w-full mb-4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-            rows="4"
-          ></textarea>
-          <button
-            type="submit"
-            className="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-500 transition duration-300"
-          >
-            Create Job Post
-          </button>
-        </form>
+    <div className="flex items-center justify-center p-6">
+      <div className="bg-teal rounded-lg shadow-lg p-8 w-full max-w-2xl">
+        <h2 className="text-2xl font-bold mb-6 text-center text-teal-600">
+          Create Job Post
+        </h2>
+        <div className="overflow-y-auto max-h-96">
+          {/* Scrollable container */}
+          <form onSubmit={handleSubmit}>
+            <div className="space-y-4 mb-3">
+              {/* Row for Job Title */}
+              <div className="flex flex-col md:flex-row md:items-center">
+                <label className="w-full md:w-1/4 mb-2 md:mb-0 font-semibold text-teal-600">
+                  Job Title
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter the job title"
+                  value={jobTitle}
+                  onChange={(e) => setJobTitle(e.target.value)}
+                  required
+                  className="w-full md:w-3/4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+              </div>
+
+              {/* Row for Skills Required */}
+              <div className="flex flex-col md:flex-row md:items-center">
+                <label className="w-full md:w-1/4 mb-2 md:mb-0 font-semibold text-teal-600">
+                  Skills Required
+                </label>
+                <input
+                  type="text"
+                  placeholder="Comma-separated skills"
+                  value={skillsRequired}
+                  onChange={(e) => setSkillsRequired(e.target.value)}
+                  required
+                  className="w-full md:w-3/4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+              </div>
+
+              {/* Row for Experience */}
+              <div className="flex flex-col md:flex-row md:items-center">
+                <label className="w-full md:w-1/4 mb-2 md:mb-0 font-semibold text-teal-600">
+                  Experience Required
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter required experience"
+                  value={experienceRequired}
+                  onChange={(e) => setExperienceRequired(e.target.value)}
+                  required
+                  className="w-full md:w-3/4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+              </div>
+
+              {/* Row for Deadline */}
+              <div className="flex flex-col md:flex-row md:items-center">
+                <label className="w-full md:w-1/4 mb-2 md:mb-0 font-semibold text-teal-600">
+                  Deadline
+                </label>
+                <input
+                  type="date"
+                  value={deadline}
+                  onChange={(e) => setDeadline(e.target.value)}
+                  required
+                  className="w-full md:w-3/4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+              </div>
+
+              {/* Row for Age Eligibility */}
+              <div className="flex flex-col md:flex-row md:items-center">
+                <label className="w-full md:w-1/4 mb-2 md:mb-0 font-semibold text-teal-600">
+                  Age Eligibility
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter age eligibility"
+                  value={ageEligibility}
+                  onChange={(e) => setAgeEligibility(e.target.value)}
+                  required
+                  className="w-full md:w-3/4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+              </div>
+
+              {/* Row for Age Eligibility Date */}
+              <div className="flex flex-col md:flex-row md:items-center">
+                <label className="w-full md:w-1/4 mb-2 md:mb-0 font-semibold text-teal-600">
+                  Age Eligibility Date
+                </label>
+                <input
+                  type="date"
+                  value={ageEligibilityDate}
+                  onChange={(e) => setAgeEligibilityDate(e.target.value)}
+                  required
+                  className="w-full md:w-3/4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+              </div>
+            
+
+              {/* Row for Location */}
+              <div className="flex flex-col md:flex-row md:items-center">
+                <label className="w-full md:w-1/4 mb-2 md:mb-0 font-semibold text-teal-600">
+                  Location
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter job location"
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
+                  required
+                  className="w-full md:w-3/4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+              </div>
+
+              {/* Row for Salary */}
+              <div className="flex flex-col md:flex-row md:items-center">
+                <label className="w-full md:w-1/4 mb-2 md:mb-0 font-semibold text-teal-600">
+                  Salary
+                </label>
+                <input
+                  type="text"
+                  placeholder="Enter salary"
+                  value={salary}
+                  onChange={(e) => setSalary(e.target.value)}
+                  className="w-full md:w-3/4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                />
+              </div>
+
+              {/* Row for Job Description */}
+              <div className="flex flex-col md:flex-row md:items-center">
+                <label className="w-full md:w-1/4 mb-2 md:mb-0 font-semibold text-teal-600">
+                  Job Description
+                </label>
+                <textarea
+                  placeholder="Enter job description"
+                  value={jobDescription}
+                  onChange={(e) => setJobDescription(e.target.value)}
+                  required
+                  className="w-full md:w-3/4 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                  rows="4"
+                ></textarea>
+              </div>
+
+              {/* Row for Job Detail PDF Upload */}
+              <div className="flex flex-col md:flex-row md:items-center">
+                <label className="w-full md:w-1/4 mb-2 md:mb-0 font-semibold text-teal-600">
+                  Job Detail PDF
+                </label>
+                <input
+                  type="file"
+                  accept=".pdf"
+                  value={jobDetail}
+                  onChange={(e) => setJobDetail(e.target.value)}
+                  className="w-full md:w-3/4 p-3 border rounded-lg text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:bg-gray-100 hover:file:bg-gray-200"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-500 transition duration-300"
+            >
+              Create Job Post
+            </button>
+          </form>
+        </div>
         {message && <p className="mt-4 text-green-600">{message}</p>}
         {error && <p className="mt-4 text-red-600">{error}</p>}
       </div>

@@ -21,7 +21,6 @@ const App = () => {
         </>
       ) : (
         <div>
-           <Navbar/>  
           <button onClick={applicantLogout}>Log Out</button>
           <div className="flex justify-center items-center ">
             <Link href="/applicant-dashboard">
