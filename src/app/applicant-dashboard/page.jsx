@@ -22,6 +22,7 @@ const ApplicantDashboard = () => {
     setMenuOpen(false); // Close the toggle menu when an option is selected
   };
 
+
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen); // Toggle sidebar visibility
   };
@@ -31,18 +32,25 @@ const ApplicantDashboard = () => {
     setSidebarOpen(false); // Close the sidebar when the toggle menu is opened
   };
 
-  const handleForgotPassword = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await sendPasswordResetEmail(applicant.email);
-      if (response.ok) {
-        setMessage("Password reset link sent to your email.");
-      } else {
-        setMessage("Failed to send password reset email. Please try again.");
-      }
-    } catch (error) {
-      setMessage("An error occurred. Please try again.");
-    }
+
+  const handleForgotPassword = async (e) => { 
+    e.preventDefault(); 
+    try { 
+      const response = await sendPasswordResetEmail(applicant.email); 
+      if (response.ok) { 
+        setMessage("Password reset link sent to your email."); 
+      } else { 
+        setMessage("Failed to send password reset email. Please try again."); 
+      } 
+    } catch (error) { 
+      setMessage("An error occurred. Please try again."); 
+    } 
+  }; 
+
+  const handleCancel = () => {
+    // Reset the active state or perform any other action when "No" is clicked
+    setActive(""); // Assuming you use setActive to control the displayed content
+
   };
 
   const handleLogout = () => {
@@ -75,6 +83,7 @@ const ApplicantDashboard = () => {
         </div>
 
         <div className="flex items-center">
+
           <p className="mr-4">Applicant Name</p>
           <span className="h-10 w-10 flex items-center justify-center rounded-full bg-teal-600">
             <FontAwesomeIcon icon={faUser} className="text-blue-950 text-2xl" /> {/* Applicant Icon */}
@@ -83,6 +92,7 @@ const ApplicantDashboard = () => {
           <button onClick={toggleMenu} className="lg:hidden p-2 text-white">
             <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} size="lg" /> {/* Toggle icon */}
           </button>
+
         </div>
       </header>
 
@@ -94,7 +104,9 @@ const ApplicantDashboard = () => {
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
         >
           <div className="p-4">
-            <h2 className="text-2xl font-bold text-center mb-4">Applicant Dashboard</h2>
+            <h2 className="text-2xl font-bold text-center mb-4">
+              Applicant Dashboard
+            </h2>
             <nav>
               <ul>
                 <li className="mb-2">
@@ -102,6 +114,7 @@ const ApplicantDashboard = () => {
                     href="/applicant-dashboard/vacancies"
                     className={`block p-2 rounded transition duration-300 
                       ${active === "vacancies" ? "bg-teal-600 text-white" : "text-white hover:bg-teal-700"}`}
+
                     onClick={() => handleSetActive("vacancies")}
                   >
                     Vacancies
@@ -110,7 +123,7 @@ const ApplicantDashboard = () => {
                 <li className="mb-2">
                   <h2
                     className={`block p-2 rounded transition duration-300 
-                      ${active === "change-password" ? "bg-teal-600 text-white" : "text-white hover:bg-teal-700"}`}
+                    ${active === "change-password" ? "bg-teal-600 text-white" : "text-white hover:bg-teal-700"}`}
                     onClick={() => handleSetActive("change-password")}
                   >
                     Change Password
@@ -151,6 +164,7 @@ const ApplicantDashboard = () => {
                   <h2
                     className={`block p-2 rounded transition duration-300 
                       ${active === "change-password" ? "bg-teal-600 text-white" : "text-gray-700 hover:bg-teal-100"}`}
+
                     onClick={() => handleSetActive("change-password")}
                   >
                     Change Password
@@ -160,8 +174,12 @@ const ApplicantDashboard = () => {
                   <Link
                     href="/"
                     className={`block p-2 rounded transition duration-300 
-                      ${active === "logout" ? "bg-teal-600 text-white" : "text-gray-700 hover:bg-teal-100"}`}
-                    onClick={() => handleLogout()}
+                      ${
+                        active === "logout"
+                          ? "bg-teal-600 text-white"
+                          : "text-gray-700 hover:bg-teal-100"
+                      }`}
+                    onClick={() => handleSetActive("logout")}
                   >
                     Logout
                   </Link>
@@ -182,23 +200,49 @@ const ApplicantDashboard = () => {
                 height={100}
                 className="mb-4 h-16 w-16 mx-auto"
               />
-              <h1 className="text-3xl font-bold mb-4">Welcome to Your Dashboard</h1>
-              <p className="text-lg text-gray-600">Please select an option from the menu to get started.</p>
+              <h1 className="text-3xl font-bold mb-4">
+                Welcome to Your Dashboard
+              </h1>
+              <p className="text-lg text-gray-600">
+                Please select an option from the menu to get started.
+              </p>
+
             </div>
           ) : (
             <div className="bg-white p-6 rounded-lg shadow-md w-full">
               {/* Render content based on the active state */}
-              {active === "vacancies" && (<div><Vacancies/></div>)}
+              {active === "vacancies" && <div>Vacancies Content</div>}
+              {active === "profile" && <div>Profile Content</div>}
               {active === "change-password" && (
-                <div>
-                  <h2>Change Password</h2>
-                  <form onSubmit={handleForgotPassword}>
-                    <button type="submit" className="mt-4 bg-teal-600 text-white px-4 py-2 rounded">Send Password Reset</button>
-                  </form>
-                  <span className="text-red-500">{message}</span>
+                <div className="bg-white p-4 rounded-md shadow-md max-w-md mx-auto">
+                  <h2 className="text-xl font-semibold mb-4">
+                    Change Password
+                  </h2>
+                  <p className="text-gray-700 mb-2">
+                    Are you sure you want to change your password?
+                  </p>
+                  <div className="flex gap-4">
+                    <button
+                      onClick={handleForgotPassword}
+                      className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition duration-300"
+                    >
+                      Yes
+                    </button>
+                    <button
+                      onClick={handleCancel}
+                      className="bg-gray-300 text-gray-700 py-2 px-4 rounded hover:bg-gray-400 transition duration-300"
+                    >
+                      No
+                    </button>
+                  </div>
+                  {message && (
+                    <span className="block mt-4 text-green-500">{message}</span>
+                  )}
                 </div>
               )}
-              {active === "logout" && <div>Logout Content</div>} {/* Optional: Add logout confirmation or message */}
+
+              {active === "logout" && <div>Logout Content</div>}
+
             </div>
           )}
         </main>
@@ -207,11 +251,11 @@ const ApplicantDashboard = () => {
   );
 };
 
+export default function AppWrapper({ params }) {
+  return (
+    <ApplicantAuthProvider>
+      <ApplicantDashboard />
+    </ApplicantAuthProvider>
+  ); 
+}
 
-export default function AppWrapper({ params }) { 
-  return ( 
-    <ApplicantAuthProvider> 
-      <ApplicantDashboard /> 
-    </ApplicantAuthProvider> 
-  );
-} 
