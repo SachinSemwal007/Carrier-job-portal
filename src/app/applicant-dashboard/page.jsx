@@ -194,7 +194,7 @@ const ApplicantDashboard = () => {
           {active === "" ? (
             <div className="text-center">
               <Image
-                src="/JSSPS-Logo.png" // Replace with your logo's path
+                src="/JSSPS-Logo.png" 
                 alt="Logo"
                 width={100}
                 height={100}

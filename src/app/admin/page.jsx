@@ -10,19 +10,59 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Font Awesom
 import { faBars, faTimes, faUser } from '@fortawesome/free-solid-svg-icons'; // Import toggle icons
 import Link from "next/link";
 
-const AdminDashboard = () => {
-  const { user, checkUser, logout } = useAuth(); // Use auth context
-  const [active, setActive] = useState(""); // State to track active sidebar option
+const AdminDashboard = () => { 
+  const { user, checkUser, logout } = useAuth(); // Use auth context 
+  const [active, setActive] = useState(""); // State to track active sidebar option 
   const [sidebarOpen, setSidebarOpen] = useState(false); // State for sidebar visibility
   const [menuOpen, setMenuOpen] = useState(false); // State for toggle menu visibility
+  const [admins, setAdmins] = useState([]); // State to store admin list
 
-  // Check if user is logged in on component mount
+  // Check if user is logged in on component mount 
   useEffect(() => {
     checkUser();
   }, [checkUser]);
 
+   // Fetch admins when 'Admin List' is selected
+   useEffect(() => {
+    if (active === "admin-list") {
+      fetchAdmins();
+    }
+  }, [active]);
+
+  //Fetch Admins
+  const fetchAdmins = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/admins'); // Fetch from the backend
+      
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      console.log('Fetched Admins:', data); // Log the fetched data
+  
+      setAdmins(data);
+      console.log('Updated admins state:', data); // Log the updated state
+    } catch (error) {
+      console.error('Error fetching admins:', error);
+    }
+  };
+  
+
+  // Handle remove admin
+  const handleRemoveAdmin = async (adminId) => {
+    try {
+      await fetch(`http://localhost:5000/api/admins/${adminId}`, {
+        method: 'DELETE',
+      });
+      setAdmins(admins.filter((admin) => admin._id !== adminId)); // Use _id from MongoDB
+    } catch (error) {
+      console.error('Error removing admin:', error);
+    }
+  };
+
   const handleSetActive = (section) => {
-    setActive(section); // Set the active section in the sidebar
+    setActive(section); // Set the active section in the sidebar 
     setSidebarOpen(false); // Close the sidebar when an option is selected (mobile optimization)
     setMenuOpen(false); // Close the toggle menu when an option is selected (mobile optimization)
   };
@@ -169,7 +209,31 @@ const AdminDashboard = () => {
                   {/* Render content based on active selection */}
                   {active === "create-job" && <CreateJob />}
                   {active === "job-list" && <AdminJobList />}
-                  {active === "admin-list" && <div>Admin List Content</div>}
+                  {active === "admin-list" && (
+                    <div>
+                      <h2 className="text-2xl font-bold mb-4">Admin List</h2>
+                      {admins.length === 0 ? (
+                        <p>No admins available.</p>
+                      ) : (
+                        <ul>
+                          {admins.map((admin) => (
+                            <li key={admin._id} className="flex justify-between items-center mb-2">
+                              <div>
+                                <p className="font-bold">{admin.name}</p>
+                                <p className="text-sm text-gray-600">{admin.email}</p>
+                              </div>
+                              <button
+                                onClick={() => handleRemoveAdmin(admin._id)}
+                                className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600"
+                              >
+                                Remove
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  )}
                   {active === "create-admin" && <Signup />}
                 </div>
               )}
