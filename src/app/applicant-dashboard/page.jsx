@@ -10,7 +10,7 @@ import Vacancies from "./vacancies/page";
  
 
 const ApplicantDashboard = () => {
-  const { applicant, logout } = useApplicantAuth(); // Make sure logout is available from your context
+  const { applicant, applicantLogout} = useApplicantAuth(); // Make sure logout is available from your context
   const [active, setActive] = useState(""); // State to track active sidebar option
   const [sidebarOpen, setSidebarOpen] = useState(false); // State for sidebar visibility
   const [menuOpen, setMenuOpen] = useState(false); // State for toggle menu visibility
@@ -53,10 +53,7 @@ const ApplicantDashboard = () => {
 
   };
 
-  const handleLogout = () => {
-    logout(); // Call the logout function from context
-    // Optionally, redirect the user or show a message
-  };
+
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100 transition-all duration-300 ease-in-out">
@@ -130,13 +127,10 @@ const ApplicantDashboard = () => {
                   </h2>
                 </li>
                 <li>
-                  <Link
-                    href="/"
+                  <Link href="/"
                     className={`block p-2 rounded transition duration-300 
-                      ${active === "logout" ? "bg-teal-600 text-white" : "text-white hover:bg-teal-700"}`}
-                    onClick={() => handleLogout()}
-                  >
-                    Logout
+                    ${active === "logout" ? "bg-teal-600 text-white" : "text-white hover:bg-teal-700"}`}>
+                    <button onClick={applicantLogout}> Logout </button>
                   </Link>
                 </li>
               </ul>
@@ -146,7 +140,7 @@ const ApplicantDashboard = () => {
 
         {/* Mobile Toggle Menu */}
         {menuOpen && (
-          <div className="absolute top-16 left-0 right-0 bg-gray-800 text-white z-50 p-4 shadow-lg">
+          <div className="absolute top-20 left-0 right-0 bg-gray-800 text-white z-50 p-4 shadow-lg">
             <h2 className="text-xl font-bold text-center mb-4">Applicant Menu</h2>
             <nav>
               <ul>
@@ -154,7 +148,7 @@ const ApplicantDashboard = () => {
                   <Link
                     href="/applicant-dashboard/vacancies"
                     className={`block p-2 rounded transition duration-300 
-                      ${active === "vacancies" ? "bg-teal-600 text-white" : "text-gray-700 hover:bg-teal-100"}`}
+                      ${active === "vacancies" ? "bg-teal-600 text-white" : "text-white hover:bg-teal-700"}`}
                     onClick={() => handleSetActive("vacancies")}
                   >
                     Vacancies
@@ -163,7 +157,7 @@ const ApplicantDashboard = () => {
                 <li className="mb-2">
                   <h2
                     className={`block p-2 rounded transition duration-300 
-                      ${active === "change-password" ? "bg-teal-600 text-white" : "text-gray-700 hover:bg-teal-100"}`}
+                      ${active === "change-password" ? "bg-teal-600 text-white" : "text-white hover:bg-teal-700"}`}
 
                     onClick={() => handleSetActive("change-password")}
                   >
@@ -171,18 +165,13 @@ const ApplicantDashboard = () => {
                   </h2>
                 </li>
                 <li>
-                  <Link
-                    href="/"
+                <li>
+                  <Link href="/"
                     className={`block p-2 rounded transition duration-300 
-                      ${
-                        active === "logout"
-                          ? "bg-teal-600 text-white"
-                          : "text-gray-700 hover:bg-teal-100"
-                      }`}
-                    onClick={() => handleSetActive("logout")}
-                  >
-                    Logout
+                    ${active === "logout" ? "bg-teal-600 text-white" : "text-white hover:bg-teal-700"}`}>
+                    <button onClick={applicantLogout}> Logout </button>
                   </Link>
+                </li>
                 </li>
               </ul>
             </nav>
@@ -212,7 +201,6 @@ const ApplicantDashboard = () => {
             <div className="bg-white p-6 rounded-lg shadow-md w-full">
               {/* Render content based on the active state */}
               {active === "vacancies" && <div>Vacancies Content</div>}
-              {active === "profile" && <div>Profile Content</div>}
               {active === "change-password" && (
                 <div className="bg-white p-4 rounded-md shadow-md max-w-md mx-auto">
                   <h2 className="text-xl font-semibold mb-4">
