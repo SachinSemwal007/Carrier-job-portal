@@ -1,10 +1,11 @@
-"use client";
-import React from "react";
+"use client"; 
+import React from "react"; 
 import Image from "next/image";
 import NewVacancyBanner from "../components/NewVacancyBanner";
-import { useApplicantAuth , ApplicantAuthProvider } from "@/context/ApplicantAuthProvider";
+import { useApplicantAuth , ApplicantAuthProvider } from "@/context/ApplicantAuthProvider"; 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Head from "next/head";
 
 const Home = () => {
   const vacancies = [
@@ -12,9 +13,13 @@ const Home = () => {
     { title: "Coach", location: "Miami", url: "/vacancies/4" },
     { title: "Assistant Coach", location: "Houston", url: "/vacancies/5" },
   ];
-
-  return (
-   
+ 
+  return ( 
+   <>
+     <Head>
+        <title>JSSPS Careers</title>
+        <link rel="icon" href="/JSSPS-Logo.png" sizes="32x32"  type="image/png"/>
+      </Head>
     <div className="bg-gray-100 min-h-screen flex flex-col">
        <Navbar/>
       <main className="flex-grow container mx-auto p-6 sm:p-8">
@@ -39,17 +44,18 @@ const Home = () => {
       </main>
       <Footer/>
     </div>
-  );
-};
-
+    </>
+  ); 
+}; 
+ 
 //export default Home;
 
-// Wrap the App component with AuthProvider so the context is available throughout the app
+// Wrap the App component with AuthProvider so the context is available throughout the app 
 export default function HomeWrapper() {
-  return (
-    <ApplicantAuthProvider>
+  return ( 
+    <ApplicantAuthProvider> 
       <Home />
-    </ApplicantAuthProvider>
-  );
-}
+    </ApplicantAuthProvider> 
+  ); 
+} 
 

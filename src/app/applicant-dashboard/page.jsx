@@ -3,10 +3,7 @@ import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { sendPasswordResetEmail } from "@/api"; // Assume this function makes an API call to the server
-import {
-  ApplicantAuthProvider,
-  useApplicantAuth,
-} from "@/context/ApplicantAuthProvider";
+import {ApplicantAuthProvider,useApplicantAuth,} from "@/context/ApplicantAuthProvider";
 
 const ApplicantDashboard = () => {
   const { applicant } = useApplicantAuth(); 
