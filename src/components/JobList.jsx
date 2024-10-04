@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { getJobPosts } from '../api';
 import JobCard from './JobCard';
+import Navbar from './Navbar';  // Import Navbar component
+import Footer from './Footer';  // Import Footer component
 
 const JobList = () => {
   const [jobs, setJobs] = useState([]);
@@ -27,47 +29,74 @@ const JobList = () => {
   }, [search, filters, sort, page]);
 
   return (
-    <div className="container mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-4 text-center">Job Listings</h2>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex flex-col">
+      {/* Navbar at the top */}
+      <Navbar />  
 
-      {/* Search and Filters */}
-      <div className="flex flex-col md:flex-row md:justify-between items-center mb-6 space-y-4 md:space-y-0 md:space-x-4">
-        {/* Search Input */}
-        <input
-          type="text"
-          placeholder="Search Job Title"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full md:w-1/3 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+      <main className="flex-grow container mx-auto px-6 sm:px-8 py-10">
+        <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-10">
+          Job Listings
+        </h2>
 
-        {/* Sort Dropdown */}
-        <select
-          onChange={(e) => setSort(e.target.value)}
-          className="w-full md:w-1/4 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="desc">Newest</option>
-          <option value="asc">Oldest</option>
-        </select>
+        {/* Search and Filters */}
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-8 space-y-4 sm:space-y-0 sm:space-x-4">
+          {/* Search Input */}
+          <input
+            type="text"
+            placeholder="Search Job Title"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full sm:w-1/3 p-3 bg-white border border-gray-300 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
 
-        {/* Location Filter */}
-        <select
-          onChange={(e) => setFilters({ ...filters, location: e.target.value })}
-          className="w-full md:w-1/4 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="">All Locations</option>
-          <option value="Remote">Remote</option>
-          <option value="New York">New York</option>
-          {/* Add more options as needed */}
-        </select>
-      </div>
+          {/* Sort Dropdown */}
+          <select
+            onChange={(e) => setSort(e.target.value)}
+            className="w-full sm:w-1/4 p-3 bg-white border border-gray-300 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="desc">Newest</option>
+            <option value="asc">Oldest</option>
+          </select>
 
-      {/* Job Cards Container */}
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {jobs.map((job) => (
-          <JobCard key={job._id} job={job} />
-        ))}
-      </div>
+          {/* Location Filter */}
+          <select
+            onChange={(e) => setFilters({ ...filters, location: e.target.value })}
+            className="w-full sm:w-1/4 p-3 bg-white border border-gray-300 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">All Locations</option>
+            <option value="Remote">Remote</option>
+            <option value="New York">New York</option>
+            {/* Add more options as needed */}
+          </select>
+        </div>
+
+        {/* Job Cards Container */}
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {jobs.map((job) => (
+            <JobCard key={job._id} job={job} />
+          ))}
+        </div>
+
+        {/* Pagination */}
+        <div className="mt-12 flex justify-center space-x-4">
+          <button
+            onClick={() => setPage((prevPage) => Math.max(prevPage - 1, 1))}
+            className="px-6 py-2 bg-gradient-to-r from-teal-400 via-cyan-500 to-teal-600 text-white font-semibold rounded-full shadow-lg hover:from-teal-500 hover:via-cyan-600 hover:to-teal-700 transition-all duration-300"
+
+          >
+            Previous
+          </button>
+          <button
+            onClick={() => setPage((prevPage) => prevPage + 1)}
+            className="px-6 py-2 bg-gradient-to-r from-teal-400 via-cyan-500 to-teal-600 text-white font-semibold rounded-full shadow-lg hover:from-teal-500 hover:via-cyan-600 hover:to-teal-700 transition-all duration-300"
+          >
+            Next
+          </button>
+        </div>
+      </main>
+
+      {/* Footer at the bottom */}
+      <Footer />  
     </div>
   );
 };

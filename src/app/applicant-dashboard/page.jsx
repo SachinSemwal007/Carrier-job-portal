@@ -1,20 +1,38 @@
 "use client";
 import React, { useState } from "react";
+import { ApplicantAuthProvider, useApplicantAuth } from "@/context/ApplicantAuthProvider";
+import { sendPasswordResetEmail } from "@/api"; // Assume this function makes an API call to the server
 import Image from "next/image";
 import Link from "next/link";
-import { sendPasswordResetEmail } from "@/api"; // Assume this function makes an API call to the server
-import {
-  ApplicantAuthProvider,
-  useApplicantAuth,
-} from "@/context/ApplicantAuthProvider";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Font Awesome icons
+import { faBars, faTimes, faUser } from '@fortawesome/free-solid-svg-icons'; // Import toggle icons
+import Vacancies from "./vacancies/page";
+
 
 const ApplicantDashboard = () => {
-  const { applicant } = useApplicantAuth(); 
-  const [active, setActive] = useState(""); // No active section on initial load
-  const [message, setMessage] = useState(""); 
+  const { applicant, logout } = useApplicantAuth(); // Make sure logout is available from your context
+  const [active, setActive] = useState(""); // State to track active sidebar option
+  const [sidebarOpen, setSidebarOpen] = useState(false); // State for sidebar visibility
+  const [menuOpen, setMenuOpen] = useState(false); // State for toggle menu visibility
+  const [message, setMessage] = useState("");
+
   const handleSetActive = (section) => {
-    setActive(section);
+    setActive(section); // Set the active section in the sidebar
+    setSidebarOpen(false); // Close the sidebar when an option is selected
+    setMenuOpen(false); // Close the toggle menu when an option is selected
   };
+
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen); // Toggle sidebar visibility
+  };
+
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen); // Toggle mobile menu visibility
+    setSidebarOpen(false); // Close the sidebar when the toggle menu is opened
+  };
+
+
   const handleForgotPassword = async (e) => { 
     e.preventDefault(); 
     try { 
@@ -32,39 +50,59 @@ const ApplicantDashboard = () => {
   const handleCancel = () => {
     // Reset the active state or perform any other action when "No" is clicked
     setActive(""); // Assuming you use setActive to control the displayed content
+
+  };
+
+  const handleLogout = () => {
+    logout(); // Call the logout function from context
+    // Optionally, redirect the user or show a message
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+    <div className="flex flex-col min-h-screen bg-gray-100 transition-all duration-300 ease-in-out">
       {/* Top Navbar */}
-      <header className="w-full bg-teal-600 text-white py-4 px-6 flex justify-between items-center">
+      <header className="w-full bg-teal-600 text-white py-4 px-6 flex justify-between items-center shadow-lg">
         <div className="flex items-center">
-          <Image
-            src="/JSSPS-Logo.png" // Replace with your logo path
-            alt="Company Logo"
-            width={60}
-            height={80}
-            className=" mr-4" // Adjust size as necessary
-          />
-          <h1 className="text-2xl font-bold text-blue-900">JSSPS Careers</h1>
+          <Link href="/">
+            <Image
+              src="/JSSPS-Logo.png" // Replace with your logo path
+              alt="Company Logo"
+              width={60}
+              height={80}
+              className="mr-4" // Adjust size as necessary
+            />
+          </Link>
+          <div>
+            <h1 className="text-xl font-bold text-teal-950">
+              Jharkhand State Sports Promotion Society
+            </h1>
+            <p className="text-md text-teal-950">
+              (A State Govt. of Jharkhand and CCL Joint Initiative)
+            </p>
+          </div>
         </div>
+
         <div className="flex items-center">
-          <p className="mr-4">Applicant Name</p>{" "}
-          {/* Replace with dynamic name if needed */}
-          <Image
-            src="" // Replace with the actual profile picture
-            alt="Profile"
-            width={100}
-            height={100}
-            className="h-10 w-10 rounded-full"
-          />
+
+          <p className="mr-4">Applicant Name</p>
+          <span className="h-10 w-10 flex items-center justify-center rounded-full bg-teal-600">
+            <FontAwesomeIcon icon={faUser} className="text-blue-950 text-2xl" /> {/* Applicant Icon */}
+          </span>
+          {/* Mobile Toggle Button */}
+          <button onClick={toggleMenu} className="lg:hidden p-2 text-white">
+            <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} size="lg" /> {/* Toggle icon */}
+          </button>
+
         </div>
       </header>
 
       {/* Sidebar and Main Content */}
       <div className="flex flex-grow">
         {/* Sidebar */}
-        <aside className="w-64 bg-white shadow-md">
+        <aside
+          className={`fixed lg:static bg-gray-800 text-white w-64 lg:block lg:translate-x-0 transition-transform duration-300 ease-in-out 
+          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        >
           <div className="p-4">
             <h2 className="text-2xl font-bold text-center mb-4">
               Applicant Dashboard
@@ -75,11 +113,8 @@ const ApplicantDashboard = () => {
                   <Link
                     href="/applicant-dashboard/vacancies"
                     className={`block p-2 rounded transition duration-300 
-                      ${
-                        active === "ad-vacancies"
-                          ? "bg-teal-600 text-white"
-                          : "text-gray-700 hover:bg-teal-100"
-                      }`}
+                      ${active === "vacancies" ? "bg-teal-600 text-white" : "text-white hover:bg-teal-700"}`}
+
                     onClick={() => handleSetActive("vacancies")}
                   >
                     Vacancies
@@ -88,11 +123,48 @@ const ApplicantDashboard = () => {
                 <li className="mb-2">
                   <h2
                     className={`block p-2 rounded transition duration-300 
-                      ${
-                        active === "change-password"
-                          ? "bg-teal-600 text-white"
-                          : "text-gray-700 hover:bg-teal-100"
-                      }`}
+                    ${active === "change-password" ? "bg-teal-600 text-white" : "text-white hover:bg-teal-700"}`}
+                    onClick={() => handleSetActive("change-password")}
+                  >
+                    Change Password
+                  </h2>
+                </li>
+                <li>
+                  <Link
+                    href="/"
+                    className={`block p-2 rounded transition duration-300 
+                      ${active === "logout" ? "bg-teal-600 text-white" : "text-white hover:bg-teal-700"}`}
+                    onClick={() => handleLogout()}
+                  >
+                    Logout
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </aside>
+
+        {/* Mobile Toggle Menu */}
+        {menuOpen && (
+          <div className="absolute top-16 left-0 right-0 bg-gray-800 text-white z-50 p-4 shadow-lg">
+            <h2 className="text-xl font-bold text-center mb-4">Applicant Menu</h2>
+            <nav>
+              <ul>
+                <li className="mb-2">
+                  <Link
+                    href="/applicant-dashboard/vacancies"
+                    className={`block p-2 rounded transition duration-300 
+                      ${active === "vacancies" ? "bg-teal-600 text-white" : "text-gray-700 hover:bg-teal-100"}`}
+                    onClick={() => handleSetActive("vacancies")}
+                  >
+                    Vacancies
+                  </Link>
+                </li>
+                <li className="mb-2">
+                  <h2
+                    className={`block p-2 rounded transition duration-300 
+                      ${active === "change-password" ? "bg-teal-600 text-white" : "text-gray-700 hover:bg-teal-100"}`}
+
                     onClick={() => handleSetActive("change-password")}
                   >
                     Change Password
@@ -115,10 +187,10 @@ const ApplicantDashboard = () => {
               </ul>
             </nav>
           </div>
-        </aside>
+        )}
 
-        {/* Main Content */}
-        <main className="flex-grow p-8 flex items-center justify-center">
+        {/* Main Content Area */}
+        <main className="flex-grow p-4 lg:p-8 transition-all duration-300 ease-in-out">
           {active === "" ? (
             <div className="text-center">
               <Image
@@ -134,6 +206,7 @@ const ApplicantDashboard = () => {
               <p className="text-lg text-gray-600">
                 Please select an option from the menu to get started.
               </p>
+
             </div>
           ) : (
             <div className="bg-white p-6 rounded-lg shadow-md w-full">
@@ -169,6 +242,7 @@ const ApplicantDashboard = () => {
               )}
 
               {active === "logout" && <div>Logout Content</div>}
+
             </div>
           )}
         </main>
@@ -184,3 +258,4 @@ export default function AppWrapper({ params }) {
     </ApplicantAuthProvider>
   ); 
 }
+
