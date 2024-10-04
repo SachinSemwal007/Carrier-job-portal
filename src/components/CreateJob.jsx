@@ -69,7 +69,7 @@ const CreateJob = () => {
 
   return (
     <div className="flex items-center justify-center p-6">
-      <div className="bg-teal rounded-lg shadow-lg p-8 w-full max-w-lg">
+      <div className="bg-teal rounded-lg shadow-lg p-8 w-full max-w-2xl">
         <h2 className="text-2xl font-bold mb-6 text-center text-teal-600">Create Job Post</h2>
         <div className="overflow-y-auto max-h-96"> {/* Add scrollable container */}
           <form onSubmit={handleSubmit}>

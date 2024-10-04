@@ -8,6 +8,7 @@ import {
   useApplicantAuth,
   ApplicantAuthProvider,
 } from "@/context/ApplicantAuthProvider";
+import Navbar from "@/components/Navbar";
 
 const App = () => {
   const { applicant, applicantLogout } = useApplicantAuth(); // Use auth context
@@ -20,6 +21,7 @@ const App = () => {
         </>
       ) : (
         <div>
+           <Navbar/>  
           <button onClick={applicantLogout}>Log Out</button>
           <div className="flex justify-center items-center ">
             <Link href="/applicant-dashboard">
