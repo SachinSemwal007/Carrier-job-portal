@@ -42,7 +42,7 @@ const App = () => {
         jobDetail
       };
 
-      const response = await fetch('http://localhost:5000/api/createpost', {
+      const response = await fetch('http://localhost:5001/api/createpost', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

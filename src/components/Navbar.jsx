@@ -1,13 +1,35 @@
-import React, { useState } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { ApplicantAuthProvider, useApplicantAuth } from "@/context/ApplicantAuthProvider";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { applicant, applicantLogout, checkUser } = useApplicantAuth();
+  // console.log(applicant);
+  const [loading, setLoading] = useState(true);
+
+ useEffect(() => {
+   const checkApplicant = async () => {
+     try {
+       await checkUser();
+     } catch (error) {
+       console.error("Error during user check:", error);
+     } finally {
+       setLoading(false); // Ensure loading state is updated
+     }
+   };
+
+   checkApplicant();
+ }, [checkUser]);
+
 
   return (
     <nav className="bg-teal-900 text-white">
-      <div className="container mx-auto px-4 h-30 flex justify-between items-center"> {/* Set fixed height */}
+      <div className="container mx-auto px-4 h-30 flex justify-between items-center">
+        {" "}
+        {/* Set fixed height */}
         {/* Logo/Brand */}
         <div className="flex items-center">
           <Link href="/">
@@ -20,7 +42,6 @@ const Navbar = () => {
             />
           </Link>
         </div>
-
         {/* Hamburger Menu (Mobile) */}
         <div className="block lg:hidden">
           <button
@@ -42,7 +63,6 @@ const Navbar = () => {
             </svg>
           </button>
         </div>
-
         {/* Nav Links */}
         <div className={`lg:flex items-center ${isOpen ? "block" : "hidden"}`}>
           <Link
@@ -51,16 +71,32 @@ const Navbar = () => {
           >
             Home
           </Link>
-          <Link
-            href="/login"
-            className="block mt-2 lg:mt-0 lg:ml-4 hover:text-gray-400"
-          >
-            Login
-          </Link>
+          { applicant ? (
+            <h2
+              onClick={() => applicantLogout()}
+              className="block mt-2 lg:mt-0 lg:ml-4 hover:text-gray-400"
+            >
+              Logout
+            </h2>
+          ) : (
+            <Link
+              href="/login"
+              className="block mt-2 lg:mt-0 lg:ml-4 hover:text-gray-400"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </nav>
   );
 };
 
-export default Navbar;
+
+export default function HomeWrapper() {
+  return (
+    <ApplicantAuthProvider>
+      <Navbar />
+    </ApplicantAuthProvider>
+  );
+}

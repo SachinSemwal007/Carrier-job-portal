@@ -43,7 +43,7 @@ const UpdatePost = ({ params }) => {
         jobDescription,
       };
 
-      const response = await fetch(`http://localhost:5000/api/posts/${id}`, {
+      const response = await fetch(`http://localhost:5001/api/posts/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

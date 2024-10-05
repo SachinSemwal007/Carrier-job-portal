@@ -28,7 +28,7 @@ const ApplicantLogin = () => {
       const success = await applicantLogin(email, password);
       if (success) {
         setMessage('Login successful!');
-        router.push('/'); // Redirect to a dashboard or another page 
+        router.push('/jobs'); // Redirect to a dashboard or another page 
       } else {
         setMessage('Login failed. Please check your email and password.');
       }

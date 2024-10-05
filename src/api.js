@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Set up the base URL for your backend
 const API = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "http://localhost:5001/api",
 });
 
 // Sign Up
@@ -24,21 +24,43 @@ export const createJobPost = (postData, token) =>
 
 export const deleteJob = (id, applicantData) => API.delete(`/posts/${id}`, applicantData);
 
-export const applyForJob = async (jobId, applicantData) => {
-  const response = await fetch(`http://localhost:5000/api/posts/${jobId}/apply`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(applicantData),
-  });
+export const applyForJob = async (jobId, applicantData, files) => {
+  const formData = new FormData();
 
-  return response;
+  // Append applicant data to FormData
+  formData.append("applicationData", JSON.stringify(applicantData));
+
+  // Append files to FormData
+  if (files.passportPhoto) {
+    formData.append("passportPhoto", files.passportPhoto);
+  }
+  if (files.certification) {
+    formData.append("certification", files.certification);
+  }
+  if (files.signature) {
+    formData.append("signature", files.signature);
+  }
+
+  try {
+    const response = await fetch(
+      `http://localhost:5001/api/posts/${jobId}/apply`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    );
+
+    return response;
+  } catch (error) {
+    console.error("Error applying for job:", error);
+    throw error;
+  }
 };
+
 
 export const deleteApplicant = async (postId, email) => {
   try {
-    const response = await fetch(`http://localhost:5000/api/posts/${postId}/applicants/${email}`, {
+    const response = await fetch(`http://localhost:5001/api/posts/${postId}/applicants/${email}`, {
       method: "DELETE",
     });
 
@@ -57,7 +79,7 @@ export const deleteApplicant = async (postId, email) => {
 
 export const applicantSignUp = async ({ name, email, password }) => {
 
-  const response = await fetch('http://localhost:5000/api/applicant/signup', {
+  const response = await fetch('http://localhost:5001/api/applicant/signup', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -74,7 +96,7 @@ export const applicantSignUp = async ({ name, email, password }) => {
 
 export const applicantLogIn = async ({ email, password }) => {
   try {
-    const response = await fetch('http://localhost:5000/api/applicant/login', {
+    const response = await fetch('http://localhost:5001/api/applicant/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -96,13 +118,16 @@ export const applicantLogIn = async ({ email, password }) => {
 // API call to get applicant details
 export const getApplicantDetails = async (token) => {
   try {
-  const response = await fetch('http://localhost:5000/api/applicant/details', {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json',
-    },
-  });
+  const response = await fetch(
+    "http://localhost:applyForJob/api/applicant/details",
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
   // Log response status for debugging
   console.log('Response status:', response.status);
@@ -122,7 +147,7 @@ export const getApplicantDetails = async (token) => {
 
 export const sendPasswordResetEmail = async (email) => {
   try {
-    const response = await fetch('http://localhost:5000/api/forgot-password', { 
+    const response = await fetch('http://localhost:5001/api/forgot-password', { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -138,7 +163,7 @@ export const sendPasswordResetEmail = async (email) => {
 
 export const resetPassword = async (token, newPassword) => {
   try {
-    const response = await fetch(`http://localhost:5000/api/reset-password/${token}`, { 
+    const response = await fetch(`http://localhost:5001/api/reset-password/${token}`, { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -161,7 +186,7 @@ export const refreshAccessToken = async () => {
   }
 
   try {
-    const response = await fetch('http://localhost:5000/api/refresh-token', {
+    const response = await fetch('http://localhost:5001/api/refresh-token', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

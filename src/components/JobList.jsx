@@ -94,9 +94,6 @@ const JobList = () => {
           </button>
         </div>
       </main>
-
-      {/* Footer at the bottom */}
-      <Footer />  
     </div>
   );
 };

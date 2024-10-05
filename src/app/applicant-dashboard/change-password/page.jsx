@@ -38,7 +38,7 @@ const ChangePassword = () => {
 
       const changePassword = async (authToken) => {
         const response = await fetch(
-          "http://localhost:5000/api/change-password",
+          "http://localhost:5001/api/change-password",
           {
             method: "POST",
             headers: {

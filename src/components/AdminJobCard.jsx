@@ -45,7 +45,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
     if (!confirmed) return;
 
     try {
-      const response = await fetch(`http://localhost:5000/api/posts/${job._id}/applications/${applicantId}`, {
+      const response = await fetch(`http://localhost:5001/api/posts/${job._id}/applications/${applicantId}`, {
         method: "DELETE",
       });
 
