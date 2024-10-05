@@ -335,7 +335,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
             {/* Remove Applicant */}
             <li
               className="text-red-600 cursor-pointer mt-2 hover:text-red-800"
-              onClick={() => deleteApplicant(applicant.applicantId)}
+              onClick={() => deleteApplicant(applicant.id) }
             >
               Remove Applicant
             </li>

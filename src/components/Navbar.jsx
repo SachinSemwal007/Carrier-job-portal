@@ -71,22 +71,27 @@ const Navbar = () => {
           >
             Home
           </Link>
-          { applicant ? (
-            <h2
-              onClick={() => applicantLogout()}
-              className="block mt-2 lg:mt-0 lg:ml-4 hover:text-gray-400"
-            >
-              Logout
-            </h2>
+          { applicant ? ( 
+            <div className="flex gap-2">
+            <h2 
+              onClick={() => applicantLogout()} 
+              className="block mt-2 lg:mt-0 lg:ml-4 hover:text-gray-400" 
+            > 
+              Logout 
+            </h2> 
+           <Link href='/applicant-dashboard'>
+            Applicant Dashboard
+            </Link> 
+            </div>
           ) : (
             <Link
-              href="/login"
-              className="block mt-2 lg:mt-0 lg:ml-4 hover:text-gray-400"
-            >
-              Login
-            </Link>
-          )}
-        </div>
+              href="/login" 
+              className="block mt-2 lg:mt-0 lg:ml-4 hover:text-gray-400" 
+            > 
+              Login 
+            </Link> 
+          )} 
+        </div> 
       </div>
     </nav>
   );
