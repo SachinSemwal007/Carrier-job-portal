@@ -283,7 +283,107 @@ const ApplyForm = ({ params }) => {
 
   //Save as Draft
   // Function to save form data to local storage
+  const saveAsDraft = () => {
+    const draftData = {
+      firstName,
+      middleName,
+      lastName,
+      fhName,
+      email,
+      contact,
+      whatsapp,
+      gender,
+      dob,
+      maritalStatus,
+      address,
+      pincode,
+      country,
+      state,
+      district,
+      isHandicapped,
+      community,
+      matriculationYear,
+      matriculationGrade,
+      matriculationPercentage,
+      matriculationBoard,
+      interYear,
+      interGrade,
+      interPercentage,
+      interBoard,
+      bachelorYear,
+      bachelorCourse,
+      bachelorSpecialization,
+      bachelorGrade,
+      bachelorPercentage,
+      bachelorUniversity,
+      courses,
+      experiences,
+      references,
+      achievement,
+      description,
+      passportPhoto,
+      certification,
+      signature,
+    };
+    
+    localStorage.setItem(`jobApplicationDraft_${id}`, JSON.stringify(draftData));
+    alert('Draft saved successfully!');
+  };
 
+  // Function to load form data from local storage
+  const loadDraft = () => {
+    const draftData = localStorage.getItem(`jobApplicationDraft_${id}`);
+    if (draftData) {
+      const parsedData = JSON.parse(draftData);
+      setFirstName(parsedData.firstName);
+      setMiddleName(parsedData.middleName);
+      setLastName(parsedData.lastName);
+      setFhName(parsedData.fhName);
+      setEmail(parsedData.email);
+      setContact(parsedData.contact);
+      setWhatsapp(parsedData.whatsapp);
+      setGender(parsedData.gender);
+      setDob(parsedData.dob);
+      setMaritalStatus(parsedData.maritalStatus);
+      setAddress(parsedData.address);
+      setPincode(parsedData.pincode);
+      setCountry(parsedData.country);
+      setState(parsedData.state);
+      setDistrict(parsedData.district);
+      setIsHandicapped(parsedData.isHandicapped);
+      setCommunity(parsedData.community);
+      setMatriculationYear(parsedData.matriculationYear);
+      setMatriculationGrade(parsedData.matriculationGrade);
+      setMatriculationPercentage(parsedData.matriculationPercentage);
+      setMatriculationBoard(parsedData.matriculationBoard);
+      setInterYear(parsedData.interYear);
+      setInterGrade(parsedData.interGrade);
+      setInterPercentage(parsedData.interPercentage);
+      setInterBoard(parsedData.interBoard);
+      setBachelorYear(parsedData.bachelorYear);
+      setBachelorCourse(parsedData.bachelorCourse);
+      setBachelorSpecialization(parsedData.bachelorSpecialization);
+      setBachelorGrade(parsedData.bachelorGrade);
+      setBachelorPercentage(parsedData.bachelorPercentage);
+      setBachelorUniversity(parsedData.bachelorUniversity);
+      setCourses(parsedData.courses);
+      setExperiences(parsedData.experiences);
+      setReferences(parsedData.references);
+      setAchievement(parsedData.achievement);
+      setDescription(parsedData.description);
+      setPassportPhoto(parsedData.passportPhoto);
+      setCertification(parsedData.certification);
+      setSignature(parsedData.signature);
+    }
+  };
+
+  // Load draft data when component mounts
+  useEffect(() => {
+    loadDraft();
+  }, []);
+
+  
+  // Handle Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     const applicantId = applicant.id;
@@ -384,79 +484,7 @@ const ApplyForm = ({ params }) => {
         alert("An error occurred. Please try again.");
     }
 };
-
-
-  const handleDraft = async (e) => {
-    e.preventDefault();
-
-    const files = {
-      passportPhoto: document.getElementById("passportPhotoInput").files[0],
-      certification: document.getElementById("certificationInput").files[0],
-      signature: document.getElementById("signatureInput").files[0],
-    };
-    const submitted = false;
-    const applicantId = applicant.id;
-    const postId = id;
-    const formData = {
-      postId,
-      applicantId,
-      firstName,
-      middleName,
-      lastName,
-      fhName,
-      email,
-      gender,
-      dob,
-      maritalStatus,
-      address,
-      pincode,
-      country,
-      contact,
-
-      state,
-      district,
-      isHandicapped,
-      community,
-      matriculationYear,
-      matriculationGrade,
-      matriculationPercentage,
-      matriculationBoard,
-      interYear,
-      interGrade,
-      interPercentage,
-      interBoard,
-      bachelorYear,
-      bachelorCourse,
-      bachelorSpecialization,
-      bachelorGrade,
-      bachelorPercentage,
-      bachelorUniversity,
-      courses,
-      experiences,
-      achievement,
-      description,
-      submitted,
-      passportPhoto: files.passportPhoto,
-      certification: files.certification,
-      signature: files.signature,
-      jobId: id,
-    };
-
-    try {
-      // Call applyForJob with job ID, form data, and files
-      const response = await applyForJob(id, formData, files);
-
-      if (response.ok) {
-        alert("Application submitted successfully!");
-      } else {
-        const errorData = await response.json();
-        alert(errorData.message || "Error submitting application. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error applying for job:", error);
-      alert("An error occurred. Please try again.");
-    }
-  };
+  
   return (
     <div className="bg-teal-700">
       <Navbar />
@@ -468,7 +496,7 @@ const ApplyForm = ({ params }) => {
         <form onSubmit={handleSubmit}>
           {/* Name Fields */}
           <div>
-            <h3 className="text-lg font-semibold mb-2">Personal Details</h3>
+            <h3 className="text-xl font-semibold mb-2">Personal Details</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div>
@@ -568,7 +596,7 @@ const ApplyForm = ({ params }) => {
           <div className="flex justify-between gap-4">
             {/* Physical Handicapped Radio Button */}
             <div className="flex flex-col">
-              <label className="mb-2">Whether Physical Handicapped?</label>
+              <label className="block font-medium mb-1">Whether Physical Handicapped?</label>
               <div className="flex space-x-4">
                 <label className="flex items-center">
                   <input type="radio" value="Yes" name="handicapped" checked={isHandicapped === "Yes"} onChange={(e) => setIsHandicapped(e.target.value)} required className="mr-2" />
@@ -583,7 +611,7 @@ const ApplyForm = ({ params }) => {
 
             {/* Community Dropdown */}
             <div className="flex flex-col">
-              <label className="mb-2">Community:</label>
+              <label className="block font-medium mb-1">Community:</label>
               <select value={community} onChange={(e) => setCommunity(e.target.value)} required className="border border-gray-300 rounded-md p-2">
                 <option value="" disabled>
                   Select Community
@@ -599,10 +627,10 @@ const ApplyForm = ({ params }) => {
 
           {/* Matriculation Field */}
           <div>
-            <h3 className="text-xl font-bold mb-4">Educational Details</h3>
+            <h3 className="text-xl font-semibold mb-2">Educational Details</h3>
           </div>
           <div className="flex flex-col my-4">
-            <label className="mb-2 text-lg">Matriculation:</label>
+            <label className="block font-medium mb-1">Matriculation:</label>
             <div className="flex justify-between gap-2">
               <input type="number" placeholder="Year of Passing" value={matriculationYear} onChange={(e) => setMatriculationYear(e.target.value)} className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border" required />
               <input type="text" placeholder="Grade/Division" value={matriculationGrade} onChange={(e) => setMatriculationGrade(e.target.value)} className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border" required />
@@ -613,7 +641,7 @@ const ApplyForm = ({ params }) => {
 
           {/* Intermediate Field */}
           <div className="flex flex-col my-4">
-            <label className="mb-2 text-lg">Intermediate / +2:</label>
+            <label className="block font-medium mb-1">Intermediate / +2:</label>
             <div className="flex justify-between gap-2">
               <input type="number" placeholder="Year of Passing" value={interYear} onChange={(e) => setInterYear(e.target.value)} className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border" required />
               <input type="text" placeholder="Grade/Division" value={interGrade} onChange={(e) => setInterGrade(e.target.value)} className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border" required />
@@ -624,7 +652,7 @@ const ApplyForm = ({ params }) => {
 
           {/* Bachelor Degree/Graduation Field */}
           <div className="flex flex-col my-4">
-            <label className="mb-2 text-lg">Bachelor Degree/Graduation (10+2+3):</label>
+            <label className="block font-medium mb-1">Bachelor Degree/Graduation (10+2+3):</label>
             <div className="flex justify-between gap-2">
               <input type="number" placeholder="Year of Passing" value={bachelorYear} onChange={(e) => setBachelorYear(e.target.value)} className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border" required />
               <input type="text" placeholder="Course" value={bachelorCourse} onChange={(e) => setBachelorCourse(e.target.value)} className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border" required />
@@ -637,10 +665,10 @@ const ApplyForm = ({ params }) => {
 
           {/* Professional Qualifications Section */}
           <div>
-            <h3 className="text-lg font-semibold">Professional Details</h3>
+            <h3 className="text-xl font-semibold mb-2">Professional Details</h3>
           </div>
           <div>
-            <label className="block text-sm font-medium mb-2">Professional Qualifications / Diploma / Certification Course</label>
+            <label className="block font-medium mb-1">Professional Qualifications / Diploma / Certification Course</label>
           </div>
           {courses.map((course, index) => (
             <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
@@ -662,7 +690,7 @@ const ApplyForm = ({ params }) => {
 
           {/* Experiences Section */}
           <div>
-            <label className="block text-sm font-medium mb-2">Experience</label>
+            <label className="block font-medium mb-1">Experience</label>
           </div>
           {experiences.map((experience, index) => (
             <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
@@ -684,19 +712,19 @@ const ApplyForm = ({ params }) => {
 
           {/* Achievement Field */}
           <div>
-            <label className="block text-sm font-medium mb-2">Achievement:</label>
+            <label className="block font-medium mb-1">Achievement:</label>
             <textarea placeholder="Achievements" value={achievement} onChange={(e) => setAchievement(e.target.value)} rows={3} required className="w-full p-2 border border-gray-300 rounded-md" />
           </div>
 
           {/* Achievement Field */}
           <div>
-            <label className="block text-sm font-medium mb-2">Describe Yourself:</label>
+            <label className="block font-medium mb-1">Describe Yourself:</label>
             <textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} rows={10} required className="w-full p-2 border border-gray-300 rounded-md" />
           </div>
 
           {/* References Section */}
           <div>
-            <label className="block text-sm font-medium mb-2">References</label>
+            <label className="block font-medium mb-1">References</label>
           </div>
           {references.map((reference, index) => (
             <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
@@ -713,7 +741,7 @@ const ApplyForm = ({ params }) => {
           </button>
           {/* Upload Section */}
           <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-2">Upload Required Documents</h3>
+            <h3 className="text-xl font-semibold mb-2">Upload Required Documents</h3>
 
             {/* Passport Photo */}
             {/* Passport Photo */}
@@ -766,7 +794,7 @@ const ApplyForm = ({ params }) => {
 
           {/* Save as Draft, Preview and Submit buttons */}
           <div className="flex justify-center space-x-4 mt-6">
-            <button type="button" className="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-700 transition duration-200" onClick={handleDraft}>
+            <button type="button" className="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-700 transition duration-200" onClick={saveAsDraft}>
               Save as Draft
             </button>
             <button type="button" className="px-6 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-700 transition duration-200" onClick={handlePreview}>
