@@ -30,7 +30,7 @@ const Home = () => {
         />
       </Head>
       <div className="bg-gray-100 min-h-screen flex flex-col">
-        <Navbar />
+         <Navbar /> 
         <main className="flex-grow container mx-auto p-6 sm:p-8">
           {/* Flex container for logo/text and login */}
           <div className="flex flex-col sm:flex-row items-center sm:justify-between mb-6">
