@@ -1,3 +1,5 @@
+//FormPreview-final
+
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { useParams } from 'next/navigation';
@@ -67,35 +69,32 @@ const FormPreview = ({
       pdf.save('form-preview.pdf');
     });
   };
-
+  
 
 
   return (
-    <Modal show={show} onHide={handleClose} size="lg" className=" max-w-6xl mx-auto my-4 p-4 bg-white shadow-lg rounded-lg" id="modal-content">
-     <Modal.Header className="flex flex-col border-b-2 border-gray-200 p-4">
-  {/* Logo and Title Section */}
-  <div className="flex items-center justify-center mb-4">
-    <img src="/JSSPS-Logo.png" alt="JSSP Logo" className="h-16 object-contain" />
-    <div className="ml-4 text-center">
-      <h1 className="text-lg font-bold">Jharkhand State Sports Promotion Society</h1>
-      <h2 className="text-sm">(A State Govt. of Jharkhand and CCL Joint Initiative)</h2>
-    </div>
-  </div>
-  {/* Applied For and ID Section */}
-  <div className="flex justify-between items-center">
-    <h2 className="text-xl font-bold">
-      Applied For: <span className="text-red-500 px-2 rounded-md">{id}</span>
-    </h2>
-    <div className="flex flex-col items-end text-right">
-    <span className="text-sm text-gray-700">
-        Application ID: <span className="text-gray-400 font-bold">____________</span>
-      </span>
-      <span className="text-sm text-gray-700">Date: {new Date().toLocaleDateString()}</span>
-      
-    </div>
-  </div>
-</Modal.Header>
-      <Modal.Body className="overflow-y-auto max-h-[75vh] p-4 space-y-4">
+    <Modal show={show} onHide={handleClose} size="lg" className=" max-w-6xl mx-auto my-4 p-5 bg-white shadow-lg rounded-lg" id="modal-content">
+     <Modal.Header className="flex flex-col  border-b-2 border-gray-200 p-4">
+        <div className="flex flex-wrap items-center justify-center ">
+          <img src="/JSSPS-Logo.png" alt="JSSP Logo" className="h-14 object-contain" />
+          <div className="ml-4 text-center">
+            <h1 className="text-lg font-bold">Jharkhand State Sports Promotion Society</h1>
+            <h2 className="text-sm">(A State Govt. of Jharkhand and CCL Joint Initiative)</h2>
+          </div>
+        </div>
+        <div className="flex flex-wrap justify-between items-center">
+          <h2 className="text-base font-bold">
+            Applied For: <span className="text-red-500">{id}</span>
+          </h2>
+          <h2 className="text-base font-bold">
+            Application ID: <span className="text-blue-500">{id}</span>
+          </h2>
+          <h2 className="text-base font-bold">
+            Date: <span className="text-gray-600">{new Date().toLocaleDateString()}</span>
+          </h2>
+        </div>
+      </Modal.Header>
+      <Modal.Body className="overflow-y-auto max-h-[70vh] p-3 space-y-3">
 
         <h4 className="text-xl font-semibold mb-2">Personal Details</h4>
         {/* Personal Information */}
@@ -309,7 +308,7 @@ const FormPreview = ({
           {/* Left Side: Place and Date */}
           <div className="flex flex-col">
             <p><strong>Place:</strong> {district}</p> {/* Placeholder for District */}
-            <p><strong>Date:</strong> ___________</p> {/* Placeholder for current date */}
+            <p><strong>Date:</strong> {new Date().toLocaleDateString()}</p> {/* Placeholder for current date */}
           </div>
 
           {/* Right Side: Signature */}
@@ -328,7 +327,7 @@ const FormPreview = ({
 
 
       </Modal.Body>
-      <Modal.Footer className="flex justify-end space-x-4 p-4 border-t-2 border-gray-200">
+      <Modal.Footer className="flex flex-wrap justify-end space-x-4 p-4 border-t-2 border-gray-200">
         <Button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded" onClick={handleClose} id="close-button">
           Close
         </Button>

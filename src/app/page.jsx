@@ -39,11 +39,11 @@ const Home = () => {
               <Image
                 src="/JSSPS-Logo.png"
                 alt="Jharkhand-Govt. Logo"
-                width={350}
+                width={330}
                 height={200}
                 className="w-3/4 sm:w-1/2 lg:w-3/4 h-auto mb-4"
               />
-              <h2 className="text-2xl sm:text-[52px]  font-extrabold text-gray-800 mb-2 whitespace-nowrap">
+              <h2 className="text-[26px] sm:text-[36px] lg:text-[52px]  font-extrabold text-gray-800 mb-2 whitespace-nowrap">
                 JSSPS Career Portal
               </h2>
               <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-600">
@@ -57,8 +57,8 @@ const Home = () => {
           </div>
         </main>
         <div className="bg-[#252425] py-4 text-center">
-          <p className="text-[20px] sm:text-[32px] font-bold text-yellow-500">
-            IMPORTANT ANNOUNCEMENTS REGARDING COACH HIRING{" "}
+          <p className="text-[20px] sm:text-[26px] font-bold text-yellow-500">
+            IMPORTANT ANNOUNCEMENTS REGARDING COACHES HIRING{" "}
             <a
               href="/path/to/your/pdf-file.pdf"
               download

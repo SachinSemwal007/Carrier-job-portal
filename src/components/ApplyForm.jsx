@@ -298,7 +298,107 @@ const ApplyForm = ({ params }) => {
 
   //Save as Draft
   // Function to save form data to local storage
+  const saveAsDraft = () => {
+    const draftData = {
+      firstName,
+      middleName,
+      lastName,
+      fhName,
+      email,
+      contact,
+      whatsapp,
+      gender,
+      dob,
+      maritalStatus,
+      address,
+      pincode,
+      country,
+      state,
+      district,
+      isHandicapped,
+      community,
+      matriculationYear,
+      matriculationGrade,
+      matriculationPercentage,
+      matriculationBoard,
+      interYear,
+      interGrade,
+      interPercentage,
+      interBoard,
+      bachelorYear,
+      bachelorCourse,
+      bachelorSpecialization,
+      bachelorGrade,
+      bachelorPercentage,
+      bachelorUniversity,
+      courses,
+      experiences,
+      references,
+      achievement,
+      description,
+      passportPhoto,
+      certification,
+      signature,
+    };
+    
+    localStorage.setItem(`jobApplicationDraft_${id}`, JSON.stringify(draftData));
+    alert('Draft saved successfully!');
+  };
 
+  // Function to load form data from local storage
+  const loadDraft = () => {
+    const draftData = localStorage.getItem(`jobApplicationDraft_${id}`);
+    if (draftData) {
+      const parsedData = JSON.parse(draftData);
+      setFirstName(parsedData.firstName);
+      setMiddleName(parsedData.middleName);
+      setLastName(parsedData.lastName);
+      setFhName(parsedData.fhName);
+      setEmail(parsedData.email);
+      setContact(parsedData.contact);
+      setWhatsapp(parsedData.whatsapp);
+      setGender(parsedData.gender);
+      setDob(parsedData.dob);
+      setMaritalStatus(parsedData.maritalStatus);
+      setAddress(parsedData.address);
+      setPincode(parsedData.pincode);
+      setCountry(parsedData.country);
+      setState(parsedData.state);
+      setDistrict(parsedData.district);
+      setIsHandicapped(parsedData.isHandicapped);
+      setCommunity(parsedData.community);
+      setMatriculationYear(parsedData.matriculationYear);
+      setMatriculationGrade(parsedData.matriculationGrade);
+      setMatriculationPercentage(parsedData.matriculationPercentage);
+      setMatriculationBoard(parsedData.matriculationBoard);
+      setInterYear(parsedData.interYear);
+      setInterGrade(parsedData.interGrade);
+      setInterPercentage(parsedData.interPercentage);
+      setInterBoard(parsedData.interBoard);
+      setBachelorYear(parsedData.bachelorYear);
+      setBachelorCourse(parsedData.bachelorCourse);
+      setBachelorSpecialization(parsedData.bachelorSpecialization);
+      setBachelorGrade(parsedData.bachelorGrade);
+      setBachelorPercentage(parsedData.bachelorPercentage);
+      setBachelorUniversity(parsedData.bachelorUniversity);
+      setCourses(parsedData.courses);
+      setExperiences(parsedData.experiences);
+      setReferences(parsedData.references);
+      setAchievement(parsedData.achievement);
+      setDescription(parsedData.description);
+      setPassportPhoto(parsedData.passportPhoto);
+      setCertification(parsedData.certification);
+      setSignature(parsedData.signature);
+    }
+  };
+
+  // Load draft data when component mounts
+  useEffect(() => {
+    loadDraft();
+  }, []);
+
+  
+  // Handle Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     const applicantId = applicant.id;
@@ -516,7 +616,7 @@ const ApplyForm = ({ params }) => {
         <form onSubmit={handleSubmit}>
           {/* Name Fields */}
           <div>
-            <h3 className="text-lg font-semibold mb-2">Personal Details</h3>
+            <h3 className="text-xl font-semibold mb-2">Personal Details</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
             <div>
@@ -727,7 +827,7 @@ const ApplyForm = ({ params }) => {
           <div className="flex justify-between gap-4">
             {/* Physical Handicapped Radio Button */}
             <div className="flex flex-col">
-              <label className="mb-2">Whether Physical Handicapped?</label>
+              <label className="block font-medium mb-1">Whether Physical Handicapped?</label>
               <div className="flex space-x-4">
                 <label className="flex items-center">
                   <input
@@ -779,10 +879,10 @@ const ApplyForm = ({ params }) => {
 
           {/* Matriculation Field */}
           <div>
-            <h3 className="text-xl font-bold mb-4">Educational Details</h3>
+            <h3 className="text-xl font-semibold mb-2">Educational Details</h3>
           </div>
           <div className="flex flex-col my-4">
-            <label className="mb-2 text-lg">Matriculation:</label>
+            <label className="block font-medium mb-1">Matriculation:</label>
             <div className="flex justify-between gap-2">
               <input
                 type="number"
@@ -822,7 +922,7 @@ const ApplyForm = ({ params }) => {
 
           {/* Intermediate Field */}
           <div className="flex flex-col my-4">
-            <label className="mb-2 text-lg">Intermediate / +2:</label>
+            <label className="block font-medium mb-1">Intermediate / +2:</label>
             <div className="flex justify-between gap-2">
               <input
                 type="number"
@@ -920,9 +1020,10 @@ const ApplyForm = ({ params }) => {
 
           {/* Professional Qualifications Section */}
           <div>
-            <h3 className="text-lg font-semibold">Professional Details</h3>
+            <h3 className="text-xl font-semibold mb-2">Professional Details</h3>
           </div>
           <div>
+
             <label className="block text-sm font-medium mb-2">
               Professional Qualifications / Diploma / Certification Course
             </label>
@@ -1013,7 +1114,7 @@ const ApplyForm = ({ params }) => {
 
           {/* Experiences Section */}
           <div>
-            <label className="block text-sm font-medium mb-2">Experience</label>
+            <label className="block font-medium mb-1">Experience</label>
           </div>
           {experiences.map((experience, index) => (
             <div
@@ -1128,7 +1229,7 @@ const ApplyForm = ({ params }) => {
 
           {/* References Section */}
           <div>
-            <label className="block text-sm font-medium mb-2">References</label>
+            <label className="block font-medium mb-1">References</label>
           </div>
           {references.map((reference, index) => (
             <div
@@ -1185,7 +1286,6 @@ const ApplyForm = ({ params }) => {
             <h3 className="text-lg font-semibold mb-2">
               Upload Required Documents
             </h3>
-
             {/* Passport Photo */}
             {/* Passport Photo */}
             <div className="mb-4">
@@ -1248,6 +1348,7 @@ const ApplyForm = ({ params }) => {
 
           {/* Save as Draft, Preview and Submit buttons */}
           <div className="flex justify-center space-x-4 mt-6">
+
             <button
               type="button"
               className="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-700 transition duration-200"
