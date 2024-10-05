@@ -45,7 +45,7 @@ const ApplicantLogin = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <main className="flex-grow container mx-auto flex flex-col items-center justify-center p-6">
-        <div className="w-full max-w-md bg-white p-8 rounded-md shadow-2xl">
+        <div className="w-full max-w-md bg-white p-8 rounded-md shadow-xl">
           <div className="flex flex-col items-center mb-4">
             <Image
               src="/JSSPS-Logo.png" // Updated to use your logo
@@ -99,12 +99,12 @@ const ApplicantLogin = () => {
           </form>
           <div className="flex flex-col sm:flex-row justify-between gap-4 mt-4">
             <Link href="/forgotpassword" className="w-full sm:w-auto">
-              <button className="bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 w-full">
+              <button className="bg-blue-600 text-white text-[14px] py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 w-full">
                 Forgot Password ?
               </button>
             </Link>
             <button
-              className="bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 w-full sm:w-auto"
+              className="bg-blue-600 text-white text-[14px] py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 w-full sm:w-auto"
               onClick={handleRegisterClick}
             >
               New User Register Here

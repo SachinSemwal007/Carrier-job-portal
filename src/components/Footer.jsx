@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row justify-between items-center">
           {/* Footer Links */}
           <div className="flex flex-col md:flex-row text-center md:text-left mb-4 md:mb-0">
-            <h2 className="text-[18px] md:text-[26px] font-bold text-white">
+            <h2 className="text-[18px] md:text-[22px] font-bold text-white">
               Designed and Developed by ACM
             </h2>
           </div>

@@ -63,7 +63,7 @@ const Navbar = () => {
       </div>
       {/* Nav Links */}
       <div className={`lg:flex items-center space-x-4 ${isOpen ? "block" : "hidden"}`}>
-        <Link href="/" className="block mt-2 lg:mt-0 lg:ml-4 px-2 py-1 rounded hover:bg-[#44403c] transition duration-300">
+        <Link href="/" className="block mt-2 lg:mt-0 lg:ml-4 px-2 py-1 rounded  hover:bg-[#44403c] transition duration-300">
           Home
         </Link>
         {applicant ? (
