@@ -23,7 +23,6 @@ const AdminJobList = () => {
     });
     setJobs(data.jobPosts);
   };
-
   useEffect(() => {
     fetchJobs();
   }, [search, filters, sort, page]);
@@ -32,22 +31,13 @@ const AdminJobList = () => {
     <div className="bg-white p-6 rounded-lg shadow-md h-full overflow-hidden">
       <h2 className="text-2xl font-bold mb-4">Job Listings</h2>
       <div className="mb-4 flex flex-col md:flex-row md:justify-between">
-        <input
-          type="text"
-          placeholder="Search Job Title"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="border border-gray-300 p-2 rounded w-full md:w-1/2 mr-2 mb-2 md:mb-0"
-        />
+        <input type="text" placeholder="Search Job Title" value={search} onChange={(e) => setSearch(e.target.value)} className="border border-gray-300 p-2 rounded w-full md:w-1/2 mr-2 mb-2 md:mb-0" />
         <div className="flex items-center">
           <select onChange={(e) => setSort(e.target.value)} className="border border-gray-300 p-2 rounded mr-2">
             <option value="desc">Newest</option>
             <option value="asc">Oldest</option>
           </select>
-          <select
-            onChange={(e) => setFilters({ ...filters, location: e.target.value })}
-            className="border border-gray-300 p-2 rounded"
-          >
+          <select onChange={(e) => setFilters({ ...filters, location: e.target.value })} className="border border-gray-300 p-2 rounded">
             <option value="">All Locations</option>
             <option value="Remote">Remote</option>
             <option value="New York">New York</option>
@@ -56,7 +46,9 @@ const AdminJobList = () => {
         </div>
       </div>
 
-      <div className="max-h-96 overflow-y-auto"> {/* Scrollable area */}
+      <div className=" overflow-y-auto">
+        {" "}
+        {/* Scrollable area */}
         {jobs.length > 0 ? (
           jobs.map((job) => (
             <div key={job._id} className="flex justify-between items-center p-4 border-b border-gray-300">

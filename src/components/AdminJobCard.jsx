@@ -3,10 +3,10 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { deleteJob } from "@/api"; // Assuming the deleteJob function is in api.js
 import * as XLSX from "xlsx"; // Import xlsx for Excel file generation
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrashAlt, faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faTrashAlt, faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { jsPDF } from "jspdf"; // Import jsPDF for PDF generation
-import { FaDownload } from 'react-icons/fa'; // Import the download icon
+import { FaDownload } from "react-icons/fa"; // Import the download icon
 
 const AdminJobCard = ({ job, refreshJobs }) => {
   const [message, setMessage] = useState("");
@@ -113,12 +113,8 @@ const AdminJobCard = ({ job, refreshJobs }) => {
       BachelorPercentage: applicant.bachelorPercentage,
       BachelorUniversity: applicant.bachelorUniversity,
       Courses: applicant.courses.map((course) => course.name).join(", "),
-      Experiences: applicant.experiences
-        .map((exp) => `${exp.title} at ${exp.company} (${exp.years} years)`)
-        .join("; "),
-      References: applicant.references
-        .map((ref) => `${ref.name} (${ref.relation}): ${ref.contact}`)
-        .join("; "),
+      Experiences: applicant.experiences.map((exp) => `${exp.title} at ${exp.company} (${exp.years} years)`).join("; "),
+      References: applicant.references.map((ref) => `${ref.name} (${ref.relation}): ${ref.contact}`).join("; "),
       Achievement: applicant.achievement,
       Description: applicant.description,
       PassportPhoto: applicant.passportPhoto,
@@ -139,16 +135,16 @@ const AdminJobCard = ({ job, refreshJobs }) => {
   const handleDownloadApplicantPDF = (applicant) => {
     const doc = new jsPDF();
     let line = 10; // Initial line position
-    
+
     // Adding content to the PDF
     doc.setFontSize(16);
-    doc.text('Applicant Information', 10, line);
+    doc.text("Applicant Information", 10, line);
     doc.setFontSize(12);
     line += 10; // Move to the next line
 
     doc.text(`Applicant ID: ${applicant.applicantId}`, 10, line);
     line += 10;
-    doc.text(`Name: ${applicant.firstName} ${applicant.middleName || ''} ${applicant.lastName}`, 10, line);
+    doc.text(`Name: ${applicant.firstName} ${applicant.middleName || ""} ${applicant.lastName}`, 10, line);
     line += 10;
     doc.text(`Father's/Husband's Name: ${applicant.fhName}`, 10, line);
     line += 10;
@@ -174,7 +170,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
     line += 10;
     doc.text(`District: ${applicant.district}`, 10, line);
     line += 10;
-    doc.text(`Is Handicapped: ${applicant.isHandicapped ? 'Yes' : 'No'}`, 10, line);
+    doc.text(`Is Handicapped: ${applicant.isHandicapped ? "Yes" : "No"}`, 10, line);
     line += 10;
     doc.text(`Community: ${applicant.community}`, 10, line);
     line += 10;
@@ -206,23 +202,23 @@ const AdminJobCard = ({ job, refreshJobs }) => {
     line += 10;
     doc.text(`Bachelor University: ${applicant.bachelorUniversity}`, 10, line);
     line += 10;
-    doc.text(`Courses: ${applicant.courses.map((course) => course.name).join(', ')}`, 10, line);
+    doc.text(`Courses: ${applicant.courses.map((course) => course.name).join(", ")}`, 10, line);
     line += 10;
-    doc.text(`Experiences: ${applicant.experiences.map((exp) => `${exp.title} at ${exp.company} (${exp.years} years)`).join('; ')}`, 10, line);
+    doc.text(`Experiences: ${applicant.experiences.map((exp) => `${exp.title} at ${exp.company} (${exp.years} years)`).join("; ")}`, 10, line);
     line += 10;
-    doc.text(`References: ${applicant.references.map((ref) => `${ref.name} (${ref.relation}): ${ref.contact}`).join('; ')}`, 10, line);
+    doc.text(`References: ${applicant.references.map((ref) => `${ref.name} (${ref.relation}): ${ref.contact}`).join("; ")}`, 10, line);
     line += 10;
     doc.text(`Achievement: ${applicant.achievement}`, 10, line);
     line += 10;
     doc.text(`Description: ${applicant.description}`, 10, line);
     line += 10;
-    doc.text(`Passport Photo: ${applicant.passportPhoto ? 'Attached' : 'Not Provided'}`, 10, line);
+    doc.text(`Passport Photo: ${applicant.passportPhoto ? "Attached" : "Not Provided"}`, 10, line);
     line += 10;
-    doc.text(`Certification: ${applicant.certification ? 'Attached' : 'Not Provided'}`, 10, line);
+    doc.text(`Certification: ${applicant.certification ? "Attached" : "Not Provided"}`, 10, line);
     line += 10;
-    doc.text(`Signature: ${applicant.signature ? 'Attached' : 'Not Provided'}`, 10, line);
+    doc.text(`Signature: ${applicant.signature ? "Attached" : "Not Provided"}`, 10, line);
     line += 10;
-    doc.text(`Submitted: ${applicant.submitted ? 'Yes' : 'No'}`, 10, line);
+    doc.text(`Submitted: ${applicant.submitted ? "Yes" : "No"}`, 10, line);
     line += 10;
     doc.text(`Job ID: ${applicant.jobId}`, 10, line);
 
@@ -244,7 +240,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
 
       doc.text(`Applicant ID: ${applicant.applicantId}`, 10, line);
       line += 10;
-      doc.text(`Name: ${applicant.firstName} ${applicant.middleName || ''} ${applicant.lastName}`, 10, line);
+      doc.text(`Name: ${applicant.firstName} ${applicant.middleName || ""} ${applicant.lastName}`, 10, line);
       line += 10;
       // Add more fields as in the individual applicant function...
 
@@ -262,7 +258,6 @@ const AdminJobCard = ({ job, refreshJobs }) => {
     doc.save(`All_Applicants_Info.pdf`);
   };
 
-
   // Filter applicants to show only those with `submitted` set to `true`
   const submittedApplicants = job.applicants.filter((applicant) => applicant.submitted);
 
@@ -274,19 +269,14 @@ const AdminJobCard = ({ job, refreshJobs }) => {
           <FontAwesomeIcon icon={faEdit} className="mr-2" />
           Edit
         </Link>
-        <h2
-          className="cursor-pointer text-red-600 hover:text-red-800 flex items-center"
-          onClick={() => handleDelete(job._id)}
-        >
+        <h2 className="cursor-pointer text-red-600 hover:text-red-800 flex items-center" onClick={() => handleDelete(job._id)}>
           <FontAwesomeIcon icon={faTrashAlt} className="mr-2" />
           Delete Job
         </h2>
       </div>
 
       {/* Job Information */}
-      <h2 className="text-lg font-semibold text-green-600 mb-2">
-        No. of Applicants: {submittedApplicants.length}
-      </h2>
+      <h2 className="text-lg font-semibold text-green-600 mb-2">No. of Applicants: {submittedApplicants.length}</h2>
       <h3 className="text-xl font-bold mb-1">{job.jobTitle}</h3>
       <h4 className="text-gray-600 text-sm mb-1">Job ID: {job._id}</h4>
       <p className="text-gray-800 mb-1">Location: {job.location}</p>
@@ -294,10 +284,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
       <p className="text-gray-500 mb-4">Posted: {new Date(job.postedDate).toLocaleDateString()}</p>
 
       {/* Download Button */}
-      <button
-        onClick={handleDownloadApplicants}
-        className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300"
-      >
+      <button onClick={handleDownloadApplicants} className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
         Download Submitted Applicants
       </button>
 
@@ -316,31 +303,26 @@ const AdminJobCard = ({ job, refreshJobs }) => {
             </>
           )}
         </h2>
-        {showApplicants && submittedApplicants.map((applicant, index) => (
-          <ul key={index} className="bg-white p-3 mb-2 rounded-lg shadow-sm">
-            <li className="text-gray-700">
-              Name: {applicant.firstName} {applicant.middleName} {applicant.lastName}
-            </li>
-            <li className="text-gray-700">Email: {applicant.email}</li>
-            <li className="text-gray-700">Contact: {applicant.contact}</li>
-            <li className="text-gray-700">Gender: {applicant.gender}</li>
-            <li className="text-gray-700">DOB: {new Date(applicant.dob).toLocaleDateString()}</li>
-             {/* Download PDF Button */}
-             <button
-                onClick={() => handleDownloadApplicantPDF(applicant)}
-                className="mt-2 text-blue-600 hover:text-blue-800 flex items-center"
-              >
+        {showApplicants &&
+          submittedApplicants.map((applicant, index) => (
+            <ul key={index} className="bg-white p-3 mb-2 rounded-lg shadow-sm">
+              <li className="text-gray-700">
+                Name: {applicant.firstName} {applicant.middleName} {applicant.lastName}
+              </li>
+              <li className="text-gray-700">Email: {applicant.email}</li>
+              <li className="text-gray-700">Contact: {applicant.contact}</li>
+              <li className="text-gray-700">Gender: {applicant.gender}</li>
+              <li className="text-gray-700">DOB: {new Date(applicant.dob).toLocaleDateString()}</li>
+              {/* Download PDF Button */}
+              <button onClick={() => handleDownloadApplicantPDF(applicant)} className="mt-2 text-blue-600 hover:text-blue-800 flex items-center">
                 <FaDownload className="mr-2" /> Download PDF
               </button>
-            {/* Remove Applicant */}
-            <li
-              className="text-red-600 cursor-pointer mt-2 hover:text-red-800"
-              onClick={() => deleteApplicant(applicant.applicantId)}
-            >
-              Remove Applicant
-            </li>
-          </ul>
-        ))}
+              {/* Remove Applicant */}
+              <li className="text-red-600 cursor-pointer mt-2 hover:text-red-800" onClick={() => deleteApplicant(applicant.applicantId)}>
+                Remove Applicant
+              </li>
+            </ul>
+          ))}
       </div>
 
       {/* Success and Error Messages */}
