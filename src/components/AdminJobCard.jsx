@@ -4,14 +4,21 @@ import React, { useState } from "react";
 import { deleteJob } from "@/api"; // Assuming the deleteJob function is in api.js
 import * as XLSX from "xlsx"; // Import xlsx for Excel file generation
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrashAlt, faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEdit,
+  faTrashAlt,
+  faArrowDown,
+  faArrowUp,
+} from "@fortawesome/free-solid-svg-icons";
 import { jsPDF } from "jspdf"; // Import jsPDF for PDF generation
 import { FaDownload } from "react-icons/fa"; // Import the download icon
+import FormDownload from "./FormDownload";
 
 const AdminJobCard = ({ job, refreshJobs }) => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [showApplicants, setShowApplicants] = useState(false); // State to toggle applicants' visibility
+  const [showPreview, setShowPreview] = useState(false); //state for Preview
 
   // Handle Apply button click
   const handleToggleApplicants = () => {
@@ -20,7 +27,9 @@ const AdminJobCard = ({ job, refreshJobs }) => {
 
   // Function to handle job deletion
   const handleDelete = async (id) => {
-    const confirmed = window.confirm("Are you sure you want to delete this job?");
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this job?"
+    );
     if (!confirmed) return;
 
     try {
@@ -41,13 +50,18 @@ const AdminJobCard = ({ job, refreshJobs }) => {
 
   // Function to delete an applicant using `applicantId`
   const deleteApplicant = async (applicantId) => {
-    const confirmed = window.confirm("Are you sure you want to delete this applicant?");
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this applicant?"
+    );
     if (!confirmed) return;
 
     try {
-      const response = await fetch(`http://localhost:5001/api/posts/${job._id}/applications/${applicantId}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `http://localhost:5001/api/posts/${job._id}/applications/${applicantId}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (response.ok) {
         setMessage("Applicant removed successfully.");
@@ -72,7 +86,9 @@ const AdminJobCard = ({ job, refreshJobs }) => {
   // Function to handle downloading the applicant list as an Excel file
   const handleDownloadApplicants = () => {
     // Filter only applicants with `submitted` set to `true`
-    const submittedApplicants = job.applicants.filter((applicant) => applicant.submitted);
+    const submittedApplicants = job.applicants.filter(
+      (applicant) => applicant.submitted
+    );
 
     if (submittedApplicants.length === 0) {
       alert("No submitted applicants to download");
@@ -113,8 +129,12 @@ const AdminJobCard = ({ job, refreshJobs }) => {
       BachelorPercentage: applicant.bachelorPercentage,
       BachelorUniversity: applicant.bachelorUniversity,
       Courses: applicant.courses.map((course) => course.name).join(", "),
-      Experiences: applicant.experiences.map((exp) => `${exp.title} at ${exp.company} (${exp.years} years)`).join("; "),
-      References: applicant.references.map((ref) => `${ref.name} (${ref.relation}): ${ref.contact}`).join("; "),
+      Experiences: applicant.experiences
+        .map((exp) => `${exp.title} at ${exp.company} (${exp.years} years)`)
+        .join("; "),
+      References: applicant.references
+        .map((ref) => `${ref.name} (${ref.relation}): ${ref.contact}`)
+        .join("; "),
       Achievement: applicant.achievement,
       Description: applicant.description,
       PassportPhoto: applicant.passportPhoto,
@@ -132,99 +152,202 @@ const AdminJobCard = ({ job, refreshJobs }) => {
   };
 
   // Function to handle downloading an individual applicant's data as a PDF
-  const handleDownloadApplicantPDF = (applicant) => {
-    const doc = new jsPDF();
-    let line = 10; // Initial line position
+  // Function to handle downloading an individual applicant's data as a PDF
+  // const handleDownloadApplicantPDF = (applicant) => {
+  //   const doc = new jsPDF();
+  //   let line = 20; // Starting line position
+  //   const margin = 10;
 
-    // Adding content to the PDF
-    doc.setFontSize(16);
-    doc.text("Applicant Information", 10, line);
-    doc.setFontSize(12);
-    line += 10; // Move to the next line
+  //   // Adding logo and title
+  //   doc.setFontSize(18);
+  //   doc.text("Applicant Information", margin, line);
+  //   line += 10;
 
-    doc.text(`Applicant ID: ${applicant.applicantId}`, 10, line);
-    line += 10;
-    doc.text(`Name: ${applicant.firstName} ${applicant.middleName || ""} ${applicant.lastName}`, 10, line);
-    line += 10;
-    doc.text(`Father's/Husband's Name: ${applicant.fhName}`, 10, line);
-    line += 10;
-    doc.text(`Email: ${applicant.email}`, 10, line);
-    line += 10;
-    doc.text(`Contact: ${applicant.contact}`, 10, line);
-    line += 10;
-    doc.text(`Whatsapp: ${applicant.whatsapp}`, 10, line);
-    line += 10;
-    doc.text(`Gender: ${applicant.gender}`, 10, line);
-    line += 10;
-    doc.text(`DOB: ${new Date(applicant.dob).toLocaleDateString()}`, 10, line);
-    line += 10;
-    doc.text(`Marital Status: ${applicant.maritalStatus}`, 10, line);
-    line += 10;
-    doc.text(`Address: ${applicant.address}`, 10, line);
-    line += 10;
-    doc.text(`Pincode: ${applicant.pincode}`, 10, line);
-    line += 10;
-    doc.text(`Country: ${applicant.country}`, 10, line);
-    line += 10;
-    doc.text(`State: ${applicant.state}`, 10, line);
-    line += 10;
-    doc.text(`District: ${applicant.district}`, 10, line);
-    line += 10;
-    doc.text(`Is Handicapped: ${applicant.isHandicapped ? "Yes" : "No"}`, 10, line);
-    line += 10;
-    doc.text(`Community: ${applicant.community}`, 10, line);
-    line += 10;
-    doc.text(`Matriculation Year: ${applicant.matriculationYear}`, 10, line);
-    line += 10;
-    doc.text(`Matriculation Grade: ${applicant.matriculationGrade}`, 10, line);
-    line += 10;
-    doc.text(`Matriculation Percentage: ${applicant.matriculationPercentage}`, 10, line);
-    line += 10;
-    doc.text(`Matriculation Board: ${applicant.matriculationBoard}`, 10, line);
-    line += 10;
-    doc.text(`Inter Year: ${applicant.interYear}`, 10, line);
-    line += 10;
-    doc.text(`Inter Grade: ${applicant.interGrade}`, 10, line);
-    line += 10;
-    doc.text(`Inter Percentage: ${applicant.interPercentage}`, 10, line);
-    line += 10;
-    doc.text(`Inter Board: ${applicant.interBoard}`, 10, line);
-    line += 10;
-    doc.text(`Bachelor Year: ${applicant.bachelorYear}`, 10, line);
-    line += 10;
-    doc.text(`Bachelor Course: ${applicant.bachelorCourse}`, 10, line);
-    line += 10;
-    doc.text(`Bachelor Specialization: ${applicant.bachelorSpecialization}`, 10, line);
-    line += 10;
-    doc.text(`Bachelor Grade: ${applicant.bachelorGrade}`, 10, line);
-    line += 10;
-    doc.text(`Bachelor Percentage: ${applicant.bachelorPercentage}`, 10, line);
-    line += 10;
-    doc.text(`Bachelor University: ${applicant.bachelorUniversity}`, 10, line);
-    line += 10;
-    doc.text(`Courses: ${applicant.courses.map((course) => course.name).join(", ")}`, 10, line);
-    line += 10;
-    doc.text(`Experiences: ${applicant.experiences.map((exp) => `${exp.title} at ${exp.company} (${exp.years} years)`).join("; ")}`, 10, line);
-    line += 10;
-    doc.text(`References: ${applicant.references.map((ref) => `${ref.name} (${ref.relation}): ${ref.contact}`).join("; ")}`, 10, line);
-    line += 10;
-    doc.text(`Achievement: ${applicant.achievement}`, 10, line);
-    line += 10;
-    doc.text(`Description: ${applicant.description}`, 10, line);
-    line += 10;
-    doc.text(`Passport Photo: ${applicant.passportPhoto ? "Attached" : "Not Provided"}`, 10, line);
-    line += 10;
-    doc.text(`Certification: ${applicant.certification ? "Attached" : "Not Provided"}`, 10, line);
-    line += 10;
-    doc.text(`Signature: ${applicant.signature ? "Attached" : "Not Provided"}`, 10, line);
-    line += 10;
-    doc.text(`Submitted: ${applicant.submitted ? "Yes" : "No"}`, 10, line);
-    line += 10;
-    doc.text(`Job ID: ${applicant.jobId}`, 10, line);
+  //   // Passport Photo on top right
+  //   if (applicant.passportPhoto) {
+  //     doc.addImage(applicant.passportPhoto, "JPEG", 150, 10, 40, 50);
+  //   }
 
-    // Save the PDF with the applicant's name
-    doc.save(`${applicant.firstName}_${applicant.lastName}_Info.pdf`);
-  };
+  //   doc.setFontSize(12);
+  //   line += 10;
+
+  //   // Personal Details
+  //   doc.setFontSize(14);
+  //   doc.text("Personal Details", margin, line);
+  //   line += 10;
+  //   doc.setFontSize(12);
+  //   doc.text(
+  //     `Name: ${applicant.firstName} ${applicant.middleName} ${applicant.lastName}`,
+  //     margin,
+  //     line
+  //   );
+  //   line += 8;
+  //   doc.text(`Father/Husband Name: ${applicant.fhName}`, margin, line);
+  //   line += 8;
+  //   doc.text(`Email: ${applicant.email}`, margin, line);
+  //   line += 8;
+  //   doc.text(`Gender: ${applicant.gender}`, margin, line);
+  //   line += 8;
+  //   doc.text(
+  //     `Date of Birth: ${new Date(applicant.dob).toLocaleDateString()}`,
+  //     margin,
+  //     line
+  //   );
+  //   line += 8;
+  //   doc.text(`Marital Status: ${applicant.maritalStatus}`, margin, line);
+  //   line += 8;
+  //   doc.text(
+  //     `Address: ${applicant.address}, ${applicant.district}, ${applicant.state}, ${applicant.country}, ${applicant.pincode}`,
+  //     margin,
+  //     line
+  //   );
+  //   line += 8;
+  //   doc.text(`Community: ${applicant.community}`, margin, line);
+  //   line += 8;
+  //   doc.text(
+  //     `Is Handicapped: ${applicant.isHandicapped ? "Yes" : "No"}`,
+  //     margin,
+  //     line
+  //   );
+  //   line += 12;
+
+  //   // Matriculation Section
+  //   doc.setFontSize(14);
+  //   doc.text("Matriculation", margin, line);
+  //   line += 10;
+  //   doc.setFontSize(12);
+  //   doc.text(`Year: ${applicant.matriculationYear}`, margin, line);
+  //   line += 8;
+  //   doc.text(`Grade: ${applicant.matriculationGrade}`, margin, line);
+  //   line += 8;
+  //   doc.text(`Percentage: ${applicant.matriculationPercentage}%`, margin, line);
+  //   line += 8;
+  //   doc.text(`Board: ${applicant.matriculationBoard}`, margin, line);
+  //   line += 12;
+
+  //   // Intermediate Section
+  //   doc.setFontSize(14);
+  //   doc.text("Intermediate", margin, line);
+  //   line += 10;
+  //   doc.setFontSize(12);
+  //   doc.text(`Year: ${applicant.interYear}`, margin, line);
+  //   line += 8;
+  //   doc.text(`Grade: ${applicant.interGrade}`, margin, line);
+  //   line += 8;
+  //   doc.text(`Percentage: ${applicant.interPercentage}%`, margin, line);
+  //   line += 8;
+  //   doc.text(`Board: ${applicant.interBoard}`, margin, line);
+  //   line += 12;
+
+  //   // Bachelor Section
+  //   doc.setFontSize(14);
+  //   doc.text("Bachelor's Degree", margin, line);
+  //   line += 10;
+  //   doc.setFontSize(12);
+  //   doc.text(`Year: ${applicant.bachelorYear}`, margin, line);
+  //   line += 8;
+  //   doc.text(`Course: ${applicant.bachelorCourse}`, margin, line);
+  //   line += 8;
+  //   doc.text(
+  //     `Specialization: ${applicant.bachelorSpecialization}`,
+  //     margin,
+  //     line
+  //   );
+  //   line += 8;
+  //   doc.text(`Grade: ${applicant.bachelorGrade}`, margin, line);
+  //   line += 8;
+  //   doc.text(`Percentage: ${applicant.bachelorPercentage}%`, margin, line);
+  //   line += 8;
+  //   doc.text(`University: ${applicant.bachelorUniversity}`, margin, line);
+  //   line += 12;
+
+  //   // Courses Section
+  //   if (applicant.courses && applicant.courses.length > 0) {
+  //     doc.setFontSize(14);
+  //     doc.text("Professional Qualifications", margin, line);
+  //     line += 10;
+  //     doc.setFontSize(12);
+  //     applicant.courses.forEach((course, index) => {
+  //       doc.text(`Course ${index + 1}: ${course.name}`, margin, line);
+  //       line += 8;
+  //     });
+  //     line += 12;
+  //   }
+
+  //   // Experience Section
+  //   if (applicant.experiences && applicant.experiences.length > 0) {
+  //     doc.setFontSize(14);
+  //     doc.text("Experiences", margin, line);
+  //     line += 10;
+  //     doc.setFontSize(12);
+  //     applicant.experiences.forEach((exp, index) => {
+  //       doc.text(
+  //         `${exp.title} at ${exp.company} (${exp.years} years)`,
+  //         margin,
+  //         line
+  //       );
+  //       line += 8;
+  //     });
+  //     line += 12;
+  //   }
+
+  //   // References Section
+  //   if (applicant.references && applicant.references.length > 0) {
+  //     doc.setFontSize(14);
+  //     doc.text("References", margin, line);
+  //     line += 10;
+  //     doc.setFontSize(12);
+  //     applicant.references.forEach((ref, index) => {
+  //       doc.text(`${ref.name} (${ref.relation}): ${ref.contact}`, margin, line);
+  //       line += 8;
+  //     });
+  //     line += 12;
+  //   }
+
+  //   // Achievement and Description
+  //   doc.setFontSize(14);
+  //   doc.text("Achievements", margin, line);
+  //   line += 10;
+  //   doc.setFontSize(12);
+  //   doc.text(applicant.achievement, margin, line);
+  //   line += 12;
+
+  //   doc.setFontSize(14);
+  //   doc.text("Description", margin, line);
+  //   line += 10;
+  //   doc.setFontSize(12);
+  //   doc.text(applicant.description, margin, line);
+  //   line += 12;
+
+  //   // Declaration and Signature
+  //   doc.setFontSize(14);
+  //   doc.text("Declaration", margin, line);
+  //   line += 10;
+  //   doc.setFontSize(12);
+  //   doc.text(
+  //     "I hereby declare that the information furnished in this Application Form is true to the best of my knowledge and belief.",
+  //     margin,
+  //     line
+  //   );
+  //   line += 10;
+
+  //   // Signature on the bottom left
+  //   if (applicant.signature) {
+  //     doc.addImage(applicant.signature, "JPEG", margin, 250, 40, 20);
+  //     doc.text("Signature of Candidate", margin, 275);
+  //   }
+
+  //   // Certification link at the bottom
+  //   if (applicant.certification) {
+  //     doc.setTextColor(0, 0, 255); // Blue color for the link
+  //     doc.textWithLink("View Certification", margin, 290, {
+  //       url: applicant.certification,
+  //     });
+  //   }
+
+  //   // Save the PDF
+  //   doc.save(`${applicant.firstName}_${applicant.lastName}_Info.pdf`);
+  // };
 
   // Function to handle downloading all applicants' data as a single PDF
   const handleDownloadAllApplicantsPDF = () => {
@@ -240,7 +363,13 @@ const AdminJobCard = ({ job, refreshJobs }) => {
 
       doc.text(`Applicant ID: ${applicant.applicantId}`, 10, line);
       line += 10;
-      doc.text(`Name: ${applicant.firstName} ${applicant.middleName || ""} ${applicant.lastName}`, 10, line);
+      doc.text(
+        `Name: ${applicant.firstName} ${applicant.middleName || ""} ${
+          applicant.lastName
+        }`,
+        10,
+        line
+      );
       line += 10;
       // Add more fields as in the individual applicant function...
 
@@ -259,38 +388,80 @@ const AdminJobCard = ({ job, refreshJobs }) => {
   };
 
   // Filter applicants to show only those with `submitted` set to `true`
-  const submittedApplicants = job.applicants.filter((applicant) => applicant.submitted);
+  const submittedApplicants = job.applicants.filter(
+    (applicant) => applicant.submitted
+  );
+  const handlePreview = () => {
+    ; // Check limits based on job ID
+      setShowPreview(true);
+  };
+  const calculateAge = (dob) => {
+    const birthDate = new Date(dob);
+    const today = new Date();
 
+    // Check if the birth date is in the future
+    if (birthDate > today) {
+      alert("Date of birth cannot be in the future.");
+      return -1; // Indicate invalid age
+    }
+
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    ) {
+      age--;
+    }
+    return age;
+  };
   return (
     <div className="m-5 max-w-[400px] w-full flex-shrink-0 relative bg-white rounded-lg shadow-lg p-4 transition duration-300 hover:shadow-xl">
       {/* Job Card Header */}
       <div className="flex justify-between items-center mb-4">
-        <Link href={`/admin/${job._id}`} className="text-blue-600 hover:underline flex items-center">
+        <Link
+          href={`/admin/${job._id}`}
+          className="text-blue-600 hover:underline flex items-center"
+        >
           <FontAwesomeIcon icon={faEdit} className="mr-2" />
           Edit
         </Link>
-        <h2 className="cursor-pointer text-red-600 hover:text-red-800 flex items-center" onClick={() => handleDelete(job._id)}>
+        <h2
+          className="cursor-pointer text-red-600 hover:text-red-800 flex items-center"
+          onClick={() => handleDelete(job._id)}
+        >
           <FontAwesomeIcon icon={faTrashAlt} className="mr-2" />
           Delete Job
         </h2>
       </div>
 
       {/* Job Information */}
-      <h2 className="text-lg font-semibold text-green-600 mb-2">No. of Applicants: {submittedApplicants.length}</h2>
+      <h2 className="text-lg font-semibold text-green-600 mb-2">
+        No. of Applicants: {submittedApplicants.length}
+      </h2>
       <h3 className="text-xl font-bold mb-1">{job.jobTitle}</h3>
       <h4 className="text-gray-600 text-sm mb-1">Job ID: {job._id}</h4>
       <p className="text-gray-800 mb-1">Location: {job.location}</p>
       <p className="text-gray-800 mb-1">Salary: {job.salary}</p>
-      <p className="text-gray-500 mb-4">Posted: {new Date(job.postedDate).toLocaleDateString()}</p>
+      <p className="text-gray-500 mb-4">
+        Posted: {new Date(job.postedDate).toLocaleDateString()}
+      </p>
 
       {/* Download Button */}
-      <button onClick={handleDownloadApplicants} className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300">
+      <button
+        onClick={handleDownloadApplicants}
+        className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+      >
         Download Submitted Applicants
       </button>
 
       {/* Show Submitted Applicants */}
       <div className="border mt-4 p-4 rounded-lg overflow-hidden bg-gray-100 transition-all duration-300">
-        <h2 className="text-md font-semibold mb-2 flex items-center cursor-pointer" onClick={handleToggleApplicants}>
+        <h2
+          className="text-md font-semibold mb-2 flex items-center cursor-pointer"
+          onClick={handleToggleApplicants}
+        >
           {showApplicants ? (
             <>
               <FontAwesomeIcon icon={faArrowUp} className="mr-2" />
@@ -307,19 +478,68 @@ const AdminJobCard = ({ job, refreshJobs }) => {
           submittedApplicants.map((applicant, index) => (
             <ul key={index} className="bg-white p-3 mb-2 rounded-lg shadow-sm">
               <li className="text-gray-700">
-                Name: {applicant.firstName} {applicant.middleName} {applicant.lastName}
+                Name: {applicant.firstName} {applicant.middleName}{" "}
+                {applicant.lastName}
               </li>
               <li className="text-gray-700">Email: {applicant.email}</li>
               <li className="text-gray-700">Contact: {applicant.contact}</li>
               <li className="text-gray-700">Gender: {applicant.gender}</li>
-              <li className="text-gray-700">DOB: {new Date(applicant.dob).toLocaleDateString()}</li>
+              <li className="text-gray-700">
+                DOB: {new Date(applicant.dob).toLocaleDateString()}
+              </li>
               {/* Download PDF Button */}
-              <button onClick={() => handleDownloadApplicantPDF(applicant)} className="mt-2 text-blue-600 hover:text-blue-800 flex items-center">
-                <FaDownload className="mr-2" /> Download PDF
+              <button
+                onClick={handlePreview}
+                className="mt-2 text-blue-600 hover:text-blue-800 flex items-center"
+              >
+                <FaDownload className="mr-2" /> Show Form
               </button>
-
+              <FormDownload
+                show={showPreview}
+                handleClose={() => setShowPreview(false)}
+                firstName={applicant.firstName}
+                middleName={applicant.middleName}
+                lastName={applicant.lastName}
+                fhName={applicant.fhName}
+                email={applicant.email}
+                gender={applicant.gender}
+                maritalStatus={applicant.maritalStatus}
+                address={applicant.address}
+                pincode={applicant.pincode}
+                country={applicant.country}
+                state={applicant.state}
+                district={applicant.district}
+                isHandicapped={applicant.isHandicapped}
+                community={applicant.community}
+                matriculationYear={applicant.matriculationYear}
+                matriculationGrade={applicant.matriculationGrade}
+                matriculationPercentage={applicant.matriculationPercentage}
+                matriculationBoard={applicant.matriculationBoard}
+                interYear={applicant.interYear}
+                interGrade={applicant.interGrade}
+                interPercentage={applicant.interPercentage}
+                interBoard={applicant.interBoard}
+                bachelorYear={applicant.bachelorYear}
+                bachelorCourse={applicant.bachelorCourse}
+                bachelorSpecialization={applicant.bachelorSpecialization}
+                bachelorGrade={applicant.bachelorGrade}
+                bachelorPercentage={applicant.bachelorPercentage}
+                bachelorUniversity={applicant.bachelorUniversity}
+                courses={applicant.courses}
+                experiences={applicant.experiences}
+                references={applicant.references}
+                achievement={applicant.achievement}
+                description={applicant.description}
+                passportPhoto={applicant.passportPhoto}
+                signature={applicant.signature}
+                certification={applicant.certification}
+                _id={applicant._id}
+              />
               {/* Remove Applicant */}
-              <li className="text-red-600 cursor-pointer mt-2 hover:text-red-800" onClick={() => deleteApplicant(applicant.id)}>
+              <li
+                className="text-red-600 cursor-pointer mt-2 hover:text-red-800"
+                onClick={() => deleteApplicant(applicant.id)}
+              >
                 Remove Applicant
               </li>
             </ul>
