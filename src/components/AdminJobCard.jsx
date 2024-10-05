@@ -318,7 +318,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
                 <FaDownload className="mr-2" /> Download PDF
               </button>
               {/* Remove Applicant */}
-              <li className="text-red-600 cursor-pointer mt-2 hover:text-red-800" onClick={() => deleteApplicant(applicant.applicantId)}>
+              <li className="text-red-600 cursor-pointer mt-2 hover:text-red-800" onClick={() => deleteApplicant(applicant.id)}>
                 Remove Applicant
               </li>
             </ul>

@@ -7,9 +7,12 @@ import { applyForJob } from "@/api"; // Function to handle job application
 import FormPreview from "./FormPreview";
 import Navbar from "./Navbar";
 import { ApplicantAuthProvider, useApplicantAuth } from "@/context/ApplicantAuthProvider";
+import { useRouter } from 'next/navigation';
 
 const ApplyForm = ({ params }) => {
   // console.log(params)
+  const router = useRouter();
+
   const { id } = params; // Job ID from the URL
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -371,6 +374,7 @@ const ApplyForm = ({ params }) => {
 
         if (response.ok) {
             alert("Application submitted successfully!");
+            router.push('/jobs'); // Redirect to the admin dashboard or another page
         } else {
             const errorData = await response.json();
             alert(errorData.message || "Error submitting application. Please try again.");
