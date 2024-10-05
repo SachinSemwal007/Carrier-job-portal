@@ -317,24 +317,13 @@ const AdminJobCard = ({ job, refreshJobs }) => {
               <button onClick={() => handleDownloadApplicantPDF(applicant)} className="mt-2 text-blue-600 hover:text-blue-800 flex items-center">
                 <FaDownload className="mr-2" /> Download PDF
               </button>
-<<<<<<< HEAD
-            {/* Remove Applicant */}
-            <li
-              className="text-red-600 cursor-pointer mt-2 hover:text-red-800"
-              onClick={() => deleteApplicant(applicant.id) }
-            >
-              Remove Applicant
-            </li>
-          </ul>
-        ))}
-=======
+
               {/* Remove Applicant */}
               <li className="text-red-600 cursor-pointer mt-2 hover:text-red-800" onClick={() => deleteApplicant(applicant.id)}>
                 Remove Applicant
               </li>
             </ul>
           ))}
->>>>>>> 753f45794eacace93f787877c811ebb520c8868a
       </div>
 
       {/* Success and Error Messages */}

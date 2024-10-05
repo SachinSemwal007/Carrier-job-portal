@@ -9,6 +9,7 @@ import {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Head from "next/head";
+import ApplicantLogin from "@/components/ApplicantLogin";
 
 const Home = () => {
   const vacancies = [
@@ -31,25 +32,43 @@ const Home = () => {
       <div className="bg-gray-100 min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-grow container mx-auto p-6 sm:p-8">
-          <div className="flex flex-col items-center mb-6">
-            <Image
-              src="/Jharkhand-Govt-Logo.png" // Updated to use a simpler filename
-              alt="Jharkhand-Govt. Logo"
-              width={200} // Replace with the actual width of your image
-              height={100} // Replace with the actual height of your image
-              className="w-1/3 sm:w-1/4 h-auto mb-4"
-            />
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-center text-gray-800 mb-2">
-              Welcome to Jharkhand State Sports Promotion Society
-            </h2>
-            <h4 className="text-lg text-center text-gray-600">
-              (A State Govt. of Jharkhand and CCL Joint Initiative)
-            </h4>
-          </div>
-          <div className="mt-8 sm:mt-10">
-            <NewVacancyBanner vacancies={vacancies} />
+          {/* Flex container for logo/text and login */}
+          <div className="flex flex-col sm:flex-row items-center sm:justify-between mb-6">
+            {/* Logo and text section */}
+            <div className="flex flex-col w-full sm:w-1/2 lg:w-2/5 sm:ml-20 items-center mx-auto">
+              <Image
+                src="/JSSPS-Logo.png"
+                alt="Jharkhand-Govt. Logo"
+                width={350}
+                height={200}
+                className="w-3/4 sm:w-1/2 lg:w-3/4 h-auto mb-4"
+              />
+              <h2 className="text-2xl sm:text-[52px]  font-extrabold text-gray-800 mb-2 whitespace-nowrap">
+                JSSPS Career Portal
+              </h2>
+              <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-600">
+                (A State Govt. of Jharkhand and CCL Joint Initiative)
+              </h4>
+            </div>
+            {/* Applicant Login section */}
+            <div className="w-full sm:w-1/2 lg:w-2/5 mt-6 sm:mt-0">
+              <ApplicantLogin />
+            </div>
           </div>
         </main>
+        <div className="bg-[#252425] py-4 text-center">
+          <p className="text-[20px] sm:text-[32px] font-bold text-yellow-500">
+            IMPORTANT ANNOUNCEMENTS REGARDING COACH HIRING{" "}
+            <a
+              href="/path/to/your/pdf-file.pdf"
+              download
+              className="text-red-500 underline hover:text-red-700 blinking-text"
+            >
+              Click Here
+            </a>
+          </p>
+        </div>
+
         <Footer />
       </div>
     </>
