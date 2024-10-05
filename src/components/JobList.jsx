@@ -38,37 +38,6 @@ const JobList = () => {
           Job Listings
         </h2>
 
-        {/* Search and Filters */}
-        <div className="flex flex-col sm:flex-row justify-between items-center mb-8 space-y-4 sm:space-y-0 sm:space-x-4">
-          {/* Search Input */}
-          <input
-            type="text"
-            placeholder="Search Job Title"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full sm:w-1/3 p-3 bg-white border border-gray-300 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-
-          {/* Sort Dropdown */}
-          <select
-            onChange={(e) => setSort(e.target.value)}
-            className="w-full sm:w-1/4 p-3 bg-white border border-gray-300 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="desc">Newest</option>
-            <option value="asc">Oldest</option>
-          </select>
-
-          {/* Location Filter */}
-          <select
-            onChange={(e) => setFilters({ ...filters, location: e.target.value })}
-            className="w-full sm:w-1/4 p-3 bg-white border border-gray-300 rounded-full shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">All Locations</option>
-            <option value="Remote">Remote</option>
-            <option value="New York">New York</option>
-            {/* Add more options as needed */}
-          </select>
-        </div>
 
         {/* Job Cards Container */}
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
