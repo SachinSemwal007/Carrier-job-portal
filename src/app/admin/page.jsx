@@ -6,24 +6,24 @@ import Login from "@/components/Login"; // Login component
 import Signup from "@/components/Signup"; // Signup component
 import Image from "next/image"; // Next.js optimized image component
 import CreateJob from "@/components/CreateJob"; // Create Job component
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Font Awesome icons
-import { faBars, faTimes, faUser } from '@fortawesome/free-solid-svg-icons'; // Import toggle icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Font Awesome icons
+import { faBars, faTimes, faUser } from "@fortawesome/free-solid-svg-icons"; // Import toggle icons
 import Link from "next/link";
 
-const AdminDashboard = () => { 
-  const { user, checkUser, logout } = useAuth(); // Use auth context 
-  const [active, setActive] = useState(""); // State to track active sidebar option 
+const AdminDashboard = () => {
+  const { user, checkUser, logout } = useAuth(); // Use auth context
+  const [active, setActive] = useState(""); // State to track active sidebar option
   const [sidebarOpen, setSidebarOpen] = useState(false); // State for sidebar visibility
   const [menuOpen, setMenuOpen] = useState(false); // State for toggle menu visibility
   const [admins, setAdmins] = useState([]); // State to store admin list
 
-  // Check if user is logged in on component mount 
+  // Check if user is logged in on component mount
   useEffect(() => {
     checkUser();
   }, [checkUser]);
 
-   // Fetch admins when 'Admin List' is selected
-   useEffect(() => {
+  // Fetch admins when 'Admin List' is selected
+  useEffect(() => {
     if (active === "admin-list") {
       fetchAdmins();
     }
@@ -32,37 +32,36 @@ const AdminDashboard = () => {
   //Fetch Admins
   const fetchAdmins = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/admins'); // Fetch from the backend
-      
+      const response = await fetch("http://localhost:5001/api/admins"); // Fetch from the backend
+
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error("Network response was not ok");
       }
-  
+
       const data = await response.json();
-      console.log('Fetched Admins:', data); // Log the fetched data
-  
+      console.log("Fetched Admins:", data); // Log the fetched data
+
       setAdmins(data);
-      console.log('Updated admins state:', data); // Log the updated state
+      console.log("Updated admins state:", data); // Log the updated state
     } catch (error) {
-      console.error('Error fetching admins:', error);
+      console.error("Error fetching admins:", error);
     }
   };
-  
 
   // Handle remove admin
   const handleRemoveAdmin = async (adminId) => {
     try {
-      await fetch(`http://localhost:5000/api/admins/${adminId}`, {
-        method: 'DELETE',
+      await fetch(`http://localhost:5001/api/admins/${adminId}`, {
+        method: "DELETE",
       });
       setAdmins(admins.filter((admin) => admin._id !== adminId)); // Use _id from MongoDB
     } catch (error) {
-      console.error('Error removing admin:', error);
+      console.error("Error removing admin:", error);
     }
   };
 
   const handleSetActive = (section) => {
-    setActive(section); // Set the active section in the sidebar 
+    setActive(section); // Set the active section in the sidebar
     setSidebarOpen(false); // Close the sidebar when an option is selected (mobile optimization)
     setMenuOpen(false); // Close the toggle menu when an option is selected (mobile optimization)
   };
@@ -92,30 +91,27 @@ const AdminDashboard = () => {
         <>
           {/* Top Navbar */}
           <header className="w-full bg-teal-600 text-white py-4 px-6 flex justify-between items-center shadow-lg">
-          <div className="flex items-center">
-          <Link href="/"> {/* Wrap the Image component with Link */}
-            <Image
-              src="/JSSPS-Logo.png" // Replace with your logo path
-              alt="Company Logo"
-              width={60}
-              height={80}
-              className="mr-4" // Adjust size as necessary
-            />
-          </Link>
-          <div>
-            <h1 className="text-xl font-bold text-teal-950">
-              Jharkhand State Sports Promotion Society
-            </h1>
-            <p className="text-md text-teal-950">
-              (A State Govt. of Jharkhand and CCL Joint Initiative)
-            </p>
-          </div>
-        </div>
-
+            <div className="flex items-center">
+              <Link href="/">
+                {" "}
+                {/* Wrap the Image component with Link */}
+                <Image
+                  src="/JSSPS-Logo.png" // Replace with your logo path
+                  alt="Company Logo"
+                  width={60}
+                  height={80}
+                  className="mr-4" // Adjust size as necessary
+                />
+              </Link>
+              <div>
+                <h1 className="text-xl font-bold text-teal-950">Jharkhand State Sports Promotion Society</h1>
+                <p className="text-md text-teal-950">(A State Govt. of Jharkhand and CCL Joint Initiative)</p>
+              </div>
+            </div>
             <div className="flex items-center">
               <p className="mr-4">Admin Name</p> {/* Dynamic admin name */}
               <span className="h-10 w-10 flex items-center justify-center rounded-full bg-teal-600">
-              <FontAwesomeIcon icon={faUser} className="text-blue-950 text-2xl" /> {/* Admin Icon */}
+                <FontAwesomeIcon icon={faUser} className="text-blue-950 text-2xl" /> {/* Admin Icon */}
               </span>
             </div>
 
@@ -130,7 +126,7 @@ const AdminDashboard = () => {
             {/* Sidebar (desktop) */}
             <aside
               className={`fixed lg:static bg-gray-800 text-white w-64 lg:block lg:translate-x-0 transition-transform duration-300 ease-in-out 
-              ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
+              ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
             >
               <div className="p-4">
                 <h2 className="text-2xl font-bold text-center mb-4">Admin Panel</h2>
@@ -148,10 +144,7 @@ const AdminDashboard = () => {
                       </li>
                     ))}
                     <li>
-                      <button
-                        className="block p-2 rounded transition duration-300 text-gray-300 hover:bg-teal-700 w-full text-left"
-                        onClick={() => logout()}
-                      >
+                      <button className="block p-2 rounded transition duration-300 text-gray-300 hover:bg-teal-700 w-full text-left" onClick={() => logout()}>
                         Logout
                       </button>
                     </li>
@@ -178,10 +171,7 @@ const AdminDashboard = () => {
                       </li>
                     ))}
                     <li>
-                      <button
-                        className="block p-2 rounded transition duration-300 text-gray-300 hover:bg-teal-700 w-full text-left"
-                        onClick={() => logout()}
-                      >
+                      <button className="block p-2 rounded transition duration-300 text-gray-300 hover:bg-teal-700 w-full text-left" onClick={() => logout()}>
                         Logout
                       </button>
                     </li>
@@ -222,10 +212,7 @@ const AdminDashboard = () => {
                                 <p className="font-bold">{admin.name}</p>
                                 <p className="text-sm text-gray-600">{admin.email}</p>
                               </div>
-                              <button
-                                onClick={() => handleRemoveAdmin(admin._id)}
-                                className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600"
-                              >
+                              <button onClick={() => handleRemoveAdmin(admin._id)} className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600">
                                 Remove
                               </button>
                             </li>

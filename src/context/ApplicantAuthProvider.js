@@ -1,11 +1,5 @@
-import { applicantLogIn, applicantSignUp, getApplicantDetails } from "@/api"; // Import getApplicantDetails API function
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  useCallback,
-} from "react";
+import { applicantLogIn, applicantSignUp } from "@/api"; // Import API functions
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const ApplicantAuthContext = createContext();
 
@@ -14,64 +8,17 @@ export const useApplicantAuth = () => useContext(ApplicantAuthContext);
 export const ApplicantAuthProvider = ({ children }) => {
   const [applicant, setApplicant] = useState(null);
 
-  // Check if the applicant is already logged in when the app loads
-
-  // Function to check for a saved token and set the applicant state
-  const checkUser = useCallback(() => {
-    return new Promise((resolve, reject) => {
-      const token = localStorage.getItem("applicantToken");
-      if (token) {
-        fetchApplicantDetails(token)
-          .then((data) => {
-            setApplicant({
-              name: data.name,
-              email: data.email,
-              age: data.age,
-              resume: data.resume,
-            });
-            resolve();
-          })
-          .catch((error) => {
-            console.error("Error fetching applicant details:", error);
-            reject(error); // Reject the promise if an error occurs
-          });
-      } else {
-        resolve(); // If no token, resolve the promise
-      }
-    });
-  }, []);
-
   // Function to fetch applicant details from the server
-  const fetchApplicantDetails = async (token) => {
+  const getApplicantDetails = async (token) => {
     try {
-      console.log("Token used for fetching details:", token);
-      const data = await getApplicantDetails(token); // Assume this API call returns applicant details
-      console.log(data);
-      setApplicant({
-        name: data.name,
-        email: data.email,
-        age: data.age,
-        resume: data.resume,
+      const response = await fetch("http://localhost:5001/api/applicant/details", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
-    } catch (error) {
-      console.error("Error fetching applicant details:", error);
-    }
-  };
 
-  async function getApplicantDetails(token) {
-    try {
-      const response = await fetch(
-        "http://localhost:5001/api/applicant/details",
-        {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`, // Ensure the token is correctly passed in the headers
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      // Log response status and body for debugging
       console.log("Response status:", response.status);
       if (!response.ok) {
         const errorData = await response.text();
@@ -85,7 +32,29 @@ export const ApplicantAuthProvider = ({ children }) => {
       console.error("Error in getApplicantDetails:", error);
       throw error;
     }
-  }
+  };
+
+  // Function to check for a saved token and fetch applicant details
+  const fetchApplicantDetails = async () => {
+    const token = localStorage.getItem("applicantToken");
+    if (!token) return;
+
+    try {
+      const applicantData = await getApplicantDetails(token);
+      if (applicantData && applicantData.name) {
+        setApplicant(applicantData);
+      } else {
+        console.error("Applicant data is missing expected properties.");
+      }
+    } catch (error) {
+      console.error("Error fetching applicant details:", error);
+    }
+  };
+
+  // Effect to check if the applicant is already logged in when the app loads
+  useEffect(() => {
+    fetchApplicantDetails();
+  }, []);
 
   // Applicant Login function using API call
   const applicantLogin = async (email, password) => {
@@ -97,7 +66,7 @@ export const ApplicantAuthProvider = ({ children }) => {
         localStorage.setItem("applicantToken", token);
 
         // Fetch and store applicant details after login
-        await fetchApplicantDetails(token);
+        await fetchApplicantDetails();
 
         return true;
       } else {
@@ -126,6 +95,14 @@ export const ApplicantAuthProvider = ({ children }) => {
     setApplicant(null);
   };
 
+  const checkUser = () => {
+    if (applicant?.name) {
+      console.log(`Welcome, ${applicant.name}`);
+    } else {
+      console.error("Applicant details are missing.");
+    }
+  };
+
   const value = {
     applicant,
     applicantLogin,
@@ -134,9 +111,5 @@ export const ApplicantAuthProvider = ({ children }) => {
     checkUser,
   };
 
-  return (
-    <ApplicantAuthContext.Provider value={value}>
-      {children}
-    </ApplicantAuthContext.Provider>
-  );
+  return <ApplicantAuthContext.Provider value={value}>{children}</ApplicantAuthContext.Provider>;
 };

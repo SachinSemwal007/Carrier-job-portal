@@ -42,13 +42,14 @@ export const applyForJob = async (jobId, applicantData, files) => {
   }
 
   try {
-    const response = await fetch(
-      `http://localhost:5001/api/posts/${jobId}/apply`,
-      {
-        method: "POST",
-        body: formData,
-      }
-    );
+    const response = await fetch(`http://localhost:5001/api/posts/${jobId}/apply`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        // Only add the Authorization header if needed
+        // 'Authorization': `Bearer ${yourToken}`,
+      },
+    });
 
     return response;
   } catch (error) {
@@ -56,6 +57,7 @@ export const applyForJob = async (jobId, applicantData, files) => {
     throw error;
   }
 };
+
 
 
 export const deleteApplicant = async (postId, email) => {
