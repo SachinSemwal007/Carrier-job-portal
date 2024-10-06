@@ -36,8 +36,9 @@ const Navbar = () => {
             <Image
               src="/JSSPS-Logo.png"
               alt="JSSPS Logo"
-              width={150}
-              height={40}
+              width={190}
+              height={100}
+              quality={100}
               className="h-20 w-auto object-contain"
             />
           </Link>
