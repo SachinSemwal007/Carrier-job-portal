@@ -5,6 +5,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { useParams } from 'next/navigation';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import Link from "next/link";
 
 const FormPreview = ({
   show, // to control modal visibility
@@ -14,16 +15,17 @@ const FormPreview = ({
   matriculationYear, matriculationGrade, matriculationPercentage, matriculationBoard,
   interYear, interGrade, interPercentage, interBoard,
   bachelorYear, bachelorCourse, bachelorSpecialization, bachelorGrade, bachelorPercentage, bachelorUniversity,
-  courses, experiences, references, achievement, description, passportPhoto, signature
+  courses, experiences, references, achievement, description, passportPhoto, signature, certification,_id
 }) => {
 
-  const { id } = useParams();
+  // const { id } = useParams();
+  const id = _id; 
 
   const handleDownloadPDF = () => {
     const modalHeader = document.getElementById('modal-header');
     const modalContent = document.getElementById('modal-content');
 
-    // Adjust the modal content styles to capture the full content
+    // Capture the full content
     modalContent.style.height = 'auto';               // Set height to auto to capture full content
     modalContent.style.maxHeight = 'none';            // Remove max-height restriction
     modalContent.style.overflow = 'visible';          // Set overflow to visible
@@ -93,7 +95,15 @@ const FormPreview = ({
             Application ID: <span className="text-blue-500">{id}</span>
           </h2>
           <h2 className="text-xs sm:text-base font-bold">
-            Date: <span className="text-gray-600">{new Date().toLocaleDateString()}</span>
+            Date & Time: <span className="text-gray-600">{new Date().toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit',
+                  hour12: true // Change to false for 24-hour format
+                })}</span>
           </h2>
         </div>
       </Modal.Header>
@@ -311,7 +321,18 @@ const FormPreview = ({
           {/* Left Side: Place and Date */}
           <div className="flex flex-col">
             <p><strong>Place:</strong> {district}</p> {/* Placeholder for District */}
-            <p><strong>Date:</strong> {new Date().toLocaleDateString()}</p> {/* Placeholder for current date */}
+            <p><strong>Date & Time:</strong> {
+                new Date().toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit',
+                  hour12: true // Change to false for 24-hour format
+                })
+              }
+            </p> {/* Placeholder for current date */}
           </div>
 
           {/* Right Side: Signature */}
@@ -334,6 +355,9 @@ const FormPreview = ({
         <Button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded" onClick={handleDownloadPDF}>
           Download as PDF
         </Button>
+        <Link href={certification} target="_blank" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded" > 
+          Show Certificate 
+        </Link> 
       </Modal.Footer>
     </Modal>
   );
