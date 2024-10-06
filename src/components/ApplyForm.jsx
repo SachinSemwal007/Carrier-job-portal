@@ -606,7 +606,7 @@ const ApplyForm = ({ params }) => {
   };
   
   return (
-    <div className="bg-teal-700">
+    <div className="bg-teal-800">
       <Navbar />
       <div className="max-w-screen-md mx-auto p-6 bg-white  shadow-md">
         <h2 className="text-2xl font-bold mb-4 bg-teal-100 p-4 ">
@@ -858,7 +858,7 @@ const ApplyForm = ({ params }) => {
 
             {/* Community Dropdown */}
             <div className="flex flex-col">
-              <label className="mb-2">Community:</label>
+              <label className="block font-medium mb-1">Community:</label>
               <select
                 value={community}
                 onChange={(e) => setCommunity(e.target.value)}
@@ -962,7 +962,7 @@ const ApplyForm = ({ params }) => {
 
           {/* Bachelor Degree/Graduation Field */}
           <div className="flex flex-col my-4">
-            <label className="mb-2 text-lg">
+            <label className="block font-medium mb-1">
               Bachelor Degree/Graduation (10+2+3):
             </label>
             <div className="flex justify-between gap-2">
@@ -1024,7 +1024,7 @@ const ApplyForm = ({ params }) => {
           </div>
           <div>
 
-            <label className="block text-sm font-medium mb-2">
+            <label className="block font-medium mb-1">
               Professional Qualifications / Diploma / Certification Course
             </label>
           </div>
@@ -1199,7 +1199,7 @@ const ApplyForm = ({ params }) => {
 
           {/* Achievement Field */}
           <div>
-            <label className="block text-sm font-medium mb-2">
+            <label className="block font-medium mb-1">
               Achievement:
             </label>
             <textarea
@@ -1214,7 +1214,7 @@ const ApplyForm = ({ params }) => {
 
           {/* Achievement Field */}
           <div>
-            <label className="block text-sm font-medium mb-2">
+            <label className="block font-medium mb-1">
               Describe Yourself:
             </label>
             <textarea

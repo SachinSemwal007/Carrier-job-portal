@@ -57,7 +57,7 @@ const ApplicantDashboard = () => {
       {applicant ? ( 
         <div className="flex flex-col min-h-screen bg-gray-100 transition-all duration-300 ease-in-out"> 
           {/* Top Navbar */} 
-          <header className="w-full bg-teal-600 text-white py-4 px-6 flex justify-between items-center shadow-lg"> 
+          <header className="w-full bg-teal-500 text-white py-4 px-6 flex justify-between items-center shadow-lg"> 
             <div className="flex items-center"> 
               <Link href="/"> 
                 <Image 
@@ -65,7 +65,7 @@ const ApplicantDashboard = () => {
                   alt="Company Logo" 
                   width={60} 
                   height={80} 
-                  className="mr-4" // Adjust size as necessary 
+                  className="mr-4 h-20 w-auto" // Adjust size as necessary 
                 /> 
               </Link> 
               <div> 
