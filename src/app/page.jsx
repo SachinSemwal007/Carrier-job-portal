@@ -41,7 +41,7 @@ const Home = () => {
                 alt="Jharkhand-Govt. Logo"
                 width={330}
                 height={200}
-                className="w-3/4 sm:w-1/2 lg:w-3/4 h-auto mb-4"
+                className="w-3/4 sm:w-1/2 lg:w-3/5 h-auto mb-4"
               />
               <h2 className="text-[26px] sm:text-[36px] lg:text-[52px]  font-extrabold text-gray-800 mb-2 whitespace-nowrap">
                 JSSPS Career Portal

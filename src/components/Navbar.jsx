@@ -28,7 +28,7 @@ const Navbar = () => {
   }, [checkUser]);
 
   return (
-    <nav className="bg-[#737373] text-white shadow-lg">
+    <nav className="bg-teal-500 text-white shadow-lg">
       <div className="container mx-auto px-4 h-20 flex justify-between items-center">
         {/* Logo/Brand */}
         <div className="flex items-center">
@@ -71,7 +71,7 @@ const Navbar = () => {
         >
           <Link
             href="/"
-            className="block mt-2 lg:mt-0 lg:ml-4 px-2 py-1 rounded  hover:bg-[#44403c] transition duration-300"
+            className="block mt-2 lg:mt-0 lg:ml-4 px-2 py-1 rounded  hover:bg-teal-700 transition duration-300"
           >
             Home
           </Link>
@@ -79,19 +79,19 @@ const Navbar = () => {
             <div className="flex gap-2">
               <Link
                 href="/applicant-dashboard"
-                className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-[#44403c] transition duration-300"
+                className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-teal-700 transition duration-300"
               >
                 Applicant Dashboard
               </Link>
               <Link
                 href="/jobs"
-                className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-[#44403c] transition duration-300"
+                className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-teal-700 transition duration-300"
               >
                 Jobs
               </Link>
               <h2
                 onClick={() => applicantLogout()}
-                className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-[#44403c] cursor-pointer transition duration-300"
+                className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-teal-700 cursor-pointer transition duration-300"
               >
                 Logout
               </h2>
@@ -99,7 +99,7 @@ const Navbar = () => {
           ) : (
             <Link
               href="/login"
-              className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-[#44403c] transition duration-300"
+              className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-teal-700 transition duration-300"
             >
               Login
             </Link>
