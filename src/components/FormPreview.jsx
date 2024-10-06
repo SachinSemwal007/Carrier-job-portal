@@ -75,21 +75,21 @@ const FormPreview = ({
   return (
     <Modal show={show} onHide={handleClose} size="lg" className=" max-w-6xl mx-auto my-4 p-5 bg-white shadow-lg rounded-lg" id="modal-content">
      <Modal.Header className="flex flex-col  border-b-2 border-gray-200 p-4">
-        <div className="flex flex-wrap items-center justify-center ">
-          <img src="/JSSPS-Logo.png" alt="JSSP Logo" className="h-14 object-contain" />
+        <div className="flex flex-wrap items-center justify-center sm:flex-wrap ">
+          <img src="/JSSPS-Logo.png" alt="JSSP Logo" className="h-12 object-contain sm:h-14" />
           <div className="ml-4 text-center">
-            <h1 className="text-lg font-bold">Jharkhand State Sports Promotion Society</h1>
-            <h2 className="text-sm">(A State Govt. of Jharkhand and CCL Joint Initiative)</h2>
+            <h1 className="text-sm sm:text-lg font-bold">Jharkhand State Sports Promotion Society</h1>
+            <h2 className="text-xs">(A State Govt. of Jharkhand and CCL Joint Initiative)</h2>
           </div>
         </div>
-        <div className="flex flex-wrap justify-between items-center">
-          <h2 className="text-base font-bold">
+        <div className="flex flex-wrap justify-between items-center mt-2">
+          <h2 className="text-xs sm:text-base font-bold">
             Applied For: <span className="text-red-500">{id}</span>
           </h2>
-          <h2 className="text-base font-bold">
+          <h2 className="text-xs sm:text-base font-bold">
             Application ID: <span className="text-blue-500">{id}</span>
           </h2>
-          <h2 className="text-base font-bold">
+          <h2 className="text-xs sm:text-base font-bold">
             Date: <span className="text-gray-600">{new Date().toLocaleDateString()}</span>
           </h2>
         </div>
