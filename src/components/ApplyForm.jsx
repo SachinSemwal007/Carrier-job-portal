@@ -1221,207 +1221,207 @@ const ApplyForm = ({ params }) => {
               placeholder="Description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              rows={10}
-              required
-              className="w-full p-2 border border-gray-300 rounded-md"
-            />
+              rows={10} 
+              required 
+              className="w-full p-2 border border-gray-300 rounded-md" 
+            /> 
+          </div> 
+ 
+          {/* References Section */} 
+          <div> 
+            <label className="block font-medium mb-1">References</label> 
+          </div> 
+          {references.map((reference, index) => ( 
+            <div 
+              key={index} 
+              className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4" 
+            > 
+              <input 
+                type="text" 
+                name="refName" 
+                placeholder="Referral Name" 
+                value={reference.refName} 
+                onChange={(e) => handleReferencesChange(index, e)} 
+                required 
+                className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" 
+              />
+              <input 
+                type="text" 
+                name="refContact" 
+                placeholder="Referral Contact Number" 
+                value={reference.refContact} 
+                onChange={(e) => handleReferencesChange(index, e)} 
+                maxLength={10} 
+                pattern="\d{10}" 
+                title="Please enter a valid contact number" 
+                className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" 
+              /> 
+              <input 
+                type="text" 
+                name="relation" 
+                placeholder="Relation" 
+                value={reference.relation} 
+                onChange={(e) => handleReferencesChange(index, e)} 
+                required 
+                className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" 
+              /> 
+              <button 
+                type="button" 
+                onClick={() => removeReference(index)} 
+                className="bg-red-600 text-white py-1 px-3 rounded-md" 
+              > 
+                Remove 
+              </button> 
+            </div> 
+          ))} 
+          <button 
+            type="button" 
+            onClick={addReference} 
+            className="bg-green-600 text-white py-2 px-4 rounded-md mb-4" 
+          > 
+            Add Reference 
+          </button> 
+          {/* Upload Section */} 
+          <div className="mb-6"> 
+            <h3 className="text-lg font-semibold mb-2"> 
+              Upload Required Documents 
+            </h3> 
+            {/* Passport Photo */} 
+            {/* Passport Photo */} 
+            <div className="mb-4"> 
+              <label className="block font-medium mb-1"> 
+                Passport Size Photo (max 200 KB, PNG/JPG): 
+              </label> 
+              <input 
+                id="passportPhotoInput" // Add this ID 
+                type="file" 
+                accept=".png, .jpg, .jpeg" 
+                onChange={(e) => handleFileChange(e, "passport")} 
+                required 
+                className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:bg-gray-100 hover:file:bg-gray-200" 
+              /> 
+            </div> 
+
+            {/* Certification */} 
+            <div className="mb-4"> 
+              <label className="block font-medium mb-1"> 
+                Certification (max 3 MB, PDF): 
+              </label> 
+              <input 
+                id="certificationInput" // Add this ID 
+                type="file" 
+                accept=".pdf" 
+                onChange={(e) => handleFileChange(e, "certification")} 
+                required 
+                className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:bg-gray-100 hover:file:bg-gray-200" 
+              /> 
+            </div> 
+ 
+            {/* Signature */} 
+            <div className="mb-4"> 
+              <label className="block font-medium mb-1"> 
+                Signature (max 100 KB, PNG/JPG): 
+              </label> 
+              <input 
+                id="signatureInput" // Add this ID 
+                type="file" 
+                accept=".png, .jpg, .jpeg" 
+                onChange={(e) => handleFileChange(e, "signature")} 
+                required 
+                className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:bg-gray-100 hover:file:bg-gray-200" 
+              /> 
+            </div> 
           </div>
 
-          {/* References Section */}
-          <div>
-            <label className="block font-medium mb-1">References</label>
-          </div>
-          {references.map((reference, index) => (
-            <div
-              key={index}
-              className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4"
-            >
-              <input
-                type="text"
-                name="refName"
-                placeholder="Referral Name"
-                value={reference.refName}
-                onChange={(e) => handleReferencesChange(index, e)}
-                required
-                className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-              />
-              <input
-                type="text"
-                name="refContact"
-                placeholder="Referral Contact Number"
-                value={reference.refContact}
-                onChange={(e) => handleReferencesChange(index, e)}
-                maxLength={10}
-                pattern="\d{10}"
-                title="Please enter a valid contact number"
-                className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-              />
-              <input
-                type="text"
-                name="relation"
-                placeholder="Relation"
-                value={reference.relation}
-                onChange={(e) => handleReferencesChange(index, e)}
-                required
-                className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
-              />
-              <button
-                type="button"
-                onClick={() => removeReference(index)}
-                className="bg-red-600 text-white py-1 px-3 rounded-md"
-              >
-                Remove
-              </button>
-            </div>
-          ))}
-          <button
-            type="button"
-            onClick={addReference}
-            className="bg-green-600 text-white py-2 px-4 rounded-md mb-4"
-          >
-            Add Reference
-          </button>
-          {/* Upload Section */}
-          <div className="mb-6">
-            <h3 className="text-lg font-semibold mb-2">
-              Upload Required Documents
-            </h3>
-            {/* Passport Photo */}
-            {/* Passport Photo */}
-            <div className="mb-4">
-              <label className="block font-medium mb-1">
-                Passport Size Photo (max 200 KB, PNG/JPG):
-              </label>
-              <input
-                id="passportPhotoInput" // Add this ID
-                type="file"
-                accept=".png, .jpg, .jpeg"
-                onChange={(e) => handleFileChange(e, "passport")}
-                required
-                className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:bg-gray-100 hover:file:bg-gray-200"
-              />
-            </div>
-
-            {/* Certification */}
-            <div className="mb-4">
-              <label className="block font-medium mb-1">
-                Certification (max 3 MB, PDF):
-              </label>
-              <input
-                id="certificationInput" // Add this ID
-                type="file"
-                accept=".pdf"
-                onChange={(e) => handleFileChange(e, "certification")}
-                required
-                className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:bg-gray-100 hover:file:bg-gray-200"
-              />
-            </div>
-
-            {/* Signature */}
-            <div className="mb-4">
-              <label className="block font-medium mb-1">
-                Signature (max 100 KB, PNG/JPG):
-              </label>
-              <input
-                id="signatureInput" // Add this ID
-                type="file"
-                accept=".png, .jpg, .jpeg"
-                onChange={(e) => handleFileChange(e, "signature")}
-                required
-                className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:bg-gray-100 hover:file:bg-gray-200"
-              />
-            </div>
-          </div>
-
-          {/* Declaration Checkbox Section */}
-          <div className="flex items-center mb-4">
-            <input type="checkbox" id="declaration" required className="mr-2" />
-            <label htmlFor="declaration" className="text-sm">
-              I hereby declare that the information furnished in this
-              Application Form is true to the best of my knowledge and belief.
-              If any wrong information is detected in future, my candidature for
-              the post may be cancelled at any stage and action can be taken
-              accordingly. I also agree with the terms and conditions mentioned
-              in the detailed advertisement.
-            </label>
-          </div>
-
-          {/* Save as Draft, Preview and Submit buttons */}
-          <div className="flex justify-center space-x-4 mt-6">
-
-            <button
-              type="button"
-              className="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-700 transition duration-200"
-              onClick={handleDraft}
-            >
-              Save as Draft
-            </button>
-            <button
-              type="button"
-              className="px-6 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-700 transition duration-200"
-              onClick={handlePreview}
-            >
-              Preview
-            </button>
-
-            <FormPreview
-              show={showPreview}
-              handleClose={() => setShowPreview(false)}
-              firstName={firstName}
-              middleName={middleName}
-              lastName={lastName}
-              fhName={fhName}
-              email={email}
-              gender={gender}
-              dob={dob}
-              maritalStatus={maritalStatus}
-              address={address}
-              pincode={pincode}
-              country={country}
-              state={state}
-              district={district}
-              isHandicapped={isHandicapped}
-              community={community}
-              matriculationYear={matriculationYear}
-              matriculationGrade={matriculationGrade}
-              matriculationPercentage={matriculationPercentage}
-              matriculationBoard={matriculationBoard}
-              interYear={interYear}
-              interGrade={interGrade}
-              interPercentage={interPercentage}
-              interBoard={interBoard}
-              bachelorYear={bachelorYear}
-              bachelorCourse={bachelorCourse}
-              bachelorSpecialization={bachelorSpecialization}
-              bachelorGrade={bachelorGrade}
-              bachelorPercentage={bachelorPercentage}
-              bachelorUniversity={bachelorUniversity}
-              courses={courses}
-              experiences={experiences}
-              references={references}
-              achievement={achievement}
-              description={description}
-              passportPhoto={passportPhoto}
-              signature={signature}
-            />
-
-            <button
-              type="submit"
-              className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition duration-200"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
+          {/* Declaration Checkbox Section */} 
+          <div className="flex items-center mb-4"> 
+            <input type="checkbox" id="declaration" required className="mr-2" /> 
+            <label htmlFor="declaration" className="text-sm"> 
+              I hereby declare that the information furnished in this 
+              Application Form is true to the best of my knowledge and belief. 
+              If any wrong information is detected in future, my candidature for 
+              the post may be cancelled at any stage and action can be taken 
+              accordingly. I also agree with the terms and conditions mentioned 
+              in the detailed advertisement. 
+            </label> 
+          </div> 
+ 
+          {/* Save as Draft, Preview and Submit buttons */} 
+          <div className="flex justify-center space-x-4 mt-6"> 
+ 
+            <button 
+              type="button" 
+              className="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-700 transition duration-200" 
+              onClick={handleDraft} 
+            > 
+              Save as Draft 
+            </button> 
+            <button 
+              type="button" 
+              className="px-6 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-700 transition duration-200" 
+              onClick={handlePreview} 
+            > 
+              Preview 
+            </button> 
+ 
+            <FormPreview 
+              show={showPreview} 
+              handleClose={() => setShowPreview(false)} 
+              firstName={firstName} 
+              middleName={middleName} 
+              lastName={lastName} 
+              fhName={fhName} 
+              email={email} 
+              gender={gender} 
+              dob={dob} 
+              maritalStatus={maritalStatus} 
+              address={address} 
+              pincode={pincode} 
+              country={country} 
+              state={state} 
+              district={district} 
+              isHandicapped={isHandicapped} 
+              community={community} 
+              matriculationYear={matriculationYear} 
+              matriculationGrade={matriculationGrade} 
+              matriculationPercentage={matriculationPercentage} 
+              matriculationBoard={matriculationBoard} 
+              interYear={interYear} 
+              interGrade={interGrade} 
+              interPercentage={interPercentage} 
+              interBoard={interBoard} 
+              bachelorYear={bachelorYear} 
+              bachelorCourse={bachelorCourse} 
+              bachelorSpecialization={bachelorSpecialization} 
+              bachelorGrade={bachelorGrade} 
+              bachelorPercentage={bachelorPercentage} 
+              bachelorUniversity={bachelorUniversity} 
+              courses={courses} 
+              experiences={experiences} 
+              references={references} 
+              achievement={achievement} 
+              description={description} 
+              passportPhoto={passportPhoto} 
+              signature={signature} 
+            /> 
+ 
+            <button 
+              type="submit" 
+              className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition duration-200" 
+            > 
+              Submit 
+            </button> 
+          </div> 
+        </form> 
       </div>
     </div>
   );
 };
-
-export default function page({ params }) {
-  return (
-    <ApplicantAuthProvider>
-      <ApplyForm params={params} />
-    </ApplicantAuthProvider>
-  );
-}
+ 
+export default function page({ params }) { 
+  return ( 
+    <ApplicantAuthProvider> 
+      <ApplyForm params={params} /> 
+    </ApplicantAuthProvider> 
+  ); 
+} 
