@@ -37,11 +37,12 @@ const Home = () => {
             {/* Logo and text section */}
             <div className="flex flex-col w-full sm:w-1/2 lg:w-2/5 sm:ml-20 items-center mx-auto">
               <Image
-                src="/JSSPS-Logo.png"
-                alt="Jharkhand-Govt. Logo"
-                width={330}
-                height={200}
-                className="w-3/4 sm:w-1/2 lg:w-3/5 h-auto mb-4"
+                src="/JSSPS.webp"
+                alt="JSSPS Logo"
+                width={500}
+                height={300}
+                quality={100}
+                className="w-3/4 sm:w-1/2 lg:w-4/5 h-auto mb-4"
               />
               <h2 className="text-[26px] sm:text-[36px] lg:text-[52px]  font-extrabold text-gray-800 mb-2 whitespace-nowrap">
                 JSSPS Career Portal
@@ -56,8 +57,8 @@ const Home = () => {
             </div>
           </div>
         </main>
-        <div className="bg-[#252425] py-4 text-center">
-          <p className="text-[20px] sm:text-[26px] font-bold text-yellow-500">
+        <div className="bg-[#252425] py-4 px-2 text-center">
+          <p className="text-[16px] sm:text-[26px] font-bold text-yellow-500">
             IMPORTANT ANNOUNCEMENTS REGARDING COACHES HIRING{" "}
             <a
               href="/path/to/your/pdf-file.pdf"
@@ -69,12 +70,12 @@ const Home = () => {
           </p>
         </div>
 
-        <Footer />
-      </div>
-    </>
-  );
-};
-
+        <Footer /> 
+      </div> 
+    </> 
+  ); 
+}; 
+ 
 //export default Home;
 
 // Wrap the App component with AuthProvider so the context is available throughout the app
