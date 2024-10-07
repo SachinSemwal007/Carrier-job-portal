@@ -5,7 +5,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { useParams } from 'next/navigation';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-
+import Link from "next/link";
 
 const FormPreview = ({
   show, // to control modal visibility
@@ -15,86 +15,99 @@ const FormPreview = ({
   matriculationYear, matriculationGrade, matriculationPercentage, matriculationBoard,
   interYear, interGrade, interPercentage, interBoard,
   bachelorYear, bachelorCourse, bachelorSpecialization, bachelorGrade, bachelorPercentage, bachelorUniversity,
-  courses, experiences, references, achievement, description, passportPhoto, signature
+  courses, experiences, references, achievement, description, passportPhoto, signature, certification,_id
 }) => {
 
-  const { id } = useParams();
+  // const { id } = useParams();
+  const id = _id; 
+
   const handleDownloadPDF = () => {
+    const modalHeader = document.getElementById('modal-header');
     const modalContent = document.getElementById('modal-content');
-    const closeButton = document.getElementById('close-button');
-    const downloadButton = document.getElementById('download-button');
 
-    closeButton.style.display = 'none';
-    downloadButton.style.display = 'none';
+    // Capture the full content
+    modalContent.style.height = 'auto';               // Set height to auto to capture full content
+    modalContent.style.maxHeight = 'none';            // Remove max-height restriction
+    modalContent.style.overflow = 'visible';          // Set overflow to visible
 
-    const originalHeight = modalContent.style.height;
-    const originalOverflow = modalContent.style.overflow;
+    // Create a temporary wrapper for capturing
+    const wrapper = document.createElement('div');
+    wrapper.appendChild(modalHeader.cloneNode(true));
+    wrapper.appendChild(modalContent.cloneNode(true));
+    document.body.appendChild(wrapper);  // Temporarily add to DOM for capture
 
-    modalContent.style.height = 'auto';
-    modalContent.style.maxHeight = 'none';
-    modalContent.style.overflow = 'visible';
-
-    html2canvas(modalContent, {
-      scale: 2,
-      useCORS: true,
-      scrollY: 0,
-      scrollX: 0,
+    // Use html2canvas to capture the entire content
+    html2canvas(wrapper, {
+        scale: 2,          // Higher scale for better image quality
+        useCORS: true,     // Handle cross-origin issues
+        scrollY: 0,        // Handle scrolling
+        scrollX: 0,
     }).then((canvas) => {
-      const imgData = canvas.toDataURL('image/jpeg', 1.0);
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
+        const imgData = canvas.toDataURL('image/jpeg', 1.0);
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
 
-      const imgWidth = pdfWidth;
-      const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+        const imgWidth = pdfWidth;
+        const imgHeight = (canvas.height * pdfWidth) / canvas.width;
 
-      let heightLeft = imgHeight;
-      let position = 0;
+        let heightLeft = imgHeight;
+        let position = 0;
 
-      while (heightLeft > 0) {
-        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;
-        if (heightLeft > 0) {
-          position -= pdfHeight;
-          pdf.addPage();
+        // Add image data to PDF and handle multi-page content
+        while (heightLeft > 0) {
+            pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pdfHeight;
+            if (heightLeft > 0) {
+                position -= pdfHeight;
+                pdf.addPage();
+            }
         }
-      }
 
-      modalContent.style.height = originalHeight;
-      modalContent.style.overflow = originalOverflow;
+        // Restore the original modal content styles directly
+        modalContent.style.height = '';              // Reset height to default
+        modalContent.style.maxHeight = '';           // Reset max-height to default
+        modalContent.style.overflow = 'auto';        // Set overflow back to auto
 
-      closeButton.style.display = 'block';
-      downloadButton.style.display = 'block';
+        // Remove the temporary wrapper
+        document.body.removeChild(wrapper);
 
-      pdf.save('form-preview.pdf');
+        // Save the PDF
+        pdf.save('form-preview.pdf');
     });
-  };
-  
-
+};
 
   return (
-    <Modal show={show} onHide={handleClose} size="lg" className=" max-w-6xl mx-auto my-4 p-5 bg-white shadow-lg rounded-lg" id="modal-content">
-     <Modal.Header className="flex flex-col  border-b-2 border-gray-200 p-4">
-        <div className="flex flex-wrap items-center justify-center ">
-          <img src="/JSSPS-Logo.png" alt="JSSP Logo" className="h-14 object-contain" />
+    <Modal show={show} onHide={handleClose} size="lg" className=" max-w-6xl mx-auto my-4 p-5 bg-white shadow-lg rounded-lg">
+     <Modal.Header className="flex flex-col  border-b-2 border-gray-200 p-4"  id="modal-header">
+        <div className="flex flex-wrap items-center justify-center sm:flex-wrap ">
+          <img src="/JSSPS-Logo.png" alt="JSSP Logo" className="h-12 object-contain sm:h-14" />
           <div className="ml-4 text-center">
-            <h1 className="text-lg font-bold">Jharkhand State Sports Promotion Society</h1>
-            <h2 className="text-sm">(A State Govt. of Jharkhand and CCL Joint Initiative)</h2>
+            <h1 className="text-sm sm:text-lg font-bold">Jharkhand State Sports Promotion Society</h1>
+            <h2 className="text-xs">(A State Govt. of Jharkhand and CCL Joint Initiative)</h2>
           </div>
         </div>
-        <div className="flex flex-wrap justify-between items-center">
-          <h2 className="text-base font-bold">
+        <div className="flex flex-wrap justify-between items-center mt-2">
+          <h2 className="text-xs sm:text-base font-bold">
             Applied For: <span className="text-red-500">{id}</span>
           </h2>
-          <h2 className="text-base font-bold">
+          <h2 className="text-xs sm:text-base font-bold">
             Application ID: <span className="text-blue-500">{id}</span>
           </h2>
-          <h2 className="text-base font-bold">
-            Date: <span className="text-gray-600">{new Date().toLocaleDateString()}</span>
+          <h2 className="text-xs sm:text-base font-bold">
+            Date & Time: <span className="text-gray-600">{new Date().toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit',
+                  hour12: true // Change to false for 24-hour format
+                })}</span>
           </h2>
         </div>
       </Modal.Header>
-      <Modal.Body className="overflow-y-auto max-h-[70vh] p-3 space-y-3">
+      <Modal.Body className="overflow-y-auto max-h-[70vh] p-3 space-y-3" id="modal-content">
 
         <h4 className="text-xl font-semibold mb-2">Personal Details</h4>
         {/* Personal Information */}
@@ -308,7 +321,18 @@ const FormPreview = ({
           {/* Left Side: Place and Date */}
           <div className="flex flex-col">
             <p><strong>Place:</strong> {district}</p> {/* Placeholder for District */}
-            <p><strong>Date:</strong> {new Date().toLocaleDateString()}</p> {/* Placeholder for current date */}
+            <p><strong>Date & Time:</strong> {
+                new Date().toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: '2-digit',
+                  day: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  second: '2-digit',
+                  hour12: true // Change to false for 24-hour format
+                })
+              }
+            </p> {/* Placeholder for current date */}
           </div>
 
           {/* Right Side: Signature */}
@@ -323,17 +347,17 @@ const FormPreview = ({
             <p className="mt-2 text-sm text-gray-600">Signature of Candidate</p>
           </div>
         </div>
-
-
-
       </Modal.Body>
-      <Modal.Footer className="flex flex-wrap justify-end space-x-4 p-4 border-t-2 border-gray-200">
-        <Button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded" onClick={handleClose} id="close-button">
+      <Modal.Footer className="flex flex-wrap justify-end space-x-4 p-4 border-t-2 border-gray-200" >
+        <Button className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded" onClick={handleClose}>
           Close
         </Button>
-        <Button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded" onClick={handleDownloadPDF} id="download-button">
+        <Button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded" onClick={handleDownloadPDF}>
           Download as PDF
         </Button>
+        <Link href={certification} target="_blank" className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded" > 
+          Show Certificate 
+        </Link> 
       </Modal.Footer>
     </Modal>
   );
