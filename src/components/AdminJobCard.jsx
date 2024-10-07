@@ -13,6 +13,7 @@ import {
 import { jsPDF } from "jspdf"; // Import jsPDF for PDF generation 
 import { FaDownload } from "react-icons/fa"; // Import the download icon 
 import FormDownload from "./FormDownload"; 
+import FormPreview from "./FormPreview";
 
 const AdminJobCard = ({ job, refreshJobs }) => { 
   const [message, setMessage] = useState(""); 
@@ -494,7 +495,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
               > 
                 <FaDownload className="mr-2" /> Show Form 
               </button> 
-              <FormDownload 
+              <FormPreview
                 show={showPreview} 
                 handleClose={() => setShowPreview(false)} 
                 firstName={applicant.firstName} 
