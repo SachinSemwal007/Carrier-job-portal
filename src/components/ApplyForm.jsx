@@ -611,7 +611,7 @@ const ApplyForm = ({ params }) => {
       <div className="max-w-screen-md mx-auto p-6 bg-white  shadow-md">
         <h2 className="text-2xl font-bold mb-4 bg-teal-100 p-4 ">
           Apply for Vacancy:
-          <span className="text-teal-900 px-2 rounded-md"> {id} </span>
+          <span className="text-teal-900 px-2 rounded-md">  </span>
         </h2>
         <form onSubmit={handleSubmit}>
           {/* Name Fields */}

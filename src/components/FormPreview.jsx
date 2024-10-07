@@ -6,7 +6,6 @@ import { useParams } from "next/navigation";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Link from "next/link";
-import Image from "next/image";
 
 const FormPreview = ({
   show, // to control modal visibility
@@ -121,11 +120,9 @@ const FormPreview = ({
         id="modal-header"
       >
         <div className="flex flex-wrap items-center justify-center sm:flex-wrap ">
-          <Image
+          <img
             src="/JSSPS-Logo.png"
             alt="JSSP Logo"
-            width={100}
-            height={100}
             className="h-12 object-contain sm:h-14"
           />
           <div className="ml-4 text-center">
@@ -201,11 +198,9 @@ const FormPreview = ({
           {passportPhoto && (
             <div className="w-1/3 flex justify-center">
               <div className="w-35 h-40 border border-black">
-                <Image
+                <img
                   src={passportPhoto}
                   alt="Passport"
-                  width={40}
-                  height={20}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -490,11 +485,9 @@ const FormPreview = ({
           {/* Right Side: Signature */}
           <div className="flex flex-col items-center">
             {signature && (
-              <Image
+              <img
                 src={signature}
                 alt="Signature"
-                width={50}
-                height={40}
                 className="w-32 h-18 object-contain border border-gray-300"
               />
             )}
@@ -515,13 +508,14 @@ const FormPreview = ({
         >
           Download as PDF
         </Button>
-        <Link
+        {/* <Link
           href={certification}
           target="_blank"
+          rel="noopener noreferrer"
           className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-        >
+          >
           Show Certificate
-        </Link>
+        </Link> */}
       </Modal.Footer>
     </Modal>
   );
