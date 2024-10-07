@@ -438,7 +438,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
 
       {/* Job Information */}
       <h2 className="text-lg font-semibold text-green-600 mb-2"> 
-        No. of Applicants: {submittedApplicants.length} 
+        No. of Applicants: {job.applicants.length} 
       </h2> 
       <h3 className="text-xl font-bold mb-1">{job.jobTitle}</h3> 
       <h4 className="text-gray-600 text-sm mb-1">Job ID: {job._id}</h4> 
@@ -475,7 +475,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
           )} 
         </h2> 
         {showApplicants && 
-          submittedApplicants.map((applicant, index) => ( 
+          job.applicants.map((applicant, index) => ( 
             <ul key={index} className="bg-white p-3 mb-2 rounded-lg shadow-sm"> 
               <li className="text-gray-700"> 
                 Name: {applicant.firstName} {applicant.middleName}{" "} 
