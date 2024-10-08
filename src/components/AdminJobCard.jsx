@@ -478,6 +478,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
         {showApplicants && 
           job.applicants.map((applicant, index) => ( 
             <ul key={index} className="bg-white p-3 mb-2 rounded-lg shadow-sm"> 
+              <li className="text-gray-700"><strong>Applicant ID: </strong><span className="text-blue-700 font-bold">{applicant._id}</span></li>
               <li className="text-gray-700"> 
                 Name: {applicant.firstName} {applicant.middleName}{" "} 
                 {applicant.lastName} 
@@ -495,7 +496,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
               > 
                 <FaDownload className="mr-2" /> Show Form 
               </button> 
-              <FormPreview
+              <FormDownload
                 show={showPreview} 
                 handleClose={() => setShowPreview(false)} 
                 firstName={applicant.firstName} 

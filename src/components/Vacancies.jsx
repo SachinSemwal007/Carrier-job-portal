@@ -2,6 +2,12 @@ import React from 'react';
 import Link from 'next/link';
 
 const Vacancies = () => {
+
+  // Handle Apply button click
+  const handleApply = () => {
+    router.push(`/applicant-form/${job._id}`);
+  };
+
   // Sample data for vacancies
   const vacancies = [
     {
@@ -50,7 +56,7 @@ const Vacancies = () => {
           </p>
           {vacancy.isDraft && (
             <Link
-              href={`/applicant-dashboard/apply/${vacancy.id}`} // Assuming this route is for applying
+              href={handleApply} // Assuming this route is for applying
               className="inline-block bg-teal-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-teal-700 transition duration-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-opacity-50"
             >
               Continue Application

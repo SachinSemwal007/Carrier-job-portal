@@ -3,7 +3,7 @@ import { useApplicantAuth } from "@/context/ApplicantAuthProvider";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const JobCard = ({ job }) => {
+const JobCard = ({job }) => {
   const { applicant } = useApplicantAuth();
   const router = useRouter();
   const [message, setMessage] = useState(""); // State to show messages

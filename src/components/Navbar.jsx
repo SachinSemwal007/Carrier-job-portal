@@ -28,20 +28,18 @@ const Navbar = () => {
   }, [checkUser]);
 
   return (
-    <nav className="bg-teal-500 text-white shadow-lg">
-      <div className="container mx-auto px-4 h-20 flex justify-between items-center">
+    <nav className="bg-teal-50 text-black shadow-lg">
+      <div className="container mx-auto px-6 py-2 flex justify-between items-center">
         {/* Logo/Brand */}
         <div className="flex items-center">
-          <Link href="/">
             <Image
-              src="/JSSPS-Logo.png"
+              src="/JSSPS.webp"
               alt="JSSPS Logo"
               width={190}
               height={100}
               quality={100}
               className="h-20 w-auto object-contain"
             />
-          </Link>
         </div>
         {/* Hamburger Menu (Mobile) */}
         <div className="block lg:hidden">
@@ -70,37 +68,38 @@ const Navbar = () => {
             isOpen ? "block" : "hidden"
           }`}
         >
-          <Link
+          {/* <Link
             href="/"
             className="block mt-2 lg:mt-0 lg:ml-4 px-2 py-1 rounded  hover:bg-teal-700 transition duration-300"
           >
             Home
-          </Link>
+          </Link> */}
           {applicant ? (
             <div className="flex gap-2">
               <Link
                 href="/applicant-dashboard"
-                className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-teal-700 transition duration-300"
+                className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-teal-500 transition duration-300"
               >
                 Applicant Dashboard
               </Link>
               <Link
                 href="/jobs"
-                className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-teal-700 transition duration-300"
+                className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-teal-500 transition duration-300"
               >
                 Jobs
               </Link>
-              <h2
+              <Link
+                href="/"
                 onClick={() => applicantLogout()}
-                className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-teal-700 cursor-pointer transition duration-300"
+                className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-red-500 cursor-pointer transition duration-300"
               >
                 Logout
-              </h2>
+              </Link>
             </div>
           ) : (
             <Link
               href="/login"
-              className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-teal-700 transition duration-300"
+              className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-teal-500 transition duration-300"
             >
               Login
             </Link>

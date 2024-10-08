@@ -57,29 +57,30 @@ const ApplicantDashboard = () => {
       {applicant ? ( 
         <div className="flex flex-col min-h-screen bg-gray-100 transition-all duration-300 ease-in-out"> 
           {/* Top Navbar */} 
-          <header className="w-full bg-teal-500 text-white py-4 px-6 flex justify-between items-center shadow-lg"> 
+          <header className="w-full bg-teal-50 text-white py-2 px-6 flex justify-between items-center shadow-lg"> 
             <div className="flex items-center"> 
-              <Link href="/"> 
+              <Link href="/jobs"> 
                 <Image 
-                  src="/JSSPS-Logo.png" // Replace with your logo path 
+                  src="/JSSPS.webp" // Replace with your logo path 
                   alt="Company Logo" 
-                  width={60} 
-                  height={80} 
-                  className="mr-4 h-20 w-auto" // Adjust size as necessary 
+                  width={190}
+                  height={100}
+                  quality={100}
+                  className="h-20 w-auto object-contain" // Adjust size as necessary 
                 /> 
               </Link> 
               <div> 
-                <h1 className="text-xl font-bold text-teal-950"> 
+                <h1 className="text-base ml-5 sm:text-xl font-bold text-teal-950"> 
                   Jharkhand State Sports Promotion Society 
                 </h1> 
-                <p className="text-md text-teal-950"> 
+                <p className="text-sm ml-5 sm:text-md text-teal-950"> 
                   (A State Govt. of Jharkhand and CCL Joint Initiative) 
                 </p> 
               </div> 
             </div> 
  
             <div className="flex items-center"> 
-              <p className="mr-4">Applicant Name</p> 
+              <p className="mr-2 text-black font-bold">{applicant.email}</p> 
               <span className="h-10 w-10 flex items-center justify-center rounded-full bg-teal-600"> 
                 <FontAwesomeIcon 
                   icon={faUser} 
@@ -88,7 +89,7 @@ const ApplicantDashboard = () => {
                 {/* Applicant Icon */} 
               </span> 
               {/* Mobile Toggle Button */} 
-              <button onClick={toggleMenu} className="lg:hidden p-2 text-white"> 
+              <button onClick={toggleMenu} className="lg:hidden p-2 text-black"> 
                 <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} size="lg" />{" "} 
                 {/* Toggle icon */} 
               </button> 
@@ -140,8 +141,8 @@ const ApplicantDashboard = () => {
                         className={`block p-2 rounded transition duration-300  
                     ${ 
                       active === "logout" 
-                        ? "bg-teal-600 text-white" 
-                        : "text-white hover:bg-teal-700" 
+                        ? "bg-red-600 text-white" 
+                        : "text-white hover:bg-red-500" 
                     }`} 
                       > 
                         <button onClick={applicantLogout}> Logout </button> 
@@ -211,11 +212,11 @@ const ApplicantDashboard = () => {
               {active === "" ? ( 
                 <div className="text-center"> 
                   <Image 
-                    src="/JSSPS-Logo.png" 
+                    src="/JSSPS.webp" 
                     alt="Logo" 
-                    width={100} 
-                    height={100} 
-                    className="mb-4 h-16 w-16 mx-auto" 
+                    width={220} 
+                    height={120} 
+                    className="mb-4 h-auto w-auto mx-auto" 
                   /> 
                   <h1 className="text-3xl font-bold mb-4"> 
                     Welcome to Your Dashboard 
