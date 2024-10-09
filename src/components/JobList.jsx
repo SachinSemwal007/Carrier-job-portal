@@ -35,7 +35,7 @@ const JobList = () => {
 
       <main className="flex-grow container mx-auto px-6 sm:px-8 py-10">
         <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-10">
-          Job Listings
+          Ongoing Hirings
         </h2>
 
 

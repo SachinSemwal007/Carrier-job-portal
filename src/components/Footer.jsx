@@ -3,19 +3,15 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-800 text-white py-6">
+    <footer className="bg-gray-800 text-white py-3">
       <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center">
+        <div className="flex flex-col md:flex-row items-center justify-between">
           {/* Footer Links */}
-          <div className="flex flex-col md:flex-row mb-4 md:mb-0">
-            <h2 className="text-[18px] font-bold text-white text-right">
-              Designed and Developed by ACM
+          <div className="flex-1 text-center mb-4 md:mb-0">
+            <h2 className="text-[18px] font-bold text-white">
+              Powered by
+              <Link href='https://www.acmindia.co.in' rel="noopener noreferrer" target="_blank"> Artificial Computing Machines</Link>
             </h2>
-          </div>
-
-          {/* Copyright */}
-          <div className="text-center md:text-right  mt-4 md:mt-0">
-            &copy;JSSPS. All rights reserved.
           </div>
         </div>
       </div>

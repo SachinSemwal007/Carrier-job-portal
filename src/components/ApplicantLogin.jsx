@@ -47,13 +47,13 @@ const ApplicantLogin = () => {
       <main className="flex-grow container mx-auto flex flex-col items-center justify-center p-6">
         <div className="w-full max-w-md bg-white p-8 rounded-md shadow-xl">
           <div className="flex flex-col items-center mb-4">
-            <Image
+            {/* <Image
               src="/JSSPS.webp" // Updated to use your logo
               alt="Jharkhand-Govt. Logo"
               width={220}
               height={120}
               className="w-32 h-auto mb-4"
-            />
+            /> */}
             <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">
               Applicant Login
             </h1>
