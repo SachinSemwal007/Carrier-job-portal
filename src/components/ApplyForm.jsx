@@ -12,7 +12,7 @@ import {
 } from "@/context/ApplicantAuthProvider";
 import { useRouter } from "next/navigation";
 
-const ApplyForm = ({ params }) => {
+const ApplyForm = ({ params}) => {
   // console.log(params)
   const router = useRouter();
   const { id } = params; // Job ID from the URL
@@ -245,11 +245,11 @@ const ApplyForm = ({ params }) => {
     if (!id) return { min: 0, max: 100 }; // Default limits if id is not set
 
     switch (id) {
-      case "66f3bbd0358f00b6a0974674":
+      case "66f3bbda358f00b6a0974676":  //Head Coach
         return { min: 40, max: 70 };
-      case "66f3bbda358f00b6a0974676":
+      case "66fe964734b4ef6bd0623ab5":  //Coach
         return { min: 30, max: 50 };
-      case "66f3bbe4358f00b6a0974678":
+      case "66f3bbe4358f00b6a0974678":  //Assistant Coach
         return { min: 23, max: 40 };
       default:
         return { min: 0, max: 100 };
@@ -296,7 +296,7 @@ const ApplyForm = ({ params }) => {
     }
   };
 
-  //Save as Draft
+  // Save as Draft
   // Function to save form data to local storage
   const saveAsDraft = () => {
     const draftData = {
@@ -502,117 +502,165 @@ const ApplyForm = ({ params }) => {
     }
   };
 
-  const handleDraft = async (e) => {
-    e.preventDefault();
-    const applicantId = applicant.id;
+  // // Function to handle saving the form as a draft
+  // const handleDraft = (e) => {
+  //   e.preventDefault();
 
-    // Convert isHandicapped to Boolean
-    const booleanIsHandicapped = isHandicapped === "Yes";
+  //   // Convert isHandicapped to Boolean
+  //   const booleanIsHandicapped = isHandicapped === "Yes";
 
-    // Adjusting fields for courses, experiences, and references
-    const adjustedCourses = courses.map((course) => ({
-      name: course.courseName,
-      specialSubject: course.specialSubject,
-      yearOfPassing: Number(course.yearOfPassing), // Ensure this is a number
-      duration: Number(course.duration), // Ensure this is a number
-      gradeDivision: course.gradeDivision,
-      percent: Number(course.percent), // Ensure this is a number
-      instituteName: course.instituteName,
-    }));
+  //   // Adjusting fields for courses, experiences, and references
+  //   const adjustedCourses = courses.map((course) => ({
+  //     name: course.courseName,
+  //     specialSubject: course.specialSubject,
+  //     yearOfPassing: Number(course.yearOfPassing), // Ensure this is a number
+  //     duration: Number(course.duration), // Ensure this is a number
+  //     gradeDivision: course.gradeDivision,
+  //     percent: Number(course.percent), // Ensure this is a number
+  //     instituteName: course.instituteName,
+  //   }));
 
-    const adjustedExperiences = experiences.map((experience) => ({
-      title: experience.post,
-      company: experience.orgName,
-      years: Number(experience.scaleOfType), // Ensure this is a number
-      jobType: experience.jobType,
-      fromDate: experience.fromDate,
-      tillDate: experience.tillDate,
-      natureOfDuties: experience.natureOfDuties,
-    }));
+  //   const adjustedExperiences = experiences.map((experience) => ({
+  //     title: experience.post,
+  //     company: experience.orgName,
+  //     years: Number(experience.scaleOfType), // Ensure this is a number
+  //     jobType: experience.jobType,
+  //     fromDate: experience.fromDate,
+  //     tillDate: experience.tillDate,
+  //     natureOfDuties: experience.natureOfDuties,
+  //   }));
 
-    const adjustedReferences = references.map((reference) => ({
-      name: reference.refName,
-      relation: reference.relation || "", // Ensure relation is provided
-      contact: reference.refContact,
-    }));
+  //   const adjustedReferences = references.map((reference) => ({
+  //     name: reference.refName,
+  //     relation: reference.relation || "", // Ensure relation is provided
+  //     contact: reference.refContact,
+  //   }));
 
-    const files = {
-      passportPhoto: document.getElementById("passportPhotoInput").files[0],
-      certification: document.getElementById("certificationInput").files[0],
-      signature: document.getElementById("signatureInput").files[0],
-    };
+    //   // Data to be saved as a draft
+    //   const draftData = {
+    //     firstName,
+    //     middleName,
+    //     lastName,
+    //     fhName,
+    //     email,
+    //     contact,
+    //     whatsapp,
+    //     gender,
+    //     dob,
+    //     maritalStatus,
+    //     address,
+    //     pincode,
+    //     country,
+    //     state,
+    //     district,
+    //     isHandicapped: booleanIsHandicapped, // Store the boolean value
+    //     community,
+    //     matriculationYear: Number(matriculationYear), // Ensure this is a number
+    //     matriculationGrade,
+    //     matriculationPercentage: Number(matriculationPercentage), // Ensure this is a number
+    //     matriculationBoard,
+    //     interYear: Number(interYear), // Ensure this is a number
+    //     interGrade,
+    //     interPercentage: Number(interPercentage), // Ensure this is a number
+    //     interBoard,
+    //     bachelorYear: Number(bachelorYear), // Ensure this is a number
+    //     bachelorCourse,
+    //     bachelorSpecialization,
+    //     bachelorGrade,
+    //     bachelorPercentage: Number(bachelorPercentage), // Ensure this is a number
+    //     bachelorUniversity,
+    //     courses: adjustedCourses,
+    //     experiences: adjustedExperiences,
+    //     references: adjustedReferences,
+    //     achievement,
+    //     description,
+    //     submitted: false, // Marking the application as a draft
+    //   };
 
-    const formData = {
-      applicantId,
-      firstName,
-      middleName,
-      lastName,
-      contact,
-      fhName,
-      email,
-      gender,
-      dob,
-      maritalStatus,
-      address,
-      pincode,
-      country,
-      state,
-      district,
-      isHandicapped: booleanIsHandicapped, // Convert to Boolean
-      community,
-      matriculationYear: Number(matriculationYear), // Ensure this is a number
-      matriculationGrade,
-      matriculationPercentage: Number(matriculationPercentage), // Ensure this is a number
-      matriculationBoard,
-      interYear: Number(interYear), // Ensure this is a number
-      interGrade,
-      interPercentage: Number(interPercentage), // Ensure this is a number
-      interBoard,
-      bachelorYear: Number(bachelorYear), // Ensure this is a number
-      bachelorCourse,
-      bachelorSpecialization,
-      bachelorGrade,
-      bachelorPercentage: Number(bachelorPercentage), // Ensure this is a number
-      bachelorUniversity,
-      courses: adjustedCourses,
-      experiences: adjustedExperiences,
-      references: adjustedReferences,
-      achievement,
-      description,
-      submitted: false,
-      passportPhoto: files.passportPhoto,
-      certification: files.certification,
-      signature: files.signature,
-      jobId: id,
-    };
+    //   // Retrieve existing applied positions from local storage or initialize an empty array
+    //   let appliedPositions = JSON.parse(localStorage.getItem(`appliedPositions_${id}`)) || [];
 
-    try {
-      // Call applyForJob with job ID, form data, and files
-      const response = await applyForJob(id, formData, files);
+    //   // Update or add the current position to the appliedPositions array
+    //   const updatedPositions = appliedPositions.map((position) => {
+    //     if (position.postId === selectedPostId) {
+    //       return { ...position, ...draftData }; // Update existing position if it matches the current one
+    //     }
+    //     return position; // Keep other positions unchanged
+    //   });
 
-      if (response.ok) {
-        alert("Application submitted successfully!");
-        router.push("/jobs"); // Redirect to the admin dashboard or another page
-      } else {
-        const errorData = await response.json();
-        alert(
-          errorData.message || "Error submitting application. Please try again."
-        );
-      }
-    } catch (error) {
-      console.error("Error applying for job:", error);
-      alert("An error occurred. Please try again.");
-    }
-  };
-  
+    //   // If the position doesn't exist yet, add it as a draft
+    //   if (!updatedPositions.some((position) => position.postId === selectedPostId)) {
+    //     updatedPositions.push({ postId: selectedPostId, ...draftData });
+    //   }
+
+    //   // Save the updated applied positions to local storage
+    //   localStorage.setItem(`appliedPositions_${id}`, JSON.stringify(updatedPositions));
+
+    //   alert("Draft saved successfully!");
+    // };
+
+    // // Function to load form data from local storage
+    // const loadDraft = () => {
+    //   const appliedPositions = JSON.parse(localStorage.getItem(`appliedPositions_${id}`));
+    //   if (appliedPositions) {
+    //     const draftData = appliedPositions.find((position) => position.postId === selectedPostId);
+    //     if (draftData) {
+    //       setFirstName(draftData.firstName);
+    //       setMiddleName(draftData.middleName);
+    //       setLastName(draftData.lastName);
+    //       setFhName(draftData.fhName);
+    //       setEmail(draftData.email);
+    //       setContact(draftData.contact);
+    //       setWhatsapp(draftData.whatsapp);
+    //       setGender(draftData.gender);
+    //       setDob(draftData.dob);
+    //       setMaritalStatus(draftData.maritalStatus);
+    //       setAddress(draftData.address);
+    //       setPincode(draftData.pincode);
+    //       setCountry(draftData.country);
+    //       setState(draftData.state);
+    //       setDistrict(draftData.district);
+    //       setIsHandicapped(draftData.isHandicapped);
+    //       setCommunity(draftData.community);
+    //       setMatriculationYear(draftData.matriculationYear);
+    //       setMatriculationGrade(draftData.matriculationGrade);
+    //       setMatriculationPercentage(draftData.matriculationPercentage);
+    //       setMatriculationBoard(draftData.matriculationBoard);
+    //       setInterYear(draftData.interYear);
+    //       setInterGrade(draftData.interGrade);
+    //       setInterPercentage(draftData.interPercentage);
+    //       setInterBoard(draftData.interBoard);
+    //       setBachelorYear(draftData.bachelorYear);
+    //       setBachelorCourse(draftData.bachelorCourse);
+    //       setBachelorSpecialization(draftData.bachelorSpecialization);
+    //       setBachelorGrade(draftData.bachelorGrade);
+    //       setBachelorPercentage(draftData.bachelorPercentage);
+    //       setBachelorUniversity(draftData.bachelorUniversity);
+    //       setCourses(draftData.courses);
+    //       setExperiences(draftData.experiences);
+    //       setReferences(draftData.references);
+    //       setAchievement(draftData.achievement);
+    //       setDescription(draftData.description);
+    //     }
+    //   }
+    // };
+
+    // // Load draft data when component mounts
+    // useEffect(() => {
+    //   loadDraft();
+    // }, []);
+
   return (
-    <div className="bg-teal-800">
+    <div className="bg-teal-50">
       <Navbar />
       <div className="max-w-screen-md mx-auto p-6 bg-white  shadow-md">
-        <h2 className="text-2xl font-bold mb-4 bg-teal-100 p-4 ">
+        <div bg-teal-100> 
+        <h2 className="text-2xl font-bold mb-4  p-4 ">
           Apply for Vacancy:
-          <span className="text-teal-900 px-2 rounded-md">  </span>
+          <span className="text-teal-900 px-2 rounded-md"> {id} </span>
         </h2>
+
+        </div>
         <form onSubmit={handleSubmit}>
           {/* Name Fields */}
           <div>
@@ -883,7 +931,7 @@ const ApplyForm = ({ params }) => {
           </div>
           <div className="flex flex-col my-4">
             <label className="block font-medium mb-1">Matriculation:</label>
-            <div className="flex justify-between gap-2">
+            <div className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4 gap-2">
               <input
                 type="number"
                 placeholder="Year of Passing"
@@ -923,7 +971,7 @@ const ApplyForm = ({ params }) => {
           {/* Intermediate Field */}
           <div className="flex flex-col my-4">
             <label className="block font-medium mb-1">Intermediate / +2:</label>
-            <div className="flex justify-between gap-2">
+            <div className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4 gap-2">
               <input
                 type="number"
                 placeholder="Year of Passing"
@@ -965,13 +1013,13 @@ const ApplyForm = ({ params }) => {
             <label className="block font-medium mb-1">
               Bachelor Degree/Graduation (10+2+3):
             </label>
-            <div className="flex justify-between gap-2">
+            <div className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
               <input
                 type="number"
                 placeholder="Year of Passing"
                 value={bachelorYear}
                 onChange={(e) => setBachelorYear(e.target.value)}
-                className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border"
+                className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
                 required
               />
               <input
@@ -979,7 +1027,7 @@ const ApplyForm = ({ params }) => {
                 placeholder="Course"
                 value={bachelorCourse}
                 onChange={(e) => setBachelorCourse(e.target.value)}
-                className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border"
+                className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
                 required
               />
               <input
@@ -987,7 +1035,7 @@ const ApplyForm = ({ params }) => {
                 placeholder="Specialization"
                 value={bachelorSpecialization}
                 onChange={(e) => setBachelorSpecialization(e.target.value)}
-                className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border"
+                className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
                 required
               />
               <input
@@ -995,7 +1043,7 @@ const ApplyForm = ({ params }) => {
                 placeholder="Grade/Division"
                 value={bachelorGrade}
                 onChange={(e) => setBachelorGrade(e.target.value)}
-                className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border"
+                className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
                 required
               />
               <input
@@ -1004,19 +1052,21 @@ const ApplyForm = ({ params }) => {
                 step="0.01"
                 value={bachelorPercentage}
                 onChange={(e) => setBachelorPercentage(e.target.value)}
-                className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border"
+                className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-2 min-w-[150px]"
                 required
               />
-            </div>
-            <input
+              <input
               type="text"
               placeholder="University"
               value={bachelorUniversity}
               onChange={(e) => setBachelorUniversity(e.target.value)}
               required
-              className="flex-2 min-w-[150px] p-2 border border-gray-300 rounded-md box-border mt-2"
+              className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
             />
+            </div>
           </div>
+
+          
 
           {/* Professional Qualifications Section */}
           <div>
@@ -1352,7 +1402,7 @@ const ApplyForm = ({ params }) => {
             <button 
               type="button" 
               className="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-700 transition duration-200" 
-              onClick={handleDraft} 
+              onClick={saveAsDraft} 
             > 
               Save as Draft 
             </button> 
@@ -1403,6 +1453,7 @@ const ApplyForm = ({ params }) => {
               description={description} 
               passportPhoto={passportPhoto} 
               signature={signature} 
+              // certification={certification}
             /> 
  
             <button 

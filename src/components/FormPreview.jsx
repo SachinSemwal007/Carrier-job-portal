@@ -6,8 +6,9 @@ import { useParams } from "next/navigation";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Link from "next/link";
+import Image from "next/image";
 
-const FormPreview = ({
+const FormPreview = ({jobTitle,
   show, // to control modal visibility
   handleClose, // function to close modal
   firstName,
@@ -46,11 +47,10 @@ const FormPreview = ({
   description,
   passportPhoto,
   signature,
-  certification,
   _id,
 }) => {
-  // const { id } = useParams();
-  const id = _id;
+  const { id } = useParams();
+  // const id = _id;
 
   const handleDownloadPDF = () => {
     const modalHeader = document.getElementById("modal-header");
@@ -120,9 +120,11 @@ const FormPreview = ({
         id="modal-header"
       >
         <div className="flex flex-wrap items-center justify-center sm:flex-wrap ">
-          <img
+          <Image
             src="/JSSPS-Logo.png"
             alt="JSSP Logo"
+            width={100}
+            height={100}
             className="h-12 object-contain sm:h-14"
           />
           <div className="ml-4 text-center">
@@ -139,7 +141,7 @@ const FormPreview = ({
             Applied For: <span className="text-red-500">{id}</span>
           </h2>
           <h2 className="text-xs sm:text-base font-bold">
-            Application ID: <span className="text-blue-500">{id}</span>
+            Application ID: <span className="text-blue-500">{_id}</span>
           </h2>
           <h2 className="text-xs sm:text-base font-bold">
             Date & Time:{" "}
@@ -198,9 +200,11 @@ const FormPreview = ({
           {passportPhoto && (
             <div className="w-1/3 flex justify-center">
               <div className="w-35 h-40 border border-black">
-                <img
+                <Image
                   src={passportPhoto}
                   alt="Passport"
+                  width={35}
+                  height={40}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -485,9 +489,11 @@ const FormPreview = ({
           {/* Right Side: Signature */}
           <div className="flex flex-col items-center">
             {signature && (
-              <img
+              <Image
                 src={signature}
                 alt="Signature"
+                width={32}
+                height={18}
                 className="w-32 h-18 object-contain border border-gray-300"
               />
             )}
@@ -508,6 +514,7 @@ const FormPreview = ({
         >
           Download as PDF
         </Button>
+
         <Link
           href={certification}
           target="_blank"
@@ -516,6 +523,7 @@ const FormPreview = ({
           >
           Show Certificate
         </Link>
+
       </Modal.Footer>
     </Modal>
   );

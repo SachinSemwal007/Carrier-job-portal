@@ -90,36 +90,42 @@ const AdminDashboard = () => {
       ) : (
         <>
           {/* Top Navbar */}
-          <header className="w-full bg-teal-600 text-white py-4 px-6 flex justify-between items-center shadow-lg">
-            <div className="flex items-center">
-              <Link href="/">
-                {" "}
-                {/* Wrap the Image component with Link */}
-                <Image
-                  src="/JSSPS-Logo.png" // Replace with your logo path
-                  alt="Company Logo"
-                  width={60}
-                  height={80}
-                  className="mr-4" // Adjust size as necessary
-                />
-              </Link>
-              <div>
-                <h1 className="text-xl font-bold text-teal-950">Jharkhand State Sports Promotion Society</h1>
-                <p className="text-md text-teal-950">(A State Govt. of Jharkhand and CCL Joint Initiative)</p>
-              </div>
-            </div>
-            <div className="flex items-center">
-              <p className="mr-4">Admin Name</p> {/* Dynamic admin name */}
-              <span className="h-10 w-10 flex items-center justify-center rounded-full bg-teal-600">
-                <FontAwesomeIcon icon={faUser} className="text-blue-950 text-2xl" /> {/* Admin Icon */}
-              </span>
-            </div>
-
-            {/* Mobile Toggle Button */}
-            <button onClick={toggleMenu} className="lg:hidden p-2 text-white">
-              <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} size="lg" /> {/* Toggle icon */}
-            </button>
-          </header>
+          <header className="w-full bg-teal-50 text-white py-2 px-6 flex justify-between items-center shadow-lg"> 
+            <div className="flex items-center"> 
+                <Image 
+                  src="/JSSPS.webp" // Replace with your logo path 
+                  alt="Company Logo" 
+                  width={190}
+                  height={100}
+                  quality={100}
+                  className="h-20 w-auto object-contain" // Adjust size as necessary 
+                /> 
+              <div> 
+                <h1 className="text-base ml-5 sm:text-xl font-bold text-teal-950"> 
+                  Jharkhand State Sports Promotion Society 
+                </h1> 
+                <p className="text-sm ml-5 sm:text-md text-teal-950"> 
+                  (A State Govt. of Jharkhand and CCL Joint Initiative) 
+                </p> 
+              </div> 
+            </div> 
+ 
+            <div className="flex items-center"> 
+              <p className="mr-2 text-black font-bold">{user.email}</p> 
+              <span className="h-10 w-10 flex items-center justify-center rounded-full bg-teal-600"> 
+                <FontAwesomeIcon 
+                  icon={faUser} 
+                  className="text-blue-950 text-2xl" 
+                />{" "} 
+                {/* Applicant Icon */} 
+              </span> 
+              {/* Mobile Toggle Button */} 
+              <button onClick={toggleMenu} className="lg:hidden p-2 text-black"> 
+                <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} size="lg" />{" "} 
+                {/* Toggle icon */} 
+              </button> 
+            </div> 
+          </header> 
 
           {/* Sidebar and Main Content */}
           <div className="flex flex-grow">
@@ -144,7 +150,7 @@ const AdminDashboard = () => {
                       </li>
                     ))}
                     <li>
-                      <button className="block p-2 rounded transition duration-300 text-gray-300 hover:bg-teal-700 w-full text-left" onClick={() => logout()}>
+                      <button className="block p-2 rounded transition duration-300 text-gray-300 hover:bg-red-500 w-full text-left" onClick={() => logout()}>
                         Logout
                       </button>
                     </li>
@@ -171,7 +177,7 @@ const AdminDashboard = () => {
                       </li>
                     ))}
                     <li>
-                      <button className="block p-2 rounded transition duration-300 text-gray-300 hover:bg-teal-700 w-full text-left" onClick={() => logout()}>
+                      <button className="block p-2 rounded transition duration-300 text-gray-300 hover:bg-red-500 w-full text-left" onClick={() => logout()}>
                         Logout
                       </button>
                     </li>
@@ -185,11 +191,11 @@ const AdminDashboard = () => {
               {active === "" ? (
                 <div className="text-center">
                   <Image
-                    src="/JSSPS-Logo.png" // Replace with your logo path
+                    src="/JSSPS.webp" // Replace with your logo path
                     alt="Logo"
-                    width={100}
-                    height={100}
-                    className="mb-4 h-16 w-16 mx-auto"
+                    width={220}
+                    height={120}
+                    className="mb-4 h-auto w-auto mx-auto"
                   />
                   <h1 className="text-3xl font-bold mb-4">Welcome to the Admin Dashboard</h1>
                   <p className="text-lg text-gray-600">Please select an option from the menu to get started.</p>
@@ -222,6 +228,7 @@ const AdminDashboard = () => {
                     </div>
                   )}
                   {active === "create-admin" && <Signup />}
+                  {active === "updatejob" && <div>Update Job</div>}
                 </div>
               )}
             </main>
