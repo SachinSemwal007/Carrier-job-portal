@@ -417,24 +417,24 @@ const AdminJobCard = ({ job, refreshJobs }) => {
     } 
     return age; 
   }; 
-  return ( 
-    <div className="m-5 max-w-[400px] w-full flex-shrink-0 relative bg-white rounded-lg shadow-lg p-4 transition duration-300 hover:shadow-xl">
+  return (  
+    <div className="m-5 max-w-[400px] w-full flex-shrink-0 relative bg-white rounded-lg shadow-xl border border-gray-300 p-4 transition duration-300 hover:shadow-2xl hover:border-gray-400">
       {/* Job Card Header */} 
       <div className="flex justify-between items-center mb-4"> 
-        <Link 
+        {/* <Link 
           href={`/admin/${job._id}`} 
           className="text-blue-600 hover:underline flex items-center" 
         > 
           <FontAwesomeIcon icon={faEdit} className="mr-2" /> 
           Edit 
-        </Link> 
-        <h2 
+        </Link>  */}
+        {/* <h2 
           className="cursor-pointer text-red-600 hover:text-red-800 flex items-center" 
           onClick={() => handleDelete(job._id)} 
         > 
           <FontAwesomeIcon icon={faTrashAlt} className="mr-2" /> 
           Delete Job 
-        </h2>
+        </h2> */}
       </div>
 
       {/* Job Information */}
@@ -494,7 +494,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
                 onClick={handlePreview} 
                 className="mt-2 text-blue-600 hover:text-blue-800 flex items-center" 
               > 
-                <FaDownload className="mr-2" /> Show Form 
+                <FaDownload className="mr-2 " /> Show Form 
               </button> 
               <FormDownload
                 show={showPreview} 

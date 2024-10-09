@@ -39,26 +39,26 @@ const Home = () => {
               <Image
                 src="/JSSPS.webp"
                 alt="JSSPS Logo"
-                width={500}
+                width={400}
                 height={300}
                 quality={100}
-                className="w-1/3 mt-20 sm:w-1/2 lg:w-4/5 h-auto mb-4"
+                className="w-1/3 mt-20 sm:w-1/2 lg:w-3/5 h-auto mb-1"
               />
-              <h2 className="text-[26px] sm:text-[36px] lg:text-[52px]  font-extrabold text-gray-800 mb-2 whitespace-nowrap">
+              <h2 className="text-[26px] sm:text-[36px] lg:text-[40px] font-extrabold text-gray-800  whitespace-nowrap">
                 JSSPS Career Portal
               </h2>
               <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-600">
-                (A State Govt. of Jharkhand and CCL Joint Initiative)
+                (A CCL and State Govt. of Jharkhand Joint Initiative)
               </h4>
             </div>
             {/* Applicant Login section */}
-            <div className="w-full sm:w-1/2 lg:w-2/5 mt-0 sm:mt-0">
+            <div className="w-full sm:w-1/2 lg:w-2/5 ">
               <ApplicantLogin />
             </div>
           </div>
         </main>
-        <div className="bg-[#252425] py-4 px-2 text-center -mt-20">
-          <p className="text-[16px] sm:text-[26px] font-bold text-yellow-500">
+        <div className="bg-[#252425] py-3 px-2 text-center -mt-20">
+          <p className="text-[16px] sm:text-[20px] font-bold text-yellow-500">
             IMPORTANT ANNOUNCEMENTS REGARDING COACHES HIRING{" "}
             <a
               href="/path/to/your/pdf-file.pdf"

@@ -36,23 +36,17 @@ const AdminJobList = () => {
           <select onChange={(e) => setSort(e.target.value)} className="border border-gray-300 p-2 rounded mr-2">
             <option value="desc">Newest</option>
             <option value="asc">Oldest</option>
-          </select>
-          <select onChange={(e) => setFilters({ ...filters, location: e.target.value })} className="border border-gray-300 p-2 rounded">
-            <option value="">All Locations</option>
-            <option value="Remote">Remote</option>
-            <option value="New York">New York</option>
-            {/* Add more options */}
-          </select>
+          </select> 
         </div>
       </div>
 
-      <div className=" overflow-y-auto">
-        {" "}
-        {/* Scrollable area */}
-        {jobs.length > 0 ? (
-          jobs.map((job) => (
-            <div key={job._id} className="flex justify-between items-center p-4 border-b border-gray-300">
-              <AdminJobCard job={job} refreshJobs={fetchJobs} />
+      <div className=" overflow-y-auto"> 
+        {" "} 
+        {/* Scrollable area */} 
+        {jobs.length > 0 ? ( 
+          jobs.map((job) => ( 
+            <div key={job._id} className="flex justify-between items-center p-4 border-b border-gray-300"> 
+              <AdminJobCard job={job} refreshJobs={fetchJobs} /> 
             </div>
           ))
         ) : (

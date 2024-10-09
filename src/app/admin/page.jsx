@@ -105,7 +105,7 @@ const AdminDashboard = () => {
                   Jharkhand State Sports Promotion Society 
                 </h1> 
                 <p className="text-sm ml-5 sm:text-md text-teal-950"> 
-                  (A State Govt. of Jharkhand and CCL Joint Initiative) 
+                  (A CCL and State Govt. of Jharkhand Joint Initiative) 
                 </p> 
               </div> 
             </div> 

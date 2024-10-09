@@ -18,7 +18,7 @@
     "html2pdf.js": "^0.10.2",
     "jspdf": "^2.5.2",
     "jwt-decode": "^4.0.0",
-    "next": "14.2.13",
+    "next": "^14.2.15",
     "react": "^18",
     "react-bootstrap": "^2.10.5",
     "react-country-region-selector": "^3.6.1",
