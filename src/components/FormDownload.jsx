@@ -14,6 +14,8 @@ const FormDownload = ({
   fhName,
   email,
   gender,
+  dob,
+  age,
   maritalStatus,
   address,
   pincode,
@@ -46,7 +48,7 @@ const FormDownload = ({
   certification,
   _id,
 }) => {
-  const dob = 124; // Placeholder for Date of Birth, replace with actual data if needed
+  //const dob = 124; // Placeholder for Date of Birth, replace with actual data if needed
   const id = _id;
 
   const handleDownloadPDF = () => {
@@ -178,7 +180,7 @@ const FormDownload = ({
               <strong>Gender:</strong> {gender}
             </p>
             <p>
-              <strong>Date of Birth:</strong> {dob}
+              <strong>Date of Birth:</strong> {dob} <strong>Age:</strong> {age}
             </p>
             <p>
               <strong>Marital Status:</strong> {maritalStatus}
