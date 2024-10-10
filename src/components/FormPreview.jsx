@@ -18,6 +18,7 @@ const FormPreview = ({jobTitle,
   email,
   gender,
   dob,
+  age,
   maritalStatus,
   address,
   pincode,
@@ -180,7 +181,7 @@ const FormPreview = ({jobTitle,
               <strong>Gender:</strong> {gender}
             </p>
             <p>
-              <strong>Date of Birth:</strong> {dob}
+              <strong>Date of Birth:</strong> {dob}, <strong>Age:</strong> {age}
             </p>
             <p>
               <strong>Marital Status:</strong> {maritalStatus}
