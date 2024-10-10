@@ -31,6 +31,7 @@ const ApplyForm = ({ params}) => {
   const [whatsapp, setWhatsapp] = useState("");
   const [gender, setGender] = useState("");
   const [dob, setDob] = useState("");
+  const [age, setAge] = useState("");
   const [maritalStatus, setMaritalStatus] = useState("");
   const [address, setAddress] = useState("");
   const [pincode, setPincode] = useState("");
@@ -88,6 +89,34 @@ const ApplyForm = ({ params}) => {
   const [passportPhoto, setPassportPhoto] = useState(null);
   const [certification, setCertification] = useState(null);
   const [signature, setSignature] = useState(null);
+
+  //Age Calculator
+  const ageCalculator = (dob) => {
+    const today = new Date();
+    const birthDate = new Date(dob);
+
+    // Check if the selected date is in the future
+    if (birthDate > today) {
+      setAge("Invalid Age"); // Clear the age if the date is in the future
+      return;
+    }
+
+    let years = today.getFullYear() - birthDate.getFullYear();
+    let months = today.getMonth() - birthDate.getMonth();
+
+    // Adjust the year if the birth date hasn't occurred yet this year
+    if (months < 0 || (months === 0 && today.getDate() < birthDate.getDate())) {
+      years--;
+      months += 12;
+    }
+
+    // Adjust the month if birth day has passed this month
+    if (today.getDate() < birthDate.getDate()) {
+      months--;
+    }
+
+    setAge(`${years} years and ${months} months`);
+  };
 
   const handleFileChange = async (e, type) => {
     const file = e.target.files[0]; // Extract the file
@@ -724,10 +753,18 @@ const ApplyForm = ({ params}) => {
               <input
                 type="date"
                 value={dob}
-                onChange={(e) => setDob(e.target.value)}
+                onChange={(e) => {
+                  setDob(e.target.value);
+                  ageCalculator(e.target.value);
+                }}
                 required
                 className="w-full p-2 border border-gray-300 rounded-md"
               />
+               {dob && (
+                <span className="block mt-2 text-sm font-medium">
+                  Age: {age}
+                </span>
+                )}
             </div>
             <div>
               <label className="block font-medium mb-1">Marital Status:</label>
@@ -1424,6 +1461,7 @@ const ApplyForm = ({ params}) => {
               email={email} 
               gender={gender} 
               dob={dob} 
+              age={age}
               maritalStatus={maritalStatus} 
               address={address} 
               pincode={pincode} 
