@@ -14,8 +14,6 @@ const FormDownload = ({
   fhName,
   email,
   gender,
-  dob,
-  age,
   maritalStatus,
   address,
   pincode,
