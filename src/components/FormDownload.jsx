@@ -4,162 +4,162 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Link from "next/link";
 import Image from "next/image";
-
-const FormDownload = ({ show, handleClose, applicant ,key }) => {
-  const {
-    firstName,
-    middleName,
-    lastName,
-    fhName,
-    email,
-    gender,
-    maritalStatus,
-    address,
-    pincode,
-    country,
-    state,
-    district,
-    isHandicapped,
-    community,
-    matriculationYear,
-    matriculationGrade,
-    matriculationPercentage,
-    matriculationBoard,
-    interYear,
-    interGrade,
-    interPercentage,
-    interBoard,
-    bachelorYear,
-    bachelorCourse,
-    bachelorSpecialization,
-    bachelorGrade,
-    bachelorPercentage,
-    bachelorUniversity,
-    courses,
-    experiences,
-    references,
-    achievement,
-    description,
-    passportPhoto,
-    signature,
-    certification,
-    dob,
-    age,
-    _id,
-  } = applicant;
+ 
+const FormDownload = ({ show, handleClose, applicant ,key }) => { 
+  const { 
+    firstName, 
+    middleName, 
+    lastName,   
+    fhName,  
+    email, 
+    gender, 
+    maritalStatus, 
+    address, 
+    pincode, 
+    country, 
+    state, 
+    district, 
+    isHandicapped, 
+    community, 
+    matriculationYear, 
+    matriculationGrade, 
+    matriculationPercentage, 
+    matriculationBoard, 
+    interYear, 
+    interGrade, 
+    interPercentage, 
+    interBoard, 
+    bachelorYear, 
+    bachelorCourse, 
+    bachelorSpecialization, 
+    bachelorGrade, 
+    bachelorPercentage, 
+    bachelorUniversity, 
+    courses, 
+    experiences, 
+    references, 
+    achievement, 
+    description, 
+    passportPhoto, 
+    signature, 
+    certification, 
+    dob, 
+    age, 
+    _id, 
+  } = applicant; 
   //const dob = 124; // Placeholder for Date of Birth, replace with actual data if needed
   const id = _id;
-
-  // const handleDownloadPDF = () => {
-  //   const modalHeader = document.getElementById("modal-header");
-  //   const modalContent = document.getElementById("modal-content");
-
-  //   // Capture the full content
-  //   modalContent.style.height = "auto"; // Set height to auto to capture full content
-  //   modalContent.style.maxHeight = "none"; // Remove max-height restriction
-  //   modalContent.style.overflow = "visible"; // Set overflow to visible
-
-  //   // Create a temporary wrapper for capturing
-  //   const wrapper = document.createElement("div");
-  //   wrapper.appendChild(modalHeader.cloneNode(true));
-  //   wrapper.appendChild(modalContent.cloneNode(true));
-  //   document.body.appendChild(wrapper); // Temporarily add to DOM for capture
-
-  //   // Use html2canvas to capture the entire content
-  //   html2canvas(wrapper, {
-  //     scale: 2, // Higher scale for better image quality
-  //     useCORS: true, // Handle cross-origin issues
-  //     scrollY: 0, // Handle scrolling
-  //     scrollX: 0,
-  //   }).then((canvas) => {
-  //     const imgData = canvas.toDataURL("image/jpeg", 1.0);
-  //     const pdf = new jsPDF("p", "mm", "a4");
-  //     const pdfWidth = pdf.internal.pageSize.getWidth();
-  //     const pdfHeight = pdf.internal.pageSize.getHeight();
-
-  //     const imgWidth = pdfWidth;
-  //     const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-
-  //     let heightLeft = imgHeight;
-  //     let position = 0;
-
-  //     // Add image data to PDF and handle multi-page content
-  //     while (heightLeft > 0) {
-  //       pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
-  //       heightLeft -= pdfHeight;
-  //       if (heightLeft > 0) {
-  //         position -= pdfHeight;
-  //         pdf.addPage();
-  //       }
-  //     }
-
-  //     // Restore the original modal content styles directly
-  //     modalContent.style.height = ""; // Reset height to default
-  //     modalContent.style.maxHeight = ""; // Reset max-height to default
-  //     modalContent.style.overflow = "auto"; // Set overflow back to auto
-
-  //     // Remove the temporary wrapper
-  //     document.body.removeChild(wrapper);
-
-  //     // Save the PDF
-  //     pdf.save("form-preview.pdf");
-  //   });
-  // };
-const handleDownloadPDF = () => {
-  const modalHeader = document.getElementById("modal-header");
-  const modalContent = document.getElementById("modal-content");
-
-  // Reset styles to capture full content
-  modalContent.style.height = "auto";
-  modalContent.style.maxHeight = "none";
-  modalContent.style.overflow = "visible";
-
-  // Create a temporary wrapper for capturing the content
-  const wrapper = document.createElement("div");
-  wrapper.style.width = modalContent.clientWidth + "px"; // Ensure the wrapper width matches modal
-  wrapper.appendChild(modalHeader.cloneNode(true));
-  wrapper.appendChild(modalContent.cloneNode(true));
-  document.body.appendChild(wrapper);
-
-  // Use html2canvas to capture the content
-  html2canvas(wrapper, {
-    scale: 2, // Adjust scale if needed for better quality
-    useCORS: true, // Handle cross-origin issues for images
-    scrollY: 0,
-    scrollX: 0,
-  }).then((canvas) => {
-    const imgData = canvas.toDataURL("image/jpeg", 1.0);
-    const pdf = new jsPDF("p", "mm", "a4");
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = pdf.internal.pageSize.getHeight();
-
-    const imgWidth = pdfWidth;
-    const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-
-    let heightLeft = imgHeight;
-    let position = 0;
-
-    // Add image to PDF page by page
-    pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
-    heightLeft -= pdfHeight;
-
-    while (heightLeft > 0) {
-      position = heightLeft - imgHeight;
-      pdf.addPage();
-      pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pdfHeight;
-    }
-
-    // Clean up and restore original modal styles
-    modalContent.style.height = "";
-    modalContent.style.maxHeight = "";
-    modalContent.style.overflow = "auto";
-    document.body.removeChild(wrapper);
-
-    // Save the PDF
-    pdf.save("form-preview.pdf");
-  });
-};
+ 
+  // const handleDownloadPDF = () => { 
+  //   const modalHeader = document.getElementById("modal-header"); 
+  //   const modalContent = document.getElementById("modal-content"); 
+ 
+  //   // Capture the full content 
+  //   modalContent.style.height = "auto"; // Set height to auto to capture full content 
+  //   modalContent.style.maxHeight = "none"; // Remove max-height restriction 
+  //   modalContent.style.overflow = "visible"; // Set overflow to visible 
+ 
+  //   // Create a temporary wrapper for capturing 
+  //   const wrapper = document.createElement("div"); 
+  //   wrapper.appendChild(modalHeader.cloneNode(true)); 
+  //   wrapper.appendChild(modalContent.cloneNode(true)); 
+  //   document.body.appendChild(wrapper); // Temporarily add to DOM for capture 
+ 
+  //   // Use html2canvas to capture the entire content 
+  //   html2canvas(wrapper, { 
+  //     scale: 2, // Higher scale for better image quality 
+  //     useCORS: true, // Handle cross-origin issues 
+  //     scrollY: 0, // Handle scrolling 
+  //     scrollX: 0, 
+  //   }).then((canvas) => { 
+  //     const imgData = canvas.toDataURL("image/jpeg", 1.0); 
+  //     const pdf = new jsPDF("p", "mm", "a4"); 
+  //     const pdfWidth = pdf.internal.pageSize.getWidth(); 
+  //     const pdfHeight = pdf.internal.pageSize.getHeight(); 
+ 
+  //     const imgWidth = pdfWidth; 
+  //     const imgHeight = (canvas.height * pdfWidth) / canvas.width; 
+ 
+  //     let heightLeft = imgHeight; 
+  //     let position = 0; 
+ 
+  //     // Add image data to PDF and handle multi-page content 
+  //     while (heightLeft > 0) { 
+  //       pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight); 
+  //       heightLeft -= pdfHeight; 
+  //       if (heightLeft > 0) { 
+  //         position -= pdfHeight; 
+  //         pdf.addPage(); 
+  //       } 
+  //     } 
+ 
+  //     // Restore the original modal content styles directly 
+  //     modalContent.style.height = ""; // Reset height to default 
+  //     modalContent.style.maxHeight = ""; // Reset max-height to default 
+  //     modalContent.style.overflow = "auto"; // Set overflow back to auto 
+ 
+  //     // Remove the temporary wrapper 
+  //     document.body.removeChild(wrapper); 
+ 
+  //     // Save the PDF 
+  //     pdf.save("form-preview.pdf"); 
+  //   }); 
+  // }; 
+const handleDownloadPDF = () => { 
+  const modalHeader = document.getElementById("modal-header"); 
+  const modalContent = document.getElementById("modal-content"); 
+ 
+  // Reset styles to capture full content 
+  modalContent.style.height = "auto"; 
+  modalContent.style.maxHeight = "none"; 
+  modalContent.style.overflow = "visible"; 
+ 
+  // Create a temporary wrapper for capturing the content 
+  const wrapper = document.createElement("div"); 
+  wrapper.style.width = modalContent.clientWidth + "px"; // Ensure the wrapper width matches modal 
+  wrapper.appendChild(modalHeader.cloneNode(true)); 
+  wrapper.appendChild(modalContent.cloneNode(true)); 
+  document.body.appendChild(wrapper); 
+ 
+  // Use html2canvas to capture the content 
+  html2canvas(wrapper, { 
+    scale: 2, // Adjust scale if needed for better quality 
+    useCORS: true, // Handle cross-origin issues for images 
+    scrollY: 0, 
+    scrollX: 0, 
+  }).then((canvas) => { 
+    const imgData = canvas.toDataURL("image/jpeg", 1.0); 
+    const pdf = new jsPDF("p", "mm", "a4"); 
+    const pdfWidth = pdf.internal.pageSize.getWidth(); 
+    const pdfHeight = pdf.internal.pageSize.getHeight(); 
+ 
+    const imgWidth = pdfWidth; 
+    const imgHeight = (canvas.height * pdfWidth) / canvas.width; 
+ 
+    let heightLeft = imgHeight; 
+    let position = 0; 
+ 
+    // Add image to PDF page by page 
+    pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight); 
+    heightLeft -= pdfHeight; 
+ 
+    while (heightLeft > 0) { 
+      position = heightLeft - imgHeight; 
+      pdf.addPage(); 
+      pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight); 
+      heightLeft -= pdfHeight; 
+    } 
+ 
+    // Clean up and restore original modal styles 
+    modalContent.style.height = ""; 
+    modalContent.style.maxHeight = ""; 
+    modalContent.style.overflow = "auto"; 
+    document.body.removeChild(wrapper); 
+ 
+    // Save the PDF 
+    pdf.save("form-preview.pdf"); 
+  }); 
+}; 
 
   return (
     <Modal
@@ -168,7 +168,7 @@ const handleDownloadPDF = () => {
       onHide={handleClose}
       size="lg"
       className=" max-w-6xl mx-auto my-4 p-5 bg-white shadow-lg rounded-lg"
-      // id="modal-content"
+      // id="modal-content" 
     >
       <Modal.Header
         className="flex flex-col  border-b-2 border-gray-200 p-4"
