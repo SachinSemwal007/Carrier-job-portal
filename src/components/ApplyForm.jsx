@@ -338,6 +338,7 @@ const ApplyForm = ({ params}) => {
       whatsapp,
       gender,
       dob,
+      age,
       maritalStatus,
       address,
       pincode,
@@ -388,6 +389,7 @@ const ApplyForm = ({ params}) => {
       setWhatsapp(parsedData.whatsapp);
       setGender(parsedData.gender);
       setDob(parsedData.dob);
+      setAge(parsedData.age);
       setMaritalStatus(parsedData.maritalStatus);
       setAddress(parsedData.address);
       setPincode(parsedData.pincode);
@@ -682,8 +684,8 @@ const ApplyForm = ({ params}) => {
   return (
     <div className="bg-teal-50">
       <Navbar />
-      <div className="max-w-screen-md mx-auto p-6 bg-white  shadow-md">
-        <div bg-teal-100> 
+      <div className="max-w-screen-lg mx-auto p-6 bg-white  shadow-md">
+        <div className="bg-teal-100"> 
         <h2 className="text-2xl font-bold mb-4  p-4 ">
           Apply for Vacancy:
           <span className="text-teal-900 px-2 rounded-md"> {id} </span>
@@ -824,7 +826,7 @@ const ApplyForm = ({ params}) => {
                 pattern="\d{10}"
                 title="Please enter correct contact"
                 required
-                className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]"
+                className="w-full p-2 border border-gray-300 rounded-md"
               />
             </div>
             <div>
@@ -1185,7 +1187,7 @@ const ApplyForm = ({ params}) => {
               <button
                 type="button"
                 onClick={() => removeCourse(index)}
-                className="bg-red-600 text-white py-1 px-3 rounded-md"
+                className="bg-red-600 text-white mr-2 mb-2 p-2 text-xs rounded-md"
               >
                 Remove
               </button>
@@ -1270,7 +1272,7 @@ const ApplyForm = ({ params}) => {
               <button
                 type="button"
                 onClick={() => removeExperience(index)}
-                className="bg-red-600 text-white py-1 px-3 rounded-md"
+                className="bg-red-600 text-white mr-2 mb-2 p-2 text-xs rounded-md"
               >
                 Remove
               </button>
@@ -1355,7 +1357,7 @@ const ApplyForm = ({ params}) => {
               <button 
                 type="button" 
                 onClick={() => removeReference(index)} 
-                className="bg-red-600 text-white py-1 px-3 rounded-md" 
+                className="bg-red-600 text-white mr-2 mb-2 p-2 text-xs rounded-md" 
               > 
                 Remove 
               </button> 
@@ -1402,6 +1404,7 @@ const ApplyForm = ({ params}) => {
                 required 
                 className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:bg-gray-100 hover:file:bg-gray-200" 
               /> 
+              <span className="text-sm text-red-500"><strong>Note: </strong>If multiple certificates/documents have, please combine them into one pdf then upload.</span>
             </div> 
  
             {/* Signature */} 
