@@ -1,16 +1,27 @@
 "use client";
-import { useApplicantAuth } from "@/context/ApplicantAuthProvider";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-const JobCard = ({job }) => {
-  const { applicant } = useApplicantAuth();
+const JobCard = ({ job }) => {
   const router = useRouter();
   const [message, setMessage] = useState(""); // State to show messages
 
+  function getFirstLetters(inputString) {
+    const words = inputString.split(" ");
+    let firstLetters = words.map((word) => word.charAt(0));
+    if (inputString == "Coach") {
+      firstLetters = `${firstLetters}O`;
+      return firstLetters;
+    } else {
+      return firstLetters.join("");
+    }
+  }
+
   // Handle Apply button click
   const handleApply = () => {
-    router.push(`/applicant-form/${job._id}`);
+    router.push(
+      `/applicant-form/${job._id}?title=${getFirstLetters(job.jobTitle)}`
+    );
   };
 
   return (
@@ -21,11 +32,18 @@ const JobCard = ({job }) => {
 
       {/* Application Deadline */}
       <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold py-1 px-3 rounded-full animate-bounce shadow-lg z-10">
-        Deadline: {new Date().toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" })}
+        Deadline:{" "}
+        {new Date().toLocaleDateString(undefined, {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        })}
       </div>
 
       {/* Job Title */}
-      <h3 className="text-xl font-bold text-gray-800 mb-3 truncate-2-lines">{job.jobTitle}</h3>
+      <h3 className="text-xl font-bold text-gray-800 mb-3 truncate-2-lines">
+        {job.jobTitle}
+      </h3>
 
       {/* Job Details */}
       <div>
@@ -39,7 +57,8 @@ const JobCard = ({job }) => {
           <span className="font-semibold">Salary:</span> {job.salary}
         </p>
         <p className="text-sm text-gray-500">
-          <span className="font-semibold">Posted:</span> {new Date(job.postedDate).toLocaleDateString()}
+          <span className="font-semibold">Posted:</span>{" "}
+          {new Date(job.postedDate).toLocaleDateString()}
         </p>
       </div>
 

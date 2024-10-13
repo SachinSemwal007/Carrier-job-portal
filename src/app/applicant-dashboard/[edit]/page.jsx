@@ -1,11 +1,9 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { CountryDropdown, RegionDropdown } from "react-country-region-selector";
-// import Navigation from '../components/Navigation';
-// import { useApplicantAuth } from '@/context/ApplicantAuthProvider'; // Use the logged-in applicant's details
 import { applyForJob } from "@/api"; // Function to handle job application
-import FormPreview from "./FormPreview";
-import Navbar from "./Navbar";
+import FormPreview from "@/components/FormPreview";
+import Navbar from "@/components/Navbar";
 import {
   ApplicantAuthProvider,
   useApplicantAuth,
@@ -13,13 +11,12 @@ import {
 import { useRouter, useSearchParams } from "next/navigation"; // Import useSearchParams
 
 const ApplyForm = ({ params }) => {
-  // console.log(params)
   const router = useRouter();
   const [jobTitle, setJobTitle] = useState("");
   const searchParams = useSearchParams(); // Get the query parameters
- const [titlejob,setTitlejob]=useState("")
+  const [titlejob, setTitlejob] = useState("");
+
   useEffect(() => {
-    // Extract the title from the query string
     const title = searchParams.get("title");
     if (title) {
       setJobTitle(decodeURIComponent(title));
@@ -30,9 +27,9 @@ const ApplyForm = ({ params }) => {
   const { id } = params; // Job ID from the URL
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [showPreview, setShowPreview] = useState(false); //state for Preview
+  const [showPreview, setShowPreview] = useState(false);
   const { applicant } = useApplicantAuth();
-  // console.log(applicant);
+
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -102,27 +99,24 @@ const ApplyForm = ({ params }) => {
   const [certification, setCertification] = useState(null);
   const [signature, setSignature] = useState(null);
 
-  //Age Calculator
+  // Age Calculator
   const ageCalculator = (dob) => {
     const today = new Date();
     const birthDate = new Date(dob);
 
-    // Check if the selected date is in the future
     if (birthDate > today) {
-      setAge("Invalid Age"); // Clear the age if the date is in the future
+      setAge("Invalid Age");
       return;
     }
 
     let years = today.getFullYear() - birthDate.getFullYear();
     let months = today.getMonth() - birthDate.getMonth();
 
-    // Adjust the year if the birth date hasn't occurred yet this year
     if (months < 0 || (months === 0 && today.getDate() < birthDate.getDate())) {
       years--;
       months += 12;
     }
 
-    // Adjust the month if birth day has passed this month
     if (today.getDate() < birthDate.getDate()) {
       months--;
     }
@@ -130,8 +124,8 @@ const ApplyForm = ({ params }) => {
     setAge(`${years} years and ${months} months`);
   };
 
-  const handleFileChange = async (e, type) => {
-    const file = e.target.files[0]; // Extract the file
+  const handleFileChange = (e, type) => {
+    const file = e.target.files[0];
     let isValid = false;
     let errorMsg = "";
 
@@ -183,6 +177,7 @@ const ApplyForm = ({ params }) => {
       alert(errorMsg);
     }
   };
+
   const handleCourseChange = (index, event) => {
     const { name, value } = event.target;
     const newCourses = [...courses];
@@ -267,10 +262,8 @@ const ApplyForm = ({ params }) => {
       fetch(`http://localhost:5001/api/jobs/${id}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log("Fetched Data:", data);
           if (data.length > 0) {
-            console.log("Setting Job Data:", data[0]);
-            setJob(data[0]); // Assuming the first job matches the title
+            setJob(data[0]);
           } else {
             alert("Job not found");
           }
@@ -283,46 +276,237 @@ const ApplyForm = ({ params }) => {
     }
   }, [id]);
 
-  // Age validation based on job id
-  const getAgeLimits = (id) => {
-    if (!id) return { min: 0, max: 100 }; // Default limits if id is not set
+  // Function to calculate the difference in years
+  const calculateYearsDifference = (fromDate, tillDate) => {
+    const from = new Date(fromDate);
+    const till = new Date(tillDate);
 
-    switch (id) {
-      case "66f3bbda358f00b6a0974676": //Head Coach
-        return { min: 40, max: 70 };
-      case "66fe964734b4ef6bd0623ab5": //Coach
-        return { min: 30, max: 50 };
-      case "66f3bbe4358f00b6a0974678": //Assistant Coach
-        return { min: 23, max: 40 };
-      default:
-        return { min: 0, max: 100 };
-    }
-  };
+    let yearsDifference = till.getFullYear() - from.getFullYear();
 
-  // Function to calculate the age based on DOB
-  const calculateAge = (dob) => {
-    const birthDate = new Date(dob);
-    const today = new Date();
-
-    // Check if the birth date is in the future
-    if (birthDate > today) {
-      alert("Date of birth cannot be in the future.");
-      return -1; // Indicate invalid age
-    }
-
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
+    const tillMonth = till.getMonth();
+    const fromMonth = from.getMonth();
 
     if (
-      monthDiff < 0 ||
-      (monthDiff === 0 && today.getDate() < birthDate.getDate())
+      tillMonth < fromMonth ||
+      (tillMonth === fromMonth && till.getDate() < from.getDate())
     ) {
-      age--;
+      yearsDifference--;
     }
-    return age;
+
+    return Math.floor(yearsDifference);
   };
 
-  // Handle form preview with age validation
+  // Handle the form submission for draft and submit
+  const handleSubmit = async (e, isSubmit) => {
+    e.preventDefault();
+    const applicantId = applicant.id;
+    const applicationId = jobTitle;
+    const booleanIsHandicapped = isHandicapped === "Yes";
+
+    const adjustedCourses = courses.map((course) => ({
+      name: course.courseName,
+      specialSubject: course.specialSubject,
+      yearOfPassing: Number(course.yearOfPassing),
+      duration: Number(course.duration),
+      gradeDivision: course.gradeDivision,
+      percent: Number(course.percent),
+      instituteName: course.instituteName,
+    }));
+
+    const adjustedExperiences = experiences.map((experience) => ({
+      title: experience.post,
+      company: experience.orgName,
+      years: calculateYearsDifference(experience.fromDate, experience.tillDate),
+      jobType: experience.jobType,
+      fromDate: experience.fromDate,
+      post: experience.post,
+      tillDate: experience.tillDate,
+      natureOfDuties: experience.natureOfDuties,
+    }));
+
+    const adjustedReferences = references.map((reference) => ({
+      name: reference.refName,
+      relation: reference.refRelation || "",
+      contact: reference.refContact,
+    }));
+
+    const files = {
+      passportPhoto: document.getElementById("passportPhotoInput").files[0],
+      certification: document.getElementById("certificationInput").files[0],
+      signature: document.getElementById("signatureInput").files[0],
+    };
+
+    const formData = {
+      applicationId,
+      applicantId,
+      firstName,
+      middleName,
+      lastName,
+      contact,
+      fhName,
+      email,
+      gender,
+      dob,
+      maritalStatus,
+      address,
+      pincode,
+      country,
+      state,
+      district,
+      isHandicapped: booleanIsHandicapped,
+      community,
+      matriculationYear: Number(matriculationYear),
+      matriculationGrade,
+      matriculationPercentage: Number(matriculationPercentage),
+      matriculationBoard,
+      interYear: Number(interYear),
+      interGrade,
+      interPercentage: Number(interPercentage),
+      interBoard,
+      bachelorYear: Number(bachelorYear),
+      bachelorCourse,
+      bachelorSpecialization,
+      bachelorGrade,
+      bachelorPercentage: Number(bachelorPercentage),
+      bachelorUniversity,
+      courses: adjustedCourses,
+      experiences: adjustedExperiences,
+      references: adjustedReferences,
+      achievement,
+      description,
+      submitted: isSubmit,
+      passportPhoto: files.passportPhoto,
+      certification: files.certification,
+      signature: files.signature,
+      jobId: id,
+    };
+    try {
+      const response = await applyForJob(id, formData, files);
+
+      if (response.ok) {
+        alert(
+          isSubmit
+            ? "Application submitted successfully!"
+            : "Draft saved successfully!"
+        );
+        router.push("/jobs");
+      } else {
+        const errorData = await response.json();
+        alert(
+          errorData.message || "Error processing application. Please try again."
+        );
+      }
+    } catch (error) {
+      console.error("Error processing application:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
+  
+    const handleDraft = async (e) => {
+      e.preventDefault();
+      const applicantId = applicant.id;
+      const applicationId = jobTitle;
+      const booleanIsHandicapped = isHandicapped === "Yes";
+      // Adjusting fields for courses, experiences, and references
+      const adjustedCourses = courses.map((course) => ({
+        name: course.courseName,
+        specialSubject: course.specialSubject,
+        yearOfPassing: Number(course.yearOfPassing), // Ensure this is a number
+        duration: Number(course.duration), // Ensure this is a number
+        gradeDivision: course.gradeDivision,
+        percent: Number(course.percent), // Ensure this is a number
+        instituteName: course.instituteName,
+      }));
+
+      const adjustedExperiences = experiences.map((experience) => ({
+        title: experience.post,
+        company: experience.orgName,
+        years: calculateYearsDifference(
+          experience.fromDate,
+          experience.tillDate
+        ), // Ensure this is a number
+        jobType: experience.jobType,
+        fromDate: experience.fromDate,
+        post: experience.post,
+        tillDate: experience.tillDate,
+        natureOfDuties: experience.natureOfDuties,
+      }));
+
+      const adjustedReferences = references.map((reference) => ({
+        name: reference.refName,
+        relation: reference.refRelation || "", // Ensure relation is provided
+        contact: reference.refContact,
+      }));
+
+      const files = {
+        passportPhoto: document.getElementById("passportPhotoInput").files[0],
+        certification: document.getElementById("certificationInput").files[0],
+        signature: document.getElementById("signatureInput").files[0],
+      };
+
+      const formData = {
+        applicationId,
+        applicantId,
+        firstName,
+        middleName,
+        lastName,
+        contact,
+        fhName,
+        email,
+        gender,
+        dob,
+        maritalStatus,
+        address,
+        pincode,
+        country,
+        state,
+        district,
+        isHandicapped: booleanIsHandicapped, // Convert to Boolean
+        community,
+        matriculationYear: Number(matriculationYear), // Ensure this is a number
+        matriculationGrade,
+        matriculationPercentage: Number(matriculationPercentage), // Ensure this is a number
+        matriculationBoard,
+        interYear: Number(interYear), // Ensure this is a number
+        interGrade,
+        interPercentage: Number(interPercentage), // Ensure this is a number
+        interBoard,
+        bachelorYear: Number(bachelorYear), // Ensure this is a number
+        bachelorCourse,
+        bachelorSpecialization,
+        bachelorGrade,
+        bachelorPercentage: Number(bachelorPercentage), // Ensure this is a number
+        bachelorUniversity,
+        courses: adjustedCourses,
+        experiences: adjustedExperiences,
+        references: adjustedReferences,
+        achievement,
+        description,
+        submitted: false,
+        passportPhoto: files.passportPhoto,
+        certification: files.certification,
+        signature: files.signature,
+        jobId: id,
+      };
+
+      try {
+        // Call applyForJob with job ID, form data, and files
+        const response = await applyForJob(id, formData, files);
+
+        if (response.ok) {
+          alert("Application saved as draft successfully!");
+          router.push("/jobs"); // Redirect to the admin dashboard or another page
+        } else {
+          const errorData = await response.json();
+          alert(
+            errorData.message || "Error saving application. Please try again."
+          );
+        }
+      } catch (error) {
+        console.error("Error saving draft:", error);
+        alert("An error occurred. Please try again.");
+      }
+    };
   const handlePreview = () => {
     const age = calculateAge(dob);
     if (age < 0) return; // Exit if the DOB is invalid
@@ -336,237 +520,6 @@ const ApplyForm = ({ params }) => {
         `You are not eligible for the job due to age requirements. Minimum age: ${min}, Maximum age: ${max}.`
       );
       setShowPreview(false);
-    }
-  };
-
-  function calculateYearsDifference(fromDate, tillDate) {
-    // Parse the input dates
-    const from = new Date(fromDate);
-    const till = new Date(tillDate);
-
-    // Calculate the difference in years
-    let yearsDifference = till.getFullYear() - from.getFullYear();
-
-    // Adjust if the 'tillDate' is before the 'fromDate' within the same year
-    const tillMonth = till.getMonth();
-    const fromMonth = from.getMonth();
-
-    // If the month or day of 'tillDate' is before 'fromDate', subtract one year
-    if (
-      tillMonth < fromMonth ||
-      (tillMonth === fromMonth && till.getDate() < from.getDate())
-    ) {
-      yearsDifference--;
-    }
-
-    // Return the floor value of the years difference
-    return Math.floor(yearsDifference);
-  }
-
-  // Handle Submit
-  const handleDraft = async (e) => {
-    e.preventDefault();
-    const applicantId = applicant.id;
-    const applicationId = jobTitle;
-    const booleanIsHandicapped = isHandicapped === "Yes";
-    // Adjusting fields for courses, experiences, and references
-    const adjustedCourses = courses.map((course) => ({
-      name: course.courseName,
-      specialSubject: course.specialSubject,
-      yearOfPassing: Number(course.yearOfPassing), // Ensure this is a number
-      duration: Number(course.duration), // Ensure this is a number
-      gradeDivision: course.gradeDivision,
-      percent: Number(course.percent), // Ensure this is a number
-      instituteName: course.instituteName,
-    }));
-
-    const adjustedExperiences = experiences.map((experience) => ({
-      title: experience.post,
-      company: experience.orgName,
-      years: calculateYearsDifference(experience.fromDate, experience.tillDate), // Ensure this is a number
-      jobType: experience.jobType,
-      fromDate: experience.fromDate,
-      post: experience.post,
-      tillDate: experience.tillDate,
-      natureOfDuties: experience.natureOfDuties,
-    }));
-
-    const adjustedReferences = references.map((reference) => ({
-      name: reference.refName,
-      relation: reference.refRelation || "", // Ensure relation is provided
-      contact: reference.refContact,
-    }));
-
-    const files = {
-      passportPhoto: document.getElementById("passportPhotoInput").files[0],
-      certification: document.getElementById("certificationInput").files[0],
-      signature: document.getElementById("signatureInput").files[0],
-    };
-
-    const formData = {
-      applicationId,
-      applicantId,
-      firstName,
-      middleName,
-      lastName,
-      contact,
-      fhName,
-      email,
-      gender,
-      dob,
-      maritalStatus,
-      address,
-      pincode,
-      country,
-      state,
-      district,
-      isHandicapped: booleanIsHandicapped, // Convert to Boolean
-      community,
-      matriculationYear: Number(matriculationYear), // Ensure this is a number
-      matriculationGrade,
-      matriculationPercentage: Number(matriculationPercentage), // Ensure this is a number
-      matriculationBoard,
-      interYear: Number(interYear), // Ensure this is a number
-      interGrade,
-      interPercentage: Number(interPercentage), // Ensure this is a number
-      interBoard,
-      bachelorYear: Number(bachelorYear), // Ensure this is a number
-      bachelorCourse,
-      bachelorSpecialization,
-      bachelorGrade,
-      bachelorPercentage: Number(bachelorPercentage), // Ensure this is a number
-      bachelorUniversity,
-      courses: adjustedCourses,
-      experiences: adjustedExperiences,
-      references: adjustedReferences,
-      achievement,
-      description,
-      submitted: false,
-      passportPhoto: files.passportPhoto,
-      certification: files.certification,
-      signature: files.signature,
-      jobId: id,
-    };
-
-    try {
-      // Call applyForJob with job ID, form data, and files
-      const response = await applyForJob(id, formData, files);
-
-      if (response.ok) {
-        alert("Application saved as draft successfully!");
-        router.push("/jobs"); // Redirect to the admin dashboard or another page
-      } else {
-        const errorData = await response.json();
-        alert(
-          errorData.message || "Error saving application. Please try again."
-        );
-      }
-    } catch (error) {
-      console.error("Error saving draft:", error);
-      alert("An error occurred. Please try again.");
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const applicantId = applicant.id;
-    const applicationId = jobTitle;
-    const booleanIsHandicapped = isHandicapped === "Yes";
-    // Adjusting fields for courses, experiences, and references
-    const adjustedCourses = courses.map((course) => ({
-      name: course.courseName,
-      specialSubject: course.specialSubject,
-      yearOfPassing: Number(course.yearOfPassing), // Ensure this is a number
-      duration: Number(course.duration), // Ensure this is a number
-      gradeDivision: course.gradeDivision,
-      percent: Number(course.percent), // Ensure this is a number
-      instituteName: course.instituteName,
-    }));
-
-    const adjustedExperiences = experiences.map((experience) => ({
-      title: experience.post,
-      company: experience.orgName,
-      years: calculateYearsDifference(experience.fromDate, experience.tillDate), // Ensure this is a number
-      jobType: experience.jobType,
-      fromDate: experience.fromDate,
-      post: experience.post,
-      tillDate: experience.tillDate,
-      natureOfDuties: experience.natureOfDuties,
-    }));
-
-    const adjustedReferences = references.map((reference) => ({
-      name: reference.refName,
-      relation: reference.refRelation || "", // Ensure relation is provided
-      contact: reference.refContact,
-    }));
-
-    const files = {
-      passportPhoto: document.getElementById("passportPhotoInput").files[0],
-      certification: document.getElementById("certificationInput").files[0],
-      signature: document.getElementById("signatureInput").files[0],
-    };
-
-    const formData = {
-      applicationId,
-      applicantId,
-      firstName,
-      middleName,
-      lastName,
-      contact,
-      fhName,
-      email,
-      gender,
-      dob,
-      maritalStatus,
-      address,
-      pincode,
-      country,
-      state,
-      district,
-      isHandicapped: booleanIsHandicapped, // Convert to Boolean
-      community,
-      matriculationYear: Number(matriculationYear), // Ensure this is a number
-      matriculationGrade,
-      matriculationPercentage: Number(matriculationPercentage), // Ensure this is a number
-      matriculationBoard,
-      interYear: Number(interYear), // Ensure this is a number
-      interGrade,
-      interPercentage: Number(interPercentage), // Ensure this is a number
-      interBoard,
-      bachelorYear: Number(bachelorYear), // Ensure this is a number
-      bachelorCourse,
-      bachelorSpecialization,
-      bachelorGrade,
-      bachelorPercentage: Number(bachelorPercentage), // Ensure this is a number
-      bachelorUniversity,
-      courses: adjustedCourses,
-      experiences: adjustedExperiences,
-      references: adjustedReferences,
-      achievement,
-      description,
-      submitted: true,
-      passportPhoto: files.passportPhoto,
-      certification: files.certification,
-      signature: files.signature,
-      jobId: id,
-    };
-
-    try {
-      // Call applyForJob with job ID, form data, and files
-      const response = await applyForJob(id, formData, files);
-
-      if (response.ok) {
-        alert("Application submitted successfully!");
-        router.push("/jobs"); // Redirect to the admin dashboard or another page
-      } else {
-        const errorData = await response.json();
-        alert(
-          errorData.message || "Error submitting application. Please try again."
-        );
-      }
-    } catch (error) {
-      console.error("Error applying for job:", error);
-      alert("An error occurred. Please try again.");
     }
   };
 
