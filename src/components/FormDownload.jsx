@@ -292,7 +292,7 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
         </div>
       </Modal.Header>
       <Modal.Body
-        className="overflow-y-auto max-h-[70vh] p-3 space-y-3"
+        className="overflow-y-auto max-h-[63vh] p-3 space-y-3"
         id="modal-content"
       >
         <h4 className="text-xl font-semibold mb-2">Personal Details</h4>
