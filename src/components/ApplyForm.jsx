@@ -575,9 +575,9 @@ const ApplyForm = ({ params }) => {
       <Navbar /> 
       <div className="max-w-screen-md mx-auto p-6 bg-white  shadow-md"> 
         <div bg-teal-100> 
-          <h2 className="text-2xl font-bold mb-4  p-4 "> 
+          <h2 className="text-2xl font-bold mb-4 p-4"> 
             Apply for Vacancy: 
-            <span className="text-teal-900 px-2 rounded-md"> {id} </span> 
+            <span className="text-teal-900 px-2 rounded-md"> {titlejob}</span> 
           </h2> 
         </div> 
         <form onSubmit={handleSubmit}> 
@@ -1074,7 +1074,7 @@ const ApplyForm = ({ params }) => {
               <button 
                 type="button" 
                 onClick={() => removeCourse(index)} 
-                className="bg-red-600 text-white py-1 px-3 rounded-md" 
+                className="bg-red-600 text-white mr-2 mb-2 p-2 rounded-md" 
               > 
                 Remove 
               </button> 
@@ -1159,7 +1159,7 @@ const ApplyForm = ({ params }) => {
               <button 
                 type="button" 
                 onClick={() => removeExperience(index)} 
-                className="bg-red-600 text-white py-1 px-3 rounded-md" 
+                className="bg-red-600 text-white mr-2 mb-2 p-2 rounded-md" 
               > 
                 Remove 
               </button> 
@@ -1240,7 +1240,7 @@ const ApplyForm = ({ params }) => {
               <button 
                 type="button" 
                 onClick={() => removeReference(index)} 
-                className="bg-red-600 text-white py-1 px-3 rounded-md" 
+                className="bg-red-600 text-white mr-2 mb-2 p-2 rounded-md" 
               > 
                 Remove 
               </button> 
