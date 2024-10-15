@@ -93,12 +93,12 @@ const ApplicantDashboard = () => {
             <div className="flex items-center"> 
               <Link href="/jobs"> 
                 <Image 
-                  src="/JSSPS.webp" // Replace with your logo path 
+                  src="/JSSPS.webp" 
                   alt="Company Logo" 
                   width={190} 
                   height={100}
                   quality={100}
-                  className="h-20 w-auto object-contain" // Adjust size as necessary 
+                  className="h-20 w-auto object-contain"
                 /> 
               </Link> 
               <div> 
@@ -275,7 +275,7 @@ const ApplicantDashboard = () => {
                               )} 
                             </h2> 
                             <h2>{item.applicationId}</h2> 
-                            <Link href={`/applicant-dashboard/${index}`}> 
+                            <Link href={`/applicant-dashboard/${index}`}>  
                               Edit 
                             </Link> 
                             <h2 

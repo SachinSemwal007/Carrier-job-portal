@@ -3,113 +3,112 @@ import { Modal, Button } from "react-bootstrap";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Link from "next/link";
-import Image from "next/image";
-
-const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
-  const {
-    applicationId,
-    firstName,
-    middleName,
-    lastName,
-    fhName,
-    email,
-    gender,
-    maritalStatus,
-    address,
-    pincode,
-    country,
-    state,
-    district,
-    isHandicapped,
-    community,
-    matriculationYear,
-    matriculationGrade,
-    matriculationPercentage,
-    matriculationBoard,
-    interYear,
-    interGrade,
-    interPercentage,
-    interBoard,
-    bachelorYear,
-    bachelorCourse,
-    bachelorSpecialization,
-    bachelorGrade,
-    bachelorPercentage,
-    bachelorUniversity,
-    courses,
-    experiences,
-    references,
-    achievement,
-    description,
-    passportPhoto,
-    signature,
-    certification,
-    dob,
-    _id,
-  } = applicant;
-  const id = applicationId;
-  function calculateAge(dobString) {
-    const dob = new Date(dobString); // Parse the date string into a Date object
-    const now = new Date(); // Get the current date
-
-    let age = now.getFullYear() - dob.getFullYear(); // Calculate the year difference
-
-    // Adjust the age if the current date is before the birthday this year
-    const monthDiff = now.getMonth() - dob.getMonth();
-    const dayDiff = now.getDate() - dob.getDate();
-
-    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
-      age--;
-    }
-
-    return age;
-  }
-  function formatDate(dobString) {
-    const date = new Date(dobString); // Parse the date string into a Date object
-
-    // Helper function to get ordinal suffix for a date (st, nd, rd, th)
-    function getOrdinalSuffix(day) {
-      if (day > 3 && day < 21) return "th"; // Special case for 11th, 12th, 13th, etc.
-      switch (day % 10) {
-        case 1:
-          return "st";
-        case 2:
-          return "nd";
-        case 3:
-          return "rd";
-        default:
-          return "th";
-      }
-    }
-
-    // Format day with ordinal suffix
-    const day = date.getDate();
-    const ordinalSuffix = getOrdinalSuffix(day);
-
-    // Format month names
-    const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-    const month = monthNames[date.getMonth()]; // Get the month name
-
-    // Get the full year
-    const year = date.getFullYear();
-
-    return `${day}${ordinalSuffix} ${month} ${year}`;
-  }
-
-  // const handleDownloadPDF = () => {
+import Image from "next/image"; 
+ 
+const FormDownload = ({ show, handleClose, applicant, titlejob }) => { 
+  const { 
+    applicationId, 
+    firstName, 
+    middleName, 
+    lastName, 
+    fhName, 
+    email, 
+    gender, 
+    maritalStatus, 
+    address, 
+    pincode, 
+    country, 
+    state, 
+    district, 
+    isHandicapped, 
+    community, 
+    matriculationYear, 
+    matriculationGrade, 
+    matriculationPercentage, 
+    matriculationBoard, 
+    interYear, 
+    interGrade, 
+    interPercentage, 
+    interBoard, 
+    bachelorYear, 
+    bachelorCourse, 
+    bachelorSpecialization, 
+    bachelorGrade, 
+    bachelorPercentage, 
+    bachelorUniversity, 
+    courses, 
+    experiences, 
+    references, 
+    achievement, 
+    description, 
+    passportPhoto, 
+    signature, 
+    certification, 
+    dob, 
+    _id, 
+  } = applicant; 
+  const id = applicationId; 
+  function calculateAge(dobString) { 
+    const dob = new Date(dobString); // Parse the date string into a Date object 
+    const now = new Date(); // Get the current date 
+ 
+    let age = now.getFullYear() - dob.getFullYear(); // Calculate the year difference 
+ 
+    // Adjust the age if the current date is before the birthday this year 
+    const monthDiff = now.getMonth() - dob.getMonth(); 
+    const dayDiff = now.getDate() - dob.getDate(); 
+ 
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) { 
+      age--; 
+    } 
+ 
+    return age; 
+  } 
+  function formatDate(dobString) { 
+    const date = new Date(dobString); // Parse the date string into a Date object 
+ 
+    // Helper function to get ordinal suffix for a date (st, nd, rd, th) 
+    function getOrdinalSuffix(day) { 
+      if (day > 3 && day < 21) return "th"; // Special case for 11th, 12th, 13th, etc. 
+      switch (day % 10) { 
+        case 1: 
+          return "st"; 
+        case 2: 
+          return "nd"; 
+        case 3: 
+          return "rd"; 
+        default: 
+          return "th"; 
+      } 
+    } 
+ 
+    // Format day with ordinal suffix 
+    const day = date.getDate(); 
+    const ordinalSuffix = getOrdinalSuffix(day); 
+ 
+    // Format month names 
+    const monthNames = [ 
+      "Jan", 
+      "Feb", 
+      "Mar", 
+      "Apr", 
+      "May", 
+      "Jun", 
+      "Jul", 
+      "Aug", 
+      "Sep", 
+      "Oct", 
+      "Nov", 
+      "Dec", 
+    ]; 
+    const month = monthNames[date.getMonth()]; // Get the month name 
+ 
+    // Get the full year 
+    const year = date.getFullYear(); 
+ 
+    return `${day}${ordinalSuffix} ${month} ${year}`; 
+  } 
+ 
   //   const modalHeader = document.getElementById("modal-header");
   //   const modalContent = document.getElementById("modal-content");
 
@@ -164,102 +163,102 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
   //     pdf.save("form-preview.pdf");
   //   });
   // };
-
-  const handleDownloadPDF = () => {
-    const modalHeader = document.getElementById("modal-header");
-    const modalContent = document.getElementById("modal-content");
-
-    // Reset styles to capture full content
-    modalContent.style.height = "auto";
-    modalContent.style.maxHeight = "none";
-    modalContent.style.overflow = "visible";
-
-    // Create a temporary wrapper for capturing the content
-    const wrapper = document.createElement("div");
-    wrapper.style.width = modalContent.clientWidth + "px"; // Ensure the wrapper width matches modal
-    wrapper.appendChild(modalHeader.cloneNode(true));
-    wrapper.appendChild(modalContent.cloneNode(true));
-    document.body.appendChild(wrapper);
-
-    // Use html2canvas to capture the content
-    html2canvas(wrapper, {
-      scale: 2, // Adjust scale if needed for better quality
-      useCORS: true, // Handle cross-origin issues for images
-      scrollY: 0,
-      scrollX: 0,
-    }).then((canvas) => {
-      const imgData = canvas.toDataURL("image/jpeg", 1.0);
-      const pdf = new jsPDF("p", "mm", "a4");
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-
-      const imgWidth = pdfWidth;
-      const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-
-      let heightLeft = imgHeight;
-      let position = 0;
-
-      // Add the captured image content to PDF
-      while (heightLeft > 0) {
-        const pageHeight = Math.min(heightLeft, pdfHeight); // Height that fits on the page
-        pdf.addImage(imgData, "JPEG", 0, position, imgWidth, pageHeight);
-        heightLeft -= pageHeight; // Decrease remaining height
-        position = -heightLeft; // Move position for next page
-
-        // Only add a new page if there is more content
-        if (heightLeft > 0) {
-          pdf.addPage();
-        }
-      }
-
-      // === Add Clickable Link to PDF ===
-      const linkText = "View certificate"; // Replace with your link text
-      const linkUrl = certification; // Replace with your actual URL
-
-      // Set link position in the top-right corner
-      const linkX = pdfWidth - pdf.getTextWidth(linkText) - 10; // 10 is for some padding from the right
-      const linkY = 10; // Top margin
-
-      // Add link text and create clickable area
-      pdf.text(linkText, linkX, linkY);
-      pdf.link(linkX, linkY - 3, pdf.getTextWidth(linkText), 10, {
-        url: linkUrl,
-        target: "_blank", // Suggest to open in new tab (Note: some PDF viewers may not support this)
-      });
-
-      // === Restore original modal styles ===
-      modalContent.style.height = "";
-      modalContent.style.maxHeight = "";
-      modalContent.style.overflow = "auto";
-      document.body.removeChild(wrapper);
-
-      // Save the PDF
-      pdf.save(id);
-    });
-  };
-
+ 
+  const handleDownloadPDF = () => { 
+    const modalHeader = document.getElementById("modal-header"); 
+    const modalContent = document.getElementById("modal-content"); 
+ 
+    // Reset styles to capture full content 
+    modalContent.style.height = "auto"; 
+    modalContent.style.maxHeight = "none"; 
+    modalContent.style.overflow = "visible"; 
+ 
+    // Create a temporary wrapper for capturing the content 
+    const wrapper = document.createElement("div"); 
+    wrapper.style.width = modalContent.clientWidth + "px"; // Ensure the wrapper width matches modal 
+    wrapper.appendChild(modalHeader.cloneNode(true)); 
+    wrapper.appendChild(modalContent.cloneNode(true)); 
+    document.body.appendChild(wrapper); 
+ 
+    // Use html2canvas to capture the content 
+    html2canvas(wrapper, { 
+      scale: 2, // Adjust scale if needed for better quality 
+      useCORS: true, // Handle cross-origin issues for images 
+      scrollY: 0, 
+      scrollX: 0, 
+    }).then((canvas) => { 
+      const imgData = canvas.toDataURL("image/jpeg", 1.0); 
+      const pdf = new jsPDF("p", "mm", "a4"); 
+      const pdfWidth = pdf.internal.pageSize.getWidth(); 
+      const pdfHeight = pdf.internal.pageSize.getHeight(); 
+ 
+      const imgWidth = pdfWidth; 
+      const imgHeight = (canvas.height * pdfWidth) / canvas.width; 
+ 
+      let heightLeft = imgHeight; 
+      let position = 0; 
+ 
+      // Add the captured image content to PDF 
+      while (heightLeft > 0) { 
+        const pageHeight = Math.min(heightLeft, pdfHeight); // Height that fits on the page 
+        pdf.addImage(imgData, "JPEG", 0, position, imgWidth, pageHeight); 
+        heightLeft -= pageHeight; // Decrease remaining height 
+        position = -heightLeft; // Move position for next page 
+ 
+        // Only add a new page if there is more content 
+        if (heightLeft > 0) { 
+          pdf.addPage(); 
+        } 
+      } 
+ 
+      // === Add Clickable Link to PDF === 
+      const linkText = "View certificate"; // Replace with your link text 
+      const linkUrl = certification; // Replace with your actual URL 
+ 
+      // Set link position in the top-right corner 
+      const linkX = pdfWidth - pdf.getTextWidth(linkText) - 10; // 10 is for some padding from the right 
+      const linkY = 10; // Top margin 
+ 
+      // Add link text and create clickable area 
+      pdf.text(linkText, linkX, linkY); 
+      pdf.link(linkX, linkY - 3, pdf.getTextWidth(linkText), 10, { 
+        url: linkUrl, 
+        target: "_blank", // Suggest to open in new tab (Note: some PDF viewers may not support this) 
+      }); 
+ 
+      // === Restore original modal styles === 
+      modalContent.style.height = ""; 
+      modalContent.style.maxHeight = ""; 
+      modalContent.style.overflow = "auto"; 
+      document.body.removeChild(wrapper); 
+ 
+      // Save the PDF 
+      pdf.save(id); 
+    }); 
+  }; 
+ 
   return (
     <Modal
       show={show}
       onHide={handleClose}
       size="lg"
-      className=" max-w-6xl mx-auto my-4 p-5 bg-white shadow-lg rounded-lg h-[100svh]"
-      // id="modal-content"
+      className=" max-w-6xl mx-auto my-4 p-5 bg-white shadow-lg rounded-lg h-[100svh]" 
+      // id="modal-content" 
     >
       <Modal.Header
         className="flex flex-col  border-b-2 border-gray-200 p-4"
         id="modal-header"
       >
         <div className="flex flex-wrap items-center justify-center sm:flex-wrap ">
-          <div className="max-w-[100px]">
-            <Image
-              src="/JSSPS-Logo.png"
-              alt="JSSP Logo"
-              width={100}
-              height={100}
-              className="w-full h-full object-cover max-w-[100px]"
-            />
-          </div>
+          <div className="max-w-[100px]"> 
+            <Image 
+              src="/JSSPS-Logo.png" 
+              alt="JSSP Logo" 
+              width={100} 
+              height={100} 
+              className="w-full h-full object-cover max-w-[100px]" 
+            /> 
+          </div> 
           <div className="ml-4 text-center">
             <h1 className="text-sm sm:text-lg font-bold">
               Jharkhand State Sports Promotion Society
@@ -271,7 +270,7 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
         </div>
         <div className="flex flex-wrap justify-between items-center mt-2">
           <h2 className="text-xs sm:text-base font-bold">
-            Applied For: <span className="text-red-500">{titlejob}</span>
+            Applied For: <span className="text-red-500">{titlejob}</span> 
           </h2>
           <h2 className="text-xs sm:text-base font-bold">
             Application ID: <span className="text-blue-500">{id}</span>
@@ -313,8 +312,8 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
               <strong>Gender:</strong> {gender}
             </p>
             <p>
-              <strong>Date of Birth:</strong> {formatDate(dob)}{" "}
-              <strong>Age:</strong> {calculateAge(dob)}
+              <strong>Date of Birth:</strong> {formatDate(dob)}{" "} 
+              <strong>Age:</strong> {calculateAge(dob)} 
             </p>
             <p>
               <strong>Marital Status:</strong> {maritalStatus}
@@ -327,19 +326,19 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
               <strong>Community:</strong> {community}
             </p>
             <p>
-              <strong>Is Handicapped:</strong> {isHandicapped ? "Yes" :"No"}
+              <strong>Is Handicapped:</strong> {isHandicapped ? "Yes" :"No"} 
             </p>
           </div>
           {/* Display Passport Photo */}
           {passportPhoto && (
             <div className="w-1/3 flex justify-center">
-              <div className="max-w-35 h-40 border border-black">
-                <Image
-                  src={passportPhoto}
-                  alt="Passport"
+              <div className="max-w-35 h-40 border border-black"> 
+                <Image 
+                  src={passportPhoto} 
+                  alt="Passport" 
                   className="w-full h-full object-cover"
-                  width={100}
-                  height={100}
+                  width={100} 
+                  height={100} 
                 />
               </div>
             </div>
@@ -467,7 +466,7 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
                 {courses.map((course, index) => (
                   <tr key={index}>
                     <td className="border border-gray-300 p-2">
-                      {course.name}
+                      {course.name} 
                     </td>
                     <td className="border border-gray-300 p-2">
                       {course.specialSubject}
@@ -520,7 +519,7 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
                 {experiences.map((experience, index) => (
                   <tr key={index}>
                     <td className="border border-gray-300 p-2">
-                      {experience.company}
+                      {experience.company} 
                     </td>
                     <td className="border border-gray-300 p-2">
                       {experience.post}
@@ -529,13 +528,13 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
                       {experience.jobType}
                     </td>
                     <td className="border border-gray-300 p-2">
-                      {formatDate(experience.fromDate)}
+                      {formatDate(experience.fromDate)} 
                     </td>
                     <td className="border border-gray-300 p-2">
-                      {formatDate(experience.tillDate)}
+                      {formatDate(experience.tillDate)} 
                     </td>
                     <td className="border border-gray-300 p-2">
-                      {experience.jobType}
+                      {experience.jobType} 
                     </td>
                     <td className="border border-gray-300 p-2">
                       {experience.natureOfDuties}
@@ -558,20 +557,20 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
                 <tr className="bg-gray-200">
                   <th className="border border-gray-300 p-2">Reference Name</th>
                   <th className="border border-gray-300 p-2">Contact</th>
-                  <th className="border border-gray-300 p-2">Relation</th>
+                  <th className="border border-gray-300 p-2">Relation</th> 
                 </tr>
               </thead>
               <tbody>
                 {references.map((reference, index) => (
                   <tr key={index}>
                     <td className="border border-gray-300 p-2">
-                      {reference.name}
+                      {reference.name} 
                     </td>
                     <td className="border border-gray-300 p-2">
-                      {reference.contact}
-                    </td>
-                    <td className="border border-gray-300 p-2">
-                      {reference.relation}
+                      {reference.contact} 
+                    </td> 
+                    <td className="border border-gray-300 p-2"> 
+                      {reference.relation} 
                     </td>
                   </tr>
                 ))}
@@ -618,12 +617,12 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
           {/* Right Side: Signature */}
           <div className="flex flex-col items-center">
             {signature && (
-              <Image
+              <Image 
                 src={signature}
                 alt="Signature"
                 className="w-32 h-18 object-contain border border-gray-300"
-                width={100}
-                height={100}
+                width={100} 
+                height={100} 
               />
             )}
             <p className="mt-2 text-sm text-gray-600">Signature of Candidate</p>
@@ -638,15 +637,15 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
         >
           Close
         </Button>
-        <Button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded">
-          <Link
-            href={certification}
-            target="_blank"
-            className="text-white underline"
-          >
-            View Certificate
-          </Link>
-        </Button>
+        <Button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"> 
+          <Link 
+            href={certification} 
+            target="_blank" 
+            className="text-white underline" 
+          > 
+            View Certificate 
+          </Link> 
+        </Button> 
         <Button
           className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
           onClick={handleDownloadPDF}
@@ -659,4 +658,4 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
   );
 };
 
-export default FormDownload;
+export default FormDownload; 
