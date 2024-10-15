@@ -275,7 +275,7 @@ const ApplicantDashboard = () => {
                               )} 
                             </h2> 
                             <h2>{item.applicationId}</h2> 
-                            <Link href={`/applicant-dashboard/${item.jobId}`}> 
+                            <Link href={`/applicant-dashboard/${index}`}> 
                               Edit 
                             </Link> 
                             <h2 
