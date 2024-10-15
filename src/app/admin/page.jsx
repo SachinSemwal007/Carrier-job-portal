@@ -6,24 +6,24 @@ import Login from "@/components/Login"; // Login component
 import Signup from "@/components/Signup"; // Signup component
 import Image from "next/image"; // Next.js optimized image component
 import CreateJob from "@/components/CreateJob"; // Create Job component
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Font Awesome icons
-import { faBars, faTimes, faUser } from "@fortawesome/free-solid-svg-icons"; // Import toggle icons
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Font Awesome icons 
+import { faBars, faTimes, faUser } from "@fortawesome/free-solid-svg-icons"; // Import toggle icons 
 import Link from "next/link";
 
-const AdminDashboard = () => {
-  const { user, checkUser, logout } = useAuth(); // Use auth context
-  const [active, setActive] = useState(""); // State to track active sidebar option
-  const [sidebarOpen, setSidebarOpen] = useState(false); // State for sidebar visibility
-  const [menuOpen, setMenuOpen] = useState(false); // State for toggle menu visibility
+const AdminDashboard = () => { 
+  const { user, checkUser, logout } = useAuth(); // Use auth context 
+  const [active, setActive] = useState(""); // State to track active sidebar option 
+  const [sidebarOpen, setSidebarOpen] = useState(false); // State for sidebar visibility 
+  const [menuOpen, setMenuOpen] = useState(false); // State for toggle menu visibility 
   const [admins, setAdmins] = useState([]); // State to store admin list
 
-  // Check if user is logged in on component mount
+  // Check if user is logged in on component mount 
   useEffect(() => {
     checkUser();
   }, [checkUser]);
 
-  // Fetch admins when 'Admin List' is selected
-  useEffect(() => {
+  // Fetch admins when 'Admin List' is selected 
+  useEffect(() => { 
     if (active === "admin-list") {
       fetchAdmins();
     }
@@ -32,36 +32,36 @@ const AdminDashboard = () => {
   //Fetch Admins
   const fetchAdmins = async () => {
     try {
-      const response = await fetch("http://localhost:5001/api/admins"); // Fetch from the backend
-
+      const response = await fetch("http://localhost:5001/api/admins"); // Fetch from the backend 
+ 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error("Network response was not ok"); 
       }
-
-      const data = await response.json();
-      console.log("Fetched Admins:", data); // Log the fetched data
-
-      setAdmins(data);
-      console.log("Updated admins state:", data); // Log the updated state
-    } catch (error) {
-      console.error("Error fetching admins:", error);
-    }
+ 
+      const data = await response.json(); 
+      console.log("Fetched Admins:", data); // Log the fetched data 
+ 
+      setAdmins(data);  
+      console.log("Updated admins state:", data); // Log the updated state 
+    } catch (error) { 
+      console.error("Error fetching admins:", error); 
+    } 
   };
 
   // Handle remove admin
   const handleRemoveAdmin = async (adminId) => {
     try {
-      await fetch(`http://localhost:5001/api/admins/${adminId}`, {
-        method: "DELETE",
-      });
+      await fetch(`http://localhost:5001/api/admins/${adminId}`, { 
+        method: "DELETE", 
+      }); 
       setAdmins(admins.filter((admin) => admin._id !== adminId)); // Use _id from MongoDB
     } catch (error) {
-      console.error("Error removing admin:", error);
+      console.error("Error removing admin:", error); 
     }
   };
 
   const handleSetActive = (section) => {
-    setActive(section); // Set the active section in the sidebar
+    setActive(section); // Set the active section in the sidebar 
     setSidebarOpen(false); // Close the sidebar when an option is selected (mobile optimization)
     setMenuOpen(false); // Close the toggle menu when an option is selected (mobile optimization)
   };
@@ -93,7 +93,7 @@ const AdminDashboard = () => {
           <header className="w-full bg-teal-50 text-white py-2 px-6 flex justify-between items-center shadow-lg"> 
             <div className="flex items-center"> 
                 <Image 
-                  src="/JSSPS.webp" // Replace with your logo path 
+                  src="/JSSPS.webp" 
                   alt="Company Logo" 
                   width={190}
                   height={100}
@@ -132,7 +132,7 @@ const AdminDashboard = () => {
             {/* Sidebar (desktop) */}
             <aside
               className={`fixed lg:static bg-gray-800 text-white w-64 lg:block lg:translate-x-0 transition-transform duration-300 ease-in-out 
-              ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
+              ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`} 
             >
               <div className="p-4">
                 <h2 className="text-2xl font-bold text-center mb-4">Admin Panel</h2>
@@ -191,7 +191,7 @@ const AdminDashboard = () => {
               {active === "" ? (
                 <div className="text-center">
                   <Image
-                    src="/JSSPS.webp" // Replace with your logo path
+                    src="/JSSPS.webp" 
                     alt="Logo"
                     width={220}
                     height={120}
@@ -218,7 +218,7 @@ const AdminDashboard = () => {
                                 <p className="font-bold">{admin.name}</p>
                                 <p className="text-sm text-gray-600">{admin.email}</p>
                               </div>
-                              <button onClick={() => handleRemoveAdmin(admin._id)} className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600">
+                              <button onClick={() => handleRemoveAdmin(admin._id)} className="bg-red-500 text-white py-1 px-3 rounded hover:bg-red-600"> 
                                 Remove
                               </button>
                             </li>
