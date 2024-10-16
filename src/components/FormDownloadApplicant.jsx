@@ -5,7 +5,7 @@ import html2canvas from "html2canvas";
 import Link from "next/link";
 import Image from "next/image"; 
  
-const FormDownloadApp = ({ show, handleClose, applicant, titlejob }) => { 
+const FormDownloadApp = ({ show, handleClose, applicant }) => { 
   const { 
     applicationId, 
     firstName, 
@@ -64,6 +64,19 @@ const FormDownloadApp = ({ show, handleClose, applicant, titlejob }) => {
  
     return age; 
   } 
+
+  function checkTitle(code) {
+    // Extract the first two characters from the input code
+    const title = code.substring(0, 2);
+  
+    // Check the title and return the corresponding value
+    if (title === "CO") return "Coach";
+    else if (title === "AC") return "Assistant Coach";
+    else if (title === "HC") return "Head Coach";
+    else return "Unknown Title"; // Optional default case if no match
+  }
+  const titlejob=checkTitle(applicationId)
+
   function formatDate(dobString) { 
     const date = new Date(dobString); // Parse the date string into a Date object 
  
@@ -109,60 +122,6 @@ const FormDownloadApp = ({ show, handleClose, applicant, titlejob }) => {
     return `${day}${ordinalSuffix} ${month} ${year}`; 
   } 
  
-  //   const modalHeader = document.getElementById("modal-header");
-  //   const modalContent = document.getElementById("modal-content");
-
-  //   // Reset styles to capture full content
-  //   modalContent.style.height = "auto";
-  //   modalContent.style.maxHeight = "none";
-  //   modalContent.style.overflow = "visible";
-
-  //   // Create a temporary wrapper for capturing the content
-  //   const wrapper = document.createElement("div");
-  //   wrapper.style.width = modalContent.clientWidth + "px"; // Ensure the wrapper width matches modal
-  //   wrapper.appendChild(modalHeader.cloneNode(true));
-  //   wrapper.appendChild(modalContent.cloneNode(true));
-  //   document.body.appendChild(wrapper);
-
-  //   // Use html2canvas to capture the content
-  //   html2canvas(wrapper, {
-  //     scale: 2, // Adjust scale if needed for better quality
-  //     useCORS: true, // Handle cross-origin issues for images
-  //     scrollY: 0,
-  //     scrollX: 0,
-  //   }).then((canvas) => {
-  //     const imgData = canvas.toDataURL("image/jpeg", 1.0);
-  //     const pdf = new jsPDF("p", "mm", "a4");
-  //     const pdfWidth = pdf.internal.pageSize.getWidth();
-  //     const pdfHeight = pdf.internal.pageSize.getHeight();
-
-  //     const imgWidth = pdfWidth;
-  //     const imgHeight = (canvas.height * pdfWidth) / canvas.width;
-
-  //     let heightLeft = imgHeight;
-  //     let position = 0;
-
-  //     // Add image to PDF page by page
-  //     pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
-  //     heightLeft -= pdfHeight;
-
-  //     while (heightLeft > 0) {
-  //       position = heightLeft - imgHeight;
-  //       pdf.addPage();
-  //       pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
-  //       heightLeft -= pdfHeight;
-  //     }
-
-  //     // Clean up and restore original modal styles
-  //     modalContent.style.height = "";
-  //     modalContent.style.maxHeight = "";
-  //     modalContent.style.overflow = "auto";
-  //     document.body.removeChild(wrapper);
-
-  //     // Save the PDF
-  //     pdf.save("form-preview.pdf");
-  //   });
-  // };
  
   const handleDownloadPDF = () => { 
     const modalHeader = document.getElementById("modal-header"); 

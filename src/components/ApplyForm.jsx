@@ -549,7 +549,7 @@ const ApplyForm = ({ params }) => {
     }
   };
   function checktitle(title) {
-    if (title == "CO")return "Coach"
+    if (title == "CO") return "Coach";
     else if (title == "AC") return "Assistant Coach";
     else if (title == "HC") return "Head Coach";
   }
