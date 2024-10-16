@@ -8,7 +8,7 @@ import html2canvas from "html2canvas";
 import Link from "next/link";
 import Image from "next/image";
 
-const FormPreview = ({jobTitle,
+const FormPreview = ({titlejob,
   show, // to control modal visibility
   handleClose, // function to close modal
   firstName,
@@ -108,7 +108,11 @@ const FormPreview = ({jobTitle,
       pdf.save("form-preview.pdf");
     });
   };
-
+  function checktitle(title) {
+    if (title == "CO")return "Coach"
+    else if (title == "AC") return "Assistant Coach";
+    else if (title == "HC") return "Head Coach";
+  }
   return (
     <Modal
       show={show}
@@ -139,10 +143,10 @@ const FormPreview = ({jobTitle,
         </div>
         <div className="flex flex-wrap justify-between items-center mt-2">
           <h2 className="text-xs sm:text-base font-bold">
-            Applied For: <span className="text-red-500">{id}</span>
+            Applied For: <span className="text-red-500">{checktitle(titlejob)}</span>
           </h2>
           <h2 className="text-xs sm:text-base font-bold">
-            Application ID: <span className="text-blue-500">{_id}</span>
+            Application ID: <span className="text-blue-500">N/A</span>
           </h2>
           <h2 className="text-xs sm:text-base font-bold">
             Date & Time:{" "}
@@ -425,6 +429,8 @@ const FormPreview = ({jobTitle,
                 <tr className="bg-gray-200">
                   <th className="border border-gray-300 p-2">Reference Name</th>
                   <th className="border border-gray-300 p-2">Contact</th>
+                  <th className="border border-gray-300 p-2">Relation</th>
+
                 </tr>
               </thead>
               <tbody>
@@ -435,6 +441,9 @@ const FormPreview = ({jobTitle,
                     </td>
                     <td className="border border-gray-300 p-2">
                       {reference.refContact}
+                    </td>
+                    <td className="border border-gray-300 p-2">
+                      {reference.refRelation}
                     </td>
                   </tr>
                 ))}
@@ -509,12 +518,12 @@ const FormPreview = ({jobTitle,
         >
           Close
         </Button>
-        <Button
+        {/* <Button
           className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
           onClick={handleDownloadPDF}
         >
           Download as PDF
-        </Button>
+        </Button> */}
 
         {/* <Link
           href={certification}
