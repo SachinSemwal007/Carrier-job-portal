@@ -90,7 +90,16 @@ const ApplicantDashboard = () => {
     // Reset the active state or perform any other action when "No" is clicked
     setActive(""); // Assuming you use setActive to control the displayed content
   };
-
+  function checkTitle(code) {
+    // Extract the first two characters from the input code
+    const title = code.substring(0, 2);
+  
+    // Check the title and return the corresponding value
+    if (title === "CO") return "Coach";
+    else if (title === "AC") return "Assistant Coach";
+    else if (title === "HC") return "Head Coach";
+    else return "Unknown Title"; // Optional default case if no match
+  }
   return (
     <div>
       {applicant ? (
@@ -220,6 +229,7 @@ const ApplicantDashboard = () => {
                           <div key={index} className="m-5">
                             <h2>{item.submitted ? <h2 className="text-green-600">Application Under Review</h2> : <h2 className="text-yellow-300">Draft</h2>}</h2>
                             <h2>{item.applicationId}</h2>
+                            <h2>{checkTitle(item.applicationId)}</h2>
                             <Link href={`/applicant-dashboard/${index}`}>Edit</Link>
 
                             {item.submitted && (
