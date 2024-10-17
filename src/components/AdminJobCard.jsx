@@ -13,8 +13,8 @@ import {
 import { jsPDF } from "jspdf"; // Import jsPDF for PDF generation 
 import { FaDownload } from "react-icons/fa"; // Import the download icon 
 import FormDownload from "./FormDownload"; 
-import FormPreview from "./FormPreview";
-
+import FormPreview from "./FormPreview"; 
+ 
 const AdminJobCard = ({ job, refreshJobs }) => { 
   const [message, setMessage] = useState(""); 
   const [error, setError] = useState(""); 
@@ -29,69 +29,43 @@ const AdminJobCard = ({ job, refreshJobs }) => {
   const handleClosePreview = () => { 
     setPreviewApplicantId(null); // Close the modal by resetting the applicant ID 
   }; 
-  // Handle Apply button click
+  // Handle Apply button click 
   const handleToggleApplicants = () => {
     setShowApplicants((prev) => !prev); 
   }; 
  
-  // Function to handle job deletion 
-  const handleDelete = async (id) => { 
-    const confirmed = window.confirm( 
-      "Are you sure you want to delete this job?" 
-    ); 
-    if (!confirmed) return; 
- 
-    try { 
-      await deleteJob(id); 
-      setMessage("Job deleted successfully!"); 
-      setError(""); 
- 
-      // Trigger a re-fetch of the job list 
-      if (refreshJobs) { 
-        refreshJobs(); 
-      } 
-    } catch (err) { 
-      console.error("Error deleting job:", err); 
-      setMessage(""); 
-      setError("Error deleting job. Please try again."); 
-    } 
-  }; 
- 
   // Function to delete an applicant using `applicantId` 
   const deleteApplicant = async (applicantId) => { 
-    const confirmed = window.confirm( 
-      "Are you sure you want to delete this applicant?" 
-    ); 
-    if (!confirmed) return; 
- 
+    const url = `http://localhost:5001/api/posts/${job._id}/applications/${applicantId}`; 
+    console.log(url); 
     try { 
-      const response = await fetch( 
-        `http://localhost:5001/api/posts/${job._id}/applications/${applicantId}`, 
-        { 
-          method: "DELETE", 
-        } 
-      ); 
+      const response = await fetch(url, { 
+        method: "DELETE", 
+        headers: { 
+          "Content-Type": "application/json", 
+        }, 
+      }); 
  
       if (response.ok) { 
-        setMessage("Applicant removed successfully."); 
-        setError(""); 
- 
-        // Trigger a re-fetch of the job list 
+        const data = await response.json(); 
+        console.log("Application deleted successfully:", data.message); 
         if (refreshJobs) { 
           refreshJobs(); 
         } 
+        // Optionally, update the UI or navigate the user away 
+        return data.message; 
       } else { 
-        const data = await response.json(); 
-        setMessage(""); 
-        setError("Error: " + data.message); 
+        const errorData = await response.json(); 
+        console.error("Failed to delete application:", errorData.message); 
+        // Handle errors (e.g., show error message to the user) 
+        return errorData.message; 
       } 
     } catch (error) { 
-      console.error("Error removing applicant:", error); 
-      setMessage(""); 
-      setError("An error occurred. Please try again."); 
+      console.error("Error occurred during deletion:", error); 
+      // Handle the error (e.g., show error notification) 
+      return error.message; 
     } 
   }; 
- 
   // Function to handle downloading the applicant list as an Excel file 
   const handleDownloadApplicants = () => { 
     // Filter only applicants with `submitted` set to `true` 
@@ -160,8 +134,6 @@ const AdminJobCard = ({ job, refreshJobs }) => {
     XLSX.writeFile(workbook, fileName); 
   }; 
  
-
-  // Function to handle downloading all applicants' data as a single PDF
   const handleDownloadAllApplicantsPDF = () => {
     const doc = new jsPDF();
     let line = 10; // Initial line position
@@ -182,8 +154,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
         10, 
         line 
       ); 
-      line += 10;
-      // Add more fields as in the individual applicant function...
+      line += 10; 
 
       // Add space between applicants
       line += 20;
@@ -228,7 +199,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
     <div className="m-5 max-w-[400px] w-full flex-shrink-0 relative bg-white rounded-lg shadow-xl border border-gray-300 p-4 transition duration-300 hover:shadow-2xl hover:border-gray-400"> 
       {/* Job Card Header */} 
       <div className="flex justify-between items-center mb-4"> 
-        {/* <Link 
+        {/* <Link  
           href={`/admin/${job._id}`} 
           className="text-blue-600 hover:underline flex items-center" 
         > 
@@ -246,7 +217,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
  
       {/* Job Information */} 
       <h2 className="text-lg font-semibold text-green-600 mb-2"> 
-        No. of Applicants: {job.applicants.length} 
+        No. of Applicants: {submittedApplicants.length} 
       </h2> 
       <h3 className="text-xl font-bold mb-1">{job.jobTitle}</h3> 
       <h4 className="text-gray-600 text-sm mb-1">Job ID: {job._id}</h4> 
@@ -271,7 +242,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
           onClick={handleToggleApplicants} 
         > 
           {showApplicants ? ( 
-            <>
+            <> 
               <FontAwesomeIcon icon={faArrowUp} className="mr-2" />
               Hide Submitted Applicants
             </>
@@ -283,11 +254,13 @@ const AdminJobCard = ({ job, refreshJobs }) => {
           )} 
         </h2> 
         {showApplicants && 
-          job.applicants.map((applicant, index) => ( 
+          submittedApplicants.map((applicant, index) => ( 
             <ul key={index} className="bg-white p-3 mb-2 rounded-lg shadow-sm"> 
               <li className="text-gray-700"> 
-                <strong>Applicant ID: </strong> 
-                <span className="text-blue-700 font-bold">{applicant._id}</span> 
+                <strong>Application ID: </strong> 
+                <span className="text-blue-700 font-bold"> 
+                  {applicant.applicationId} 
+                </span> 
               </li> 
               <li className="text-gray-700"> 
                 Name: {applicant.firstName} {applicant.middleName}{" "} 
@@ -310,23 +283,24 @@ const AdminJobCard = ({ job, refreshJobs }) => {
                 show={previewApplicantId === applicant._id} // Conditionally show the modal based on the applicant ID 
                 handleClose={handleClosePreview} 
                 applicant={applicant} 
+                titlejob={job.jobTitle} 
               /> 
               {/* Remove Applicant */} 
-              <li 
+              {/* <li 
                 className="text-red-600 cursor-pointer mt-2 hover:text-red-800" 
                 onClick={() => deleteApplicant(applicant._id)} 
               > 
                 Remove Applicant 
-              </li> 
+              </li> */} 
             </ul> 
           ))} 
       </div> 
-
+ 
       {/* Success and Error Messages */}
       {message && <p className="text-green-600 mt-2">{message}</p>} 
       {error && <p className="text-red-600 mt-2">{error}</p>} 
-    </div>
+    </div> 
   );
 };
-
+ 
 export default AdminJobCard;
