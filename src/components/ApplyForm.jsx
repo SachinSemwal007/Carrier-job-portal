@@ -548,6 +548,7 @@ const ApplyForm = ({ params }) => {
       alert("An error occurred. Please try again."); 
     } 
   }; 
+
   function checktitle(title) { 
     if (title == "CO") return "Coach"; 
     else if (title == "AC") return "Assistant Coach"; 

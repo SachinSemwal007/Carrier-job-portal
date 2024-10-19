@@ -21,7 +21,7 @@ const AdminLogin = () => {
     e.preventDefault();
     const success = await login(email, password); // Call login function from context
     if (success) {
-      router.push('/admin/dashboard'); // Redirect to the admin dashboard or another page
+      router.push('/admin'); // Redirect to the admin dashboard or another page
     } else {
       setError('Invalid login credentials');
     }
