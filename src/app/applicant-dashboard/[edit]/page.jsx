@@ -6,6 +6,8 @@ import FormPreview from "@/components/FormPreview";
 import Navbar from "@/components/Navbar";
 import { ApplicantAuthProvider, useApplicantAuth } from "@/context/ApplicantAuthProvider";
 import { useRouter, useSearchParams } from "next/navigation"; // Import useSearchParams
+import { FaDownload } from "react-icons/fa";
+import FormDownloadApp from "@/components/FormDownloadApplicant";
 
 const ApplyForm = ({ params }) => {
   const { edit } = params; // Job ID from the URL
@@ -51,6 +53,13 @@ const ApplyForm = ({ params }) => {
   const [bachelorGrade, setBachelorGrade] = useState("");
   const [bachelorPercentage, setBachelorPercentage] = useState("");
   const [bachelorUniversity, setBachelorUniversity] = useState("");
+  const [previewIndex, setPreviewIndex] = useState(null);
+
+  // console.log(applicant);
+
+  const handleClosePreview = () => {
+    setPreviewIndex(null); // Close the modal by resetting the applicant ID
+  };
   const [courses, setCourses] = useState([
     {
       courseName: "",
@@ -302,134 +311,17 @@ const ApplyForm = ({ params }) => {
     }
   }, [applicant, edit]);
 
-  // Handle the form submission for draft and submit
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const applicantId = applicant.id;
-  //   const postId = applicant.appliedPositions[edit].jobId;
-  //   const booleanIsHandicapped = isHandicapped === "Yes";
-
-  //   const adjustedCourses = courses.map((course) => ({
-  //     name: course.courseName,
-  //     specialSubject: course.specialSubject,
-  //     yearOfPassing: Number(course.yearOfPassing),
-  //     duration: Number(course.duration),
-  //     gradeDivision: course.gradeDivision,
-  //     percent: Number(course.percent),
-  //     instituteName: course.instituteName,
-  //   }));
-
-  //   const adjustedExperiences = experiences.map((experience) => ({
-  //     title: experience.post,
-  //     company: experience.orgName,
-  //     years: calculateYearsDifference(experience.fromDate, experience.tillDate),
-  //     jobType: experience.jobType,
-  //     fromDate: experience.fromDate,
-  //     post: experience.post,
-  //     tillDate: experience.tillDate,
-  //     natureOfDuties: experience.natureOfDuties,
-  //   }));
-
-  //   const adjustedReferences = references.map((reference) => ({
-  //     name: reference.refName,
-  //     relation: reference.refRelation || "",
-  //     contact: reference.refContact,
-  //   }));
-
-  //   const files = {
-  //     passportPhoto: document.getElementById("passportPhotoInput").files[0],
-  //     certification: document.getElementById("certificationInput").files[0],
-  //     signature: document.getElementById("signatureInput").files[0],
-  //   };
-
-  //   const formData = new FormData();
-
-  //   formData.append(
-  //     "applicationData",
-  //     JSON.stringify({
-  //       firstName,
-  //       middleName,
-  //       lastName,
-  //       contact,
-  //       fhName,
-  //       email,
-  //       gender,
-  //       dob,
-  //       maritalStatus,
-  //       address,
-  //       pincode,
-  //       country,
-  //       state,
-  //       district,
-  //       isHandicapped: booleanIsHandicapped,
-  //       community,
-  //       matriculationYear: Number(matriculationYear),
-  //       matriculationGrade,
-  //       matriculationPercentage: Number(matriculationPercentage),
-  //       matriculationBoard,
-  //       interYear: Number(interYear),
-  //       interGrade,
-  //       interPercentage: Number(interPercentage),
-  //       interBoard,
-  //       bachelorYear: Number(bachelorYear),
-  //       bachelorCourse,
-  //       bachelorSpecialization,
-  //       bachelorGrade,
-  //       bachelorPercentage: Number(bachelorPercentage),
-  //       bachelorUniversity,
-  //       courses: adjustedCourses,
-  //       experiences: adjustedExperiences,
-  //       references: adjustedReferences,
-  //       achievement,
-  //       description,
-  //       submitted: true,
-  //     })
-  //   );
-
-  //   // Append files to FormData
-  //   formData.append("passportPhoto", files.passportPhoto);
-  //   formData.append("certification", files.certification);
-  //   formData.append("signature", files.signature);
-
-  //   // Log form data for debugging
-  //   console.log("Form data being submitted:", formData);
-
-  //   try {
-  //     const response = await fetch(
-  //       `http://localhost:5001/api/posts/${postId}/applications/${applicantId}`,
-  //       {
-  //         method: "PUT",
-  //         body: formData,
-  //       }
-  //     );
-
-  //     if (response.ok) {
-  //       alert("Application submitted successfully!");
-  //       router.push("/jobs");
-  //     } else {
-  //       const errorData = await response.json();
-  //       alert(
-  //         errorData.message || "Error processing application. Please try again."
-  //       );
-  //     }
-  //   } catch (error) {
-  //     console.error("Error processing application:", error);
-  //     alert("An error occurred. Please try again.");
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     // Get applicantId and applicationId
     const applicantId = applicant.id;
     const applicationId = applicant.appliedPositions[edit].applicationId; // Get the specific applicationId from appliedPositions array
     const postId = applicant.appliedPositions[edit].jobId; // Get the jobId
-  
+
     // Convert isHandicapped to boolean
     const booleanIsHandicapped = isHandicapped === "Yes";
-  
+
     // Adjust courses, experiences, and references
     const adjustedCourses = courses.map((course) => ({
       name: course.courseName,
@@ -440,7 +332,7 @@ const ApplyForm = ({ params }) => {
       percent: Number(course.percent),
       instituteName: course.instituteName,
     }));
-  
+
     const adjustedExperiences = experiences.map((experience) => ({
       title: experience.post,
       company: experience.orgName,
@@ -451,19 +343,19 @@ const ApplyForm = ({ params }) => {
       tillDate: experience.tillDate,
       natureOfDuties: experience.natureOfDuties,
     }));
-  
+
     const adjustedReferences = references.map((reference) => ({
       name: reference.refName,
       relation: reference.refRelation || "",
       contact: reference.refContact,
     }));
-  
+
     // Create FormData
     const formData = new FormData();
-  
+
     // Append jobId to FormData (since the backend expects it in the request body)
     formData.append("jobId", postId);
-  
+
     // Append application data (serialized JSON)
     formData.append(
       "applicationData",
@@ -506,23 +398,23 @@ const ApplyForm = ({ params }) => {
         submitted: true,
       })
     );
-  
+
     // Append files to FormData if they exist
     const passportPhoto = document.getElementById("passportPhotoInput").files[0];
     const certification = document.getElementById("certificationInput").files[0];
     const signature = document.getElementById("signatureInput").files[0];
-  
+
     if (passportPhoto) formData.append("passportPhoto", passportPhoto);
     if (certification) formData.append("certification", certification);
     if (signature) formData.append("signature", signature);
-  
+
     try {
       // Send PUT request with applicationId in the URL and FormData as the body
       const response = await fetch(`http://localhost:5001/api/applicants/application/${applicationId}`, {
         method: "PUT",
         body: formData,
       });
-  
+
       if (response.ok) {
         alert("Application submitted successfully!");
         router.push("/jobs");
@@ -535,20 +427,18 @@ const ApplyForm = ({ params }) => {
       alert("An error occurred. Please try again.");
     }
   };
-  
-  
 
   const handleDraft = async (e) => {
     e.preventDefault();
-  
+
     // Get applicantId and applicationId
     const applicantId = applicant.id;
     const applicationId = applicant.appliedPositions[edit].applicationId; // Get the specific applicationId from appliedPositions array
     const postId = applicant.appliedPositions[edit].jobId; // Get the jobId
-  
+
     // Convert isHandicapped to boolean
     const booleanIsHandicapped = isHandicapped === "Yes";
-  
+
     // Adjust courses, experiences, and references
     const adjustedCourses = courses.map((course) => ({
       name: course.courseName,
@@ -559,7 +449,7 @@ const ApplyForm = ({ params }) => {
       percent: Number(course.percent),
       instituteName: course.instituteName,
     }));
-  
+
     const adjustedExperiences = experiences.map((experience) => ({
       title: experience.post,
       company: experience.orgName,
@@ -570,19 +460,19 @@ const ApplyForm = ({ params }) => {
       tillDate: experience.tillDate,
       natureOfDuties: experience.natureOfDuties,
     }));
-  
+
     const adjustedReferences = references.map((reference) => ({
       name: reference.refName,
       relation: reference.refRelation || "",
       contact: reference.refContact,
     }));
-  
+
     // Create FormData
     const formData = new FormData();
-  
+
     // Append jobId to FormData (since the backend expects it in the request body)
     formData.append("jobId", postId);
-  
+
     // Append application data (serialized JSON)
     formData.append(
       "applicationData",
@@ -625,48 +515,38 @@ const ApplyForm = ({ params }) => {
         submitted: false,
       })
     );
-  
+
     // Append files to FormData if they exist
     const passportPhoto = document.getElementById("passportPhotoInput").files[0];
     const certification = document.getElementById("certificationInput").files[0];
     const signature = document.getElementById("signatureInput").files[0];
-  
+
     if (passportPhoto) formData.append("passportPhoto", passportPhoto);
     if (certification) formData.append("certification", certification);
     if (signature) formData.append("signature", signature);
-  
+
     try {
       // Send PUT request with applicationId in the URL and FormData as the body
       const response = await fetch(`http://localhost:5001/api/applicants/application/${applicationId}`, {
         method: "PUT",
         body: formData,
       });
-  
+
       if (response.ok) {
-        alert("Application submitted successfully!");
+        alert("Application Saved as draft  successfully!");
         router.push("/jobs");
       } else {
         const errorData = await response.json();
-        alert(errorData.message || "Error processing application. Please try again.");
+        alert(errorData.message || "Error saving  application as draft. Please try again.");
       }
     } catch (error) {
       console.error("Error processing application:", error);
       alert("An error occurred. Please try again.");
     }
   };
-  
 
-  const handlePreview = () => {
-    const age = calculateAge(dob);
-    if (age < 0) return; // Exit if the DOB is invalid
-    const { min, max } = getAgeLimits(id); // Check limits based on job ID
-
-    if (age >= min && age <= max) {
-      setShowPreview(true);
-    } else {
-      alert(`You are not eligible for the job due to age requirements. Minimum age: ${min}, Maximum age: ${max}.`);
-      setShowPreview(false);
-    }
+  const handlePreview = (id) => {
+    setPreviewIndex(id); // Set the applicant ID when the preview button is clicked
   };
 
   return (
@@ -991,53 +871,21 @@ const ApplyForm = ({ params }) => {
             <button type="button" className="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-700 transition duration-200" onClick={handleDraft}>
               Save as Draft
             </button>
-            <button type="button" className="px-6 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-700 transition duration-200" onClick={handlePreview}>
-              Preview
-            </button>
-
-            <FormPreview
-              show={showPreview}
-              handleClose={() => setShowPreview(false)}
-              firstName={firstName}
-              middleName={middleName}
-              lastName={lastName}
-              fhName={fhName}
-              email={email}
-              gender={gender}
-              dob={dob}
-              age={age}
-              maritalStatus={maritalStatus}
-              address={address}
-              pincode={pincode}
-              country={country}
-              state={state}
-              district={district}
-              isHandicapped={isHandicapped}
-              community={community}
-              matriculationYear={matriculationYear}
-              matriculationGrade={matriculationGrade}
-              matriculationPercentage={matriculationPercentage}
-              matriculationBoard={matriculationBoard}
-              interYear={interYear}
-              interGrade={interGrade}
-              interPercentage={interPercentage}
-              interBoard={interBoard}
-              bachelorYear={bachelorYear}
-              bachelorCourse={bachelorCourse}
-              bachelorSpecialization={bachelorSpecialization}
-              bachelorGrade={bachelorGrade}
-              bachelorPercentage={bachelorPercentage}
-              bachelorUniversity={bachelorUniversity}
-              courses={courses}
-              experiences={experiences}
-              references={references}
-              achievement={achievement}
-              description={description}
-              passportPhoto={passportPhoto}
-              signature={signature}
-              // certification={certification}
-            />
-
+            {applicant && (
+              <div>
+                <button
+                  onClick={() => handlePreview(edit)} // Pass the applicant ID to handlePreview
+                  className="px-6 py-2 flex  items-center bg-yellow-500 text-white rounded-md hover:bg-yellow-700 transition duration-200"
+                >
+                  <FaDownload className="mr-2 " /> View & Download
+                </button>
+                <FormDownloadApp
+                  show={previewIndex === edit} // Conditionally show the modal based on the applicant ID
+                  handleClose={handleClosePreview}
+                  applicant={applicant.appliedPositions[edit]}
+                />
+              </div>
+            )}
             <button type="submit" className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-700 transition duration-200">
               Submit
             </button>
