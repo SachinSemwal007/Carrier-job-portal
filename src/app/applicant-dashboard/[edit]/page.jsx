@@ -701,90 +701,196 @@ const ApplyForm = ({ params }) => {
             </div> 
           </div> 
  
-          {/* Matriculation Field */} 
-          <div> 
-            <h3 className="text-xl font-semibold mb-2">Educational Details</h3> 
-          </div> 
-          <div className="flex flex-col my-4"> 
-            <label className="block font-medium mb-1">Matriculation:</label> 
-            <div className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4 gap-2"> 
-              <input type="number" placeholder="Year of Passing" value={matriculationYear} onChange={(e) => setMatriculationYear(e.target.value)} className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border" required /> 
-              <input type="text" placeholder="Grade/Division" value={matriculationGrade} onChange={(e) => setMatriculationGrade(e.target.value)} className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border" required /> 
-              <input type="number" placeholder="Percentage" step="0.01" value={matriculationPercentage} onChange={(e) => setMatriculationPercentage(e.target.value)} className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border" required /> 
-              <input type="text" placeholder="Board" value={matriculationBoard} onChange={(e) => setMatriculationBoard(e.target.value)} required className="flex-2 min-w-[150px] p-2 border border-gray-300 rounded-md box-border" /> 
-            </div> 
-          </div> 
+          {/* Matriculation Field */}
+          <div>
+            <h3 className="text-xl font-semibold mb-2">Educational Details</h3>
+          </div>
+          <div className="flex flex-col my-4">
+            <label className="block font-medium mb-1">Matriculation:</label>
+            <div className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4 gap-2">
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Year of Passing</label>
+                <input type="number" placeholder=" " value={matriculationYear} onChange={(e) => setMatriculationYear(e.target.value)} className="w-full border border-gray-300 rounded-md p-2" required />
+              </div>
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Grade/Division</label>
+                <input type="text" placeholder=" " value={matriculationGrade} onChange={(e) => setMatriculationGrade(e.target.value)} className="w-full border border-gray-300 rounded-md p-2" required />
+              </div>
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Percentage</label>
+                <input type="number" placeholder="" step="0.01" value={matriculationPercentage} onChange={(e) => setMatriculationPercentage(e.target.value)} className="w-full border border-gray-300 rounded-md p-2" required />
+              </div>
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Board</label>
+                <input type="text" placeholder="" value={matriculationBoard} onChange={(e) => setMatriculationBoard(e.target.value)} required className="w-full border border-gray-300 rounded-md p-2" />
+              </div>
+            </div>
+          </div>
  
-          {/* Intermediate Field */} 
-          <div className="flex flex-col my-4"> 
-            <label className="block font-medium mb-1">Intermediate / +2:</label> 
-            <div className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4 gap-2"> 
-              <input type="number" placeholder="Year of Passing" value={interYear} onChange={(e) => setInterYear(e.target.value)} className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border" required /> 
-              <input type="text" placeholder="Grade/Division" value={interGrade} onChange={(e) => setInterGrade(e.target.value)} className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border" required /> 
-              <input type="number" placeholder="Percentage" step="0.01" value={interPercentage} onChange={(e) => setInterPercentage(e.target.value)} className="flex-1 min-w-[100px] p-2 border border-gray-300 rounded-md box-border" required /> 
-              <input type="text" placeholder="Board" value={interBoard} onChange={(e) => setInterBoard(e.target.value)} required className="flex-2 min-w-[150px] p-2 border border-gray-300 rounded-md box-border" /> 
-            </div> 
-          </div> 
+          {/* Intermediate Field */}
+          <div className="flex flex-col my-4">
+            <label className="block font-medium mb-1">Intermediate / +2:</label>
+            <div className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4 gap-2">
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Year of Passing</label>
+                <input type="number" placeholder="" value={interYear} onChange={(e) => setInterYear(e.target.value)} className="w-full border border-gray-300 rounded-md p-2" required />
+              </div>
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Grade/Division</label>
+                <input type="text" placeholder="" value={interGrade} onChange={(e) => setInterGrade(e.target.value)} className="w-full border border-gray-300 rounded-md p-2" required />
+              </div>
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Percentage</label>
+                <input type="number" placeholder="" step="0.01" value={interPercentage} onChange={(e) => setInterPercentage(e.target.value)} className="w-full border border-gray-300 rounded-md p-2" required />
+              </div>
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Board</label>
+                <input type="text" placeholder="" value={interBoard} onChange={(e) => setInterBoard(e.target.value)} required className="w-full border border-gray-300 rounded-md p-2" />
+              </div>
+            </div>
+          </div>
  
-          {/* Bachelor Degree/Graduation Field */} 
-          <div className="flex flex-col my-4"> 
-            <label className="block font-medium mb-1">Bachelor Degree/Graduation (10+2+3):</label> 
-            <div className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4"> 
-              <input type="number" placeholder="Year of Passing" value={bachelorYear} onChange={(e) => setBachelorYear(e.target.value)} className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" required /> 
-              <input type="text" placeholder="Course" value={bachelorCourse} onChange={(e) => setBachelorCourse(e.target.value)} className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" required /> 
-              <input type="text" placeholder="Specialization" value={bachelorSpecialization} onChange={(e) => setBachelorSpecialization(e.target.value)} className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" required /> 
-              <input type="text" placeholder="Grade/Division" value={bachelorGrade} onChange={(e) => setBachelorGrade(e.target.value)} className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" required /> 
-              <input type="number" placeholder="Percentage" step="0.01" value={bachelorPercentage} onChange={(e) => setBachelorPercentage(e.target.value)} className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-2 min-w-[150px]" required /> 
-              <input type="text" placeholder="University" value={bachelorUniversity} onChange={(e) => setBachelorUniversity(e.target.value)} required className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-            </div> 
-          </div> 
+          {/* Bachelor Degree/Graduation Field */}
+          <div className="flex flex-col my-4">
+            <label className="block font-medium mb-1">Bachelor Degree/Graduation (10+2+3):</label>
+            <div className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Year of Passing</label>
+                <input type="number" placeholder="" value={bachelorYear} onChange={(e) => setBachelorYear(e.target.value)} className="w-full border border-gray-300 rounded-md p-2" required />
+              </div>
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Course</label>
+                <input type="text" placeholder="" value={bachelorCourse} onChange={(e) => setBachelorCourse(e.target.value)} className="w-full border border-gray-300 rounded-md p-2" required />
+              </div>
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Specialization</label>
+                <input type="text" placeholder="" value={bachelorSpecialization} onChange={(e) => setBachelorSpecialization(e.target.value)} className="w-full border border-gray-300 rounded-md p-2" required />
+              </div>
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Grade/Division</label>
+                <input type="text" placeholder="" value={bachelorGrade} onChange={(e) => setBachelorGrade(e.target.value)} className="w-full border border-gray-300 rounded-md p-2" required />
+              </div>
+              <div className="relative flex-2 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Percentage</label>
+                <input type="number" placeholder="" step="0.01" value={bachelorPercentage} onChange={(e) => setBachelorPercentage(e.target.value)} className="w-full border border-gray-300 rounded-md p-2" required />
+              </div>
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">University</label>
+                <input type="text" placeholder="" value={bachelorUniversity} onChange={(e) => setBachelorUniversity(e.target.value)} required className="w-full border border-gray-300 rounded-md p-2" />
+              </div>
+            </div>
+          </div>
  
-          {/* Professional Qualifications Section */} 
-          <div> 
-            <h3 className="text-xl font-semibold mb-2">Professional Details</h3> 
-          </div> 
-          <div> 
-            <label className="block font-medium mb-1">Professional Qualifications / Diploma / Certification Course</label> 
-          </div> 
-          {courses.map((course, index) => ( 
-            <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4"> 
-              <input type="text" name="courseName" placeholder="Course Name" value={course.name} onChange={(e) => handleCourseChange(index, e)} required className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-              <input type="text" name="specialSubject" placeholder="Special Subject" value={course.specialSubject} onChange={(e) => handleCourseChange(index, e)} className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-              <input type="number" name="yearOfPassing" placeholder="Year of Passing" value={course.yearOfPassing} onChange={(e) => handleCourseChange(index, e)} required className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-              <input type="number" name="duration" placeholder="Duration (months)" value={course.duration} onChange={(e) => handleCourseChange(index, e)} required className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-              <input type="text" name="gradeDivision" placeholder="Grade/Division" value={course.gradeDivision} onChange={(e) => handleCourseChange(index, e)} required className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-              <input type="number" name="percent" placeholder="Percentage" value={course.percent} onChange={(e) => handleCourseChange(index, e)} required className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-              <input type="text" name="instituteName" placeholder="Name of Institute/College" value={course.instituteName} onChange={(e) => handleCourseChange(index, e)} required className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-              <button type="button" onClick={() => removeCourse(index)} className="bg-red-600 text-white py-1 px-3 rounded-md"> 
-                Remove 
-              </button> 
-            </div> 
-          ))} 
-          <button type="button" onClick={addCourse} className="bg-green-600 text-white py-2 px-4 rounded-md mb-4"> 
-            Add Course 
-          </button> 
+          {/* Professional Qualifications Section */}
+          <div>
+            <h3 className="text-xl font-semibold mb-2">Professional Details</h3>
+          </div>
+          <div>
+            <label className="block font-medium mb-1">Professional Qualifications / Diploma / Certification Course</label>
+          </div>
+          {courses.map((course, index) => (
+            <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Course Name</label>
+                <input type="text" name="courseName" placeholder="" value={course.courseName} onChange={(e) => handleCourseChange(index, e)} required className="w-full border border-gray-300 rounded-md p-2" />
+              </div>
+
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Special Subject</label>
+                <input type="text" name="specialSubject" placeholder="" value={course.specialSubject} onChange={(e) => handleCourseChange(index, e)} className="w-full border border-gray-300 rounded-md p-2" />
+              </div>
+
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Year of Passing</label>
+                <input type="number" name="yearOfPassing" placeholder="" value={course.yearOfPassing} onChange={(e) => handleCourseChange(index, e)} required className="w-full border border-gray-300 rounded-md p-2" />
+              </div>
+
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Duration (months)</label>
+                <input type="number" name="duration" placeholder="" value={course.duration} onChange={(e) => handleCourseChange(index, e)} required className="w-full border border-gray-300 rounded-md p-2" />
+              </div>
+
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Grade/Division</label>
+                <input type="text" name="gradeDivision" placeholder="" value={course.gradeDivision} onChange={(e) => handleCourseChange(index, e)} required className="w-full border border-gray-300 rounded-md p-2" />
+              </div>
+
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Percentage</label>
+                <input type="number" name="percent" placeholder="" value={course.percent} onChange={(e) => handleCourseChange(index, e)} required className="w-full border border-gray-300 rounded-md p-2" />
+              </div>
+
+              <div className="relative flex-[2] min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Name of Institute/College</label>
+                <input type="text" name="instituteName" placeholder="" value={course.instituteName} onChange={(e) => handleCourseChange(index, e)} required className="w-full border border-gray-300 rounded-md p-2" />
+              </div>
+              <button type="button" onClick={() => removeCourse(index)} className="bg-red-600 text-white mr-2 mb-3 mt-2 p-2 rounded-md">
+                Remove
+              </button>
+            </div>
+          ))}
+          <button type="button" onClick={addCourse} className="bg-green-600 text-white py-2 px-4 rounded-md mb-4">
+            Add Course
+          </button>
  
-          {/* Experiences Section */} 
-          <div> 
-            <label className="block font-medium mb-1">Experience</label> 
-          </div> 
-          {experiences.map((experience, index) => ( 
-            <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4"> 
-              <input type="text" name="orgName" placeholder="Office/Instt.Firm/Org" value={experience.company} onChange={(e) => handleExperiencesChange(index, e)} required className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-              <input type="text" name="post" placeholder="Post" value={experience.post} onChange={(e) => handleExperiencesChange(index, e)} className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-              <input type="text" name="jobType" placeholder="Job Type" value={experience.jobType} onChange={(e) => handleExperiencesChange(index, e)} className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-              <input type="date" name="fromDate" value={experience.fromDate} onChange={(e) => handleExperiencesChange(index, e)} required className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-              <input type="date" name="tillDate" value={experience.tillDate} onChange={(e) => handleExperiencesChange(index, e)} required className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-              <input type="text" name="scaleOfType" placeholder="Scale of Type" value={experience.scaleOfType} onChange={(e) => handleExperiencesChange(index, e)} required className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-              <input type="text" name="natureOfDuties" placeholder="Nature OF Duties" value={experience.natureOfDuties} onChange={(e) => handleExperiencesChange(index, e)} required className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-              <button type="button" onClick={() => removeExperience(index)} className="bg-red-600 text-white py-1 px-3 rounded-md"> 
-                Remove 
-              </button> 
-            </div> 
-          ))} 
-          <button type="button" onClick={addExperience} className="bg-green-600 text-white py-2 px-4 rounded-md mb-4"> 
-            Add Experience 
-          </button> 
+          {/* Experiences Section */}
+          <div>
+            <label className="block font-medium mb-1">Experience</label>
+          </div>
+          {experiences.map((experience, index) => (
+            <div className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Office/Instt.Firm/Org </label>
+                <input type="text" name="orgName" placeholder=" " value={experience.orgName} onChange={(e) => handleExperiencesChange(index, e)} required
+                  className="w-full border border-gray-300 rounded-md p-2" />
+              </div>
+
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">  Post </label>
+                <input type="text" name="post" placeholder=" " value={experience.post} onChange={(e) => handleExperiencesChange(index, e)} className="w-full border border-gray-300 rounded-md p-2" />
+              </div>
+
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">  Job Type </label>
+                <input type="text" name="jobType" placeholder=" " value={experience.jobType} onChange={(e) => handleExperiencesChange(index, e)} className="w-full border border-gray-300 rounded-md p-2" />
+              </div>
+
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">  From Date </label>
+                <input type="date" name="fromDate" value={experience.fromDate} onChange={(e) => handleExperiencesChange(index, e)} required className="w-full border border-gray-300 rounded-md p-2" />
+              </div>
+
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm"> Till Date </label>
+                <input  type="date"  name="tillDate" value={experience.tillDate}  onChange={(e) => handleExperiencesChange(index, e)} required className="w-full border border-gray-300 rounded-md p-2" />
+              </div>
+
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">  Scale of Type
+                </label>
+                <input  type="text" name="scaleOfType"  placeholder=" "  value={experience.scaleOfType}  onChange={(e) => handleExperiencesChange(index, e)} required className="w-full border border-gray-300 rounded-md p-2"
+                />
+              </div>
+
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm"> Nature Of Duties
+                </label>
+                <input  type="text" name="natureOfDuties" placeholder=" " value={experience.natureOfDuties} onChange={(e) => handleExperiencesChange(index, e)} required className="w-full border border-gray-300 rounded-md p-2"/>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => removeExperience(index)}
+                className="bg-red-600 text-white mr-2 mb-3 mt-2 p-2 rounded-md"
+              >
+                Remove
+              </button>
+            </div>
+
+          ))}
+          <button type="button" onClick={addExperience} className="bg-green-600 text-white py-2 px-4 rounded-md mb-4">
+            Add Experience
+          </button>
  
           {/* Achievement Field */} 
           <div> 
@@ -792,7 +898,7 @@ const ApplyForm = ({ params }) => {
             <textarea placeholder="Achievements" value={achievement} onChange={(e) => setAchievement(e.target.value)} rows={3} required className="w-full p-2 border border-gray-300 rounded-md" /> 
           </div> 
  
-          {/* Achievement Field */} 
+          {/* Description Field */} 
           <div> 
             <label className="block font-medium mb-1">Describe Yourself:</label> 
             <textarea placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} rows={10} required className="w-full p-2 border border-gray-300 rounded-md" /> 
@@ -804,10 +910,21 @@ const ApplyForm = ({ params }) => {
           </div> 
           {references.map((reference, index) => ( 
             <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4"> 
-              <input type="text" name="refName" placeholder="Referral Name" value={reference.name} onChange={(e) => handleReferencesChange(index, e)} required className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-              <input type="text" name="refContact" placeholder="Referral Contact Number" value={reference.contact} onChange={(e) => handleReferencesChange(index, e)} maxLength={10} pattern="\d{10}" title="Please enter a valid contact number" className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-              <input type="text" name="refRelation" placeholder="Relation" value={reference.relation} onChange={(e) => handleReferencesChange(index, e)} required className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
-              <button type="button" onClick={() => removeReference(index)} className="bg-red-600 text-white py-1 px-3 rounded-md"> 
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Referral Name</label>
+                <input type="text" name="refName" placeholder="" value={reference.refName} onChange={(e) => handleReferencesChange(index, e)} required className="w-full border border-gray-300 rounded-md p-2" />
+              </div>
+
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Referral Contact Number</label>
+                <input type="text" name="refContact" placeholder="" value={reference.refContact} onChange={(e) => handleReferencesChange(index, e)} maxLength={10} pattern="\d{10}" title="Please enter a valid contact number" className="w-full border border-gray-300 rounded-md p-2" />
+              </div>
+
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Relation</label>
+                <input type="text" name="refRelation" placeholder="" value={reference.refRelation} onChange={(e) => handleReferencesChange(index, e)} required className="w-full border border-gray-300 rounded-md p-2" /> 
+              </div>
+              <button type="button" onClick={() => removeReference(index)} className="bg-red-600 text-white mr-2 mb-3 mt-2 p-2 rounded-md"> 
                 Remove 
               </button> 
             </div> 
@@ -842,6 +959,7 @@ const ApplyForm = ({ params }) => {
                 required 
                 className="block w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:bg-gray-100 hover:file:bg-gray-200" 
               /> 
+              <span className="text-red-500 text-sm"><strong>Note: </strong>If multiple certificates exist, combine them into a single PDF.</span>
             </div> 
  
             {/* Signature */} 
@@ -877,7 +995,7 @@ const ApplyForm = ({ params }) => {
                   onClick={() => handlePreview(edit)} // Pass the applicant ID to handlePreview 
                   className="px-6 py-2 flex  items-center bg-yellow-500 text-white rounded-md hover:bg-yellow-700 transition duration-200" 
                 > 
-                  <FaDownload className="mr-2 " /> View & Download 
+                  Preview 
                 </button> 
                 <FormDownloadApp 
                   show={previewIndex === edit} // Conditionally show the modal based on the applicant ID 

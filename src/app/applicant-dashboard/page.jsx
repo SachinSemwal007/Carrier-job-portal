@@ -247,9 +247,7 @@ const ApplicantDashboard = () => {
                                 <button className="text-blue-600 hover:text-blue-800 font-semibold underline">Edit Application</button> 
                               </Link> 
                                )} 
-                            </div> 
- 
-                            {item.submitted && ( 
+                              {item.submitted && ( 
                               <div> 
                                 <button 
                                   onClick={() => handlePreview(index)} // Pass the applicant ID to handlePreview 
@@ -264,6 +262,9 @@ const ApplicantDashboard = () => {
                                 /> 
                               </div> 
                             )} 
+                            </div> 
+ 
+                            
                             {/* <h2 
                               className="text-red-600"  
                               onClick={() => 
