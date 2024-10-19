@@ -313,13 +313,13 @@ const ApplicantDashboard = () => {
                               </h2>
  
                               {/* Edit Link: Only show if the application is not submitted */}
-                              {!item.submitted && (
+                              {/* {!item.submitted && ( */}
                                 <Link href={`/applicant-dashboard/${index}`}>
                                   <button className="text-blue-600 hover:text-blue-800 font-semibold underline">
                                     Edit Application
                                   </button>
                                 </Link>
-                              )}
+                              {/* )} */}
                             </div>
  
                             {item.submitted && ( 
