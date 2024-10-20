@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { resetPassword } from '@/api'; // Assume this function makes an API call to reset the password
+import Footer from '@/components/Footer';
+import Image from 'next/image';
 
 const ResetPassword = () => {
   const router = useRouter();
@@ -16,7 +18,7 @@ const ResetPassword = () => {
       const response = await resetPassword(token, password); // Call API to reset the password
       if (response.ok) {
         setMessage('Password has been reset successfully.');
-        setTimeout(() => router.push('/login'), 2000); // Redirect to login after a delay
+        setTimeout(() => router.push('/'), 2000); // Redirect to login after a delay
       } else {
         setMessage('Failed to reset password. Please try again.');
       }
@@ -26,27 +28,55 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
-      <div className="w-full max-w-md bg-white p-8 rounded-md shadow-md">
-        <h1 className="text-2xl font-semibold mb-4 text-center">Reset Password</h1>
-        {message && <p className="text-center text-red-500 mb-4">{message}</p>}
-        <form onSubmit={handleResetPassword} className="space-y-4">
-          <input
-            type="password"
-            placeholder="Enter new password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <button
-            type="submit"
-            className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded transition-colors"
-          >
-            Reset Password
-          </button>
-        </form>
-      </div>
+    <div className="flex flex-col min-h-screen bg-gray-100">
+      {/* <Navbar /> */}
+      <main className="flex-grow container mx-auto p-6 sm:p-8">
+        {/* Flex container for logo/text and login */}
+        <div className="flex flex-col sm:flex-row items-center lg: justify-between ">
+            {/* Logo and text section */}
+            <div className="flex flex-col w-full sm:w-1/2 lg:w-2/5 sm:ml-20 items-center mx-auto ">
+              <Image
+                src="/JSSPS.webp"
+                alt="JSSPS Logo"
+                width={400}
+                height={300}
+                quality={100}
+                className="w-1/3 mt-20 sm:w-1/2 lg:w-3/5 h-auto mb-1"
+              />
+              <h2 className="text-[26px] sm:text-[36px] lg:text-[40px]  font-extrabold text-gray-800  whitespace-nowrap">
+                JSSPS Career Portal
+              </h2>
+              <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-600">
+                (A CCL and State Govt. of Jharkhand Joint Initiative)
+              </h4>
+            </div>
+          
+          {/* Reset Password section */}
+          <div className='w-full max-w-md bg-white p-8 rounded-md shadow-xl mt-20'>
+              <div className="flex flex-col items-center mb-4">
+                  <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-800 mb-2">Reset Password</h1>
+              </div>
+              {message && <p className="text-center text-red-500 mb-4">{message}</p>}
+              <form onSubmit={handleResetPassword} className="space-y-4">
+                <input
+                  type="password"
+                  placeholder="Enter new password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                  type="submit"
+                  className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-md transition-colors text-sm md:text-base"
+                >
+                  Reset Password
+                </button>
+              </form>
+            </div>
+          </div>
+      </main>
+      <Footer/>
     </div>
   );
 };
