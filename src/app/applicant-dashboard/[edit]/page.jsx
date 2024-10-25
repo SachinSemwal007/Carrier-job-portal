@@ -838,7 +838,7 @@ const ApplyForm = ({ params }) => {
             <label className="block font-medium mb-1">Experience</label>
           </div>
           {experiences.map((experience, index) => (
-            <div className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
+            <div key={index} className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4">
               <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2">
                 <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Office/Instt.Firm/Org </label>
                 <input type="text" name="orgName" placeholder=" " value={experience.orgName} onChange={(e) => handleExperiencesChange(index, e)} required
