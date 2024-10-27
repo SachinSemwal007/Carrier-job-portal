@@ -51,9 +51,19 @@ const JobCard = ({ job }) => {
         <p className="text-sm text-gray-500 mb-1">
           <span className="font-semibold">Salary:</span> {job.salary}
         </p> 
-        <p className="text-sm text-gray-500">  
+        <p className="text-sm text-gray-500 mb-1">  
           <span className="font-semibold">Posted:</span>{" "} 
           {new Date(job.postedDate).toLocaleDateString()} 
+        </p>
+        <p className="text-sm text-gray-500">
+          <span className="font-semibold">Instruction To Apply:</span>{" "}
+          <a
+              href="/path/to/your/pdf-file.pdf"
+              download
+              className="text-red-500 underline hover:text-red-700 blinking-text font-semibold"
+            >
+              Click Here
+            </a>
         </p>
       </div>
 

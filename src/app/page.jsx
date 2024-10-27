@@ -59,7 +59,9 @@ const Home = () => {
         </main>
         <div className="bg-[#252425] py-3 px-2 text-center -mt-20">
           <p className="text-[16px] sm:text-[20px] font-bold text-yellow-500">
-            IMPORTANT ANNOUNCEMENTS REGARDING COACHES HIRING{" "}
+            Application are being Accepted For Various Coach Positions at JSSPS.<br/>
+            Open From 1st Nov 2024, 11:00 Hrs & Availiable Upto Nov 21st 2024, 17:00 Hrs<br/>
+            To Know More{" "}
             <a
               href="/path/to/your/pdf-file.pdf"
               download
