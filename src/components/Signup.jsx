@@ -8,11 +8,44 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [passwordStrength, setPasswordStrength] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   const { signup } = useAuth(); // Access signup function from the auth context
 
+  // Check password strength
+  const checkPasswordStrength = (password) => {
+    const hasUpperCase = /[A-Z]/.test(password);
+    const hasLowerCase = /[a-z]/.test(password);
+    const hasDigit = /\d/.test(password);
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const isLongEnough = password.length >= 8;
+
+    if (!isLongEnough) {
+      setPasswordStrength('Too short');
+    } else if (hasUpperCase && hasLowerCase && hasDigit && hasSpecialChar) {
+      setPasswordStrength('Strong');
+    } else if ((hasUpperCase || hasLowerCase) && hasDigit && isLongEnough) {
+      setPasswordStrength('Medium');
+    } else {
+      setPasswordStrength('Weak');
+    }
+
+    // Provide error message if password does not meet criteria
+    if (!isLongEnough || !hasUpperCase || !hasLowerCase || !hasDigit || !hasSpecialChar) {
+      setPasswordError('Password must be at least 8 characters long and include uppercase, lowercase, a number, and a special character.');
+    } else {
+      setPasswordError('');
+    }
+  };
+
   const handleSignup = async (e) => {
     e.preventDefault();
+    // Check if password meets all criteria
+    if (passwordError) {
+      setError('Password does not meet the required criteria.');
+      return;
+    }
     const success = await signup(name, email, password); // Call signup function from context
     if (success) {
       setMessage('Signup successful. You can now log in.');
@@ -48,10 +81,17 @@ const Signup = () => {
             type="password"
             placeholder="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              checkPasswordStrength(e.target.value);
+            }}
             required
             className="w-full p-2 mb-4 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-teal-500"
           />
+          {passwordError && <p className="text-red-600 text-sm mb-2">{passwordError}</p>}
+          <p className={`text-sm mb-4 ${passwordStrength === 'Strong' ? 'text-green-600' : passwordStrength === 'Medium' ? 'text-yellow-600' : 'text-red-600'}`}>
+            Password Strength: {passwordStrength}
+          </p>
           <button
             type="submit"
             className="w-full p-2 bg-teal-600 text-white rounded hover:bg-teal-500 transition duration-200"

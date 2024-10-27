@@ -725,7 +725,7 @@ const ApplyForm = ({ params }) => {
             </div> 
             <div> 
               <label className="block font-medium mb-1">Contact:</label> 
-              <input type="text" placeholder="Contact" value={contact} onChange={(e) => setContact(e.target.value)} maxLength={10} pattern="\d{10}" title="Please enter correct contact" required className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
+              <input type="text" placeholder="Contact" value={contact} onChange={(e) => setContact(e.target.value)} maxLength={10} pattern="\d{10}" title="Please enter correct contact" required className="w-full p-2 border border-gray-300 rounded-md" /> 
             </div> 
             <div> 
               <label className="block font-medium mb-1">Whatsapp Contact:</label> 
