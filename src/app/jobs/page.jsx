@@ -9,6 +9,35 @@ import Footer from "@/components/Footer";
 import Link from "next/link";
 import JobList from "@/components/JobList";
 
+const Marquee = () => (
+  <div className="bg-teal-200 py-2 overflow-hidden">
+    <div
+      className="marquee text-center text-sm md:text-lg font-medium whitespace-nowrap hover:pause"
+    >
+      Any Query regarding Form Filling? Please Contact Us on 9471765402 or Mail Us at{" "}
+      <a href="mailto:jsspscareers@gmail.com" className="underline">jsspscareers@gmail.com</a>
+    </div>
+    <style jsx>{`
+      .marquee {
+        display: inline-block;
+        white-space: nowrap;
+        animation: scroll 10s linear infinite;
+      }
+      .marquee:hover {
+        animation-play-state: paused;
+      }
+      @keyframes scroll {
+        0% {
+          transform: translateX(100%);
+        }
+        100% {
+          transform: translateX(-100%);
+        }
+      }
+    `}</style>
+  </div>
+);
+
 const Page = () => {
   const { applicant, checkUser } = useApplicantAuth();
   const [loading, setLoading] = useState(true);
@@ -42,7 +71,8 @@ const Page = () => {
       ) : (
         <div>
           <div className="bg-gray-100 min-h-screen flex flex-col">
-            <Navbar />
+              <Navbar />
+              <Marquee/>
             <main className="flex-grow container mx-auto p-6 sm:p-8">
               <JobList />
             </main>

@@ -616,7 +616,7 @@ const ApplyForm = ({ params }) => {
           </div> 
  
           {/* Gender, DOB, Marital Status Fields */} 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"> 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"> 
             <div> 
               <label className="block font-medium mb-1">Sport:</label> 
               {titlejob !== "HC" ? ( 
@@ -657,35 +657,9 @@ const ApplyForm = ({ params }) => {
                   <option value="taekwondo">taekwondo</option> 
                 </select> 
               )} 
-            </div> 
+              <span className="text-xs text-red-600"><strong>* </strong>Please Select Carefully. You Can't Change after Saving As Draft</span>
+            </div>
             <div> 
-              <label className="block font-medium mb-1">Gender:</label> 
-              <select value={gender} onChange={(e) => setGender(e.target.value)} required className="w-full p-2 border border-gray-300 rounded-md"> 
-                <option value="" disabled> 
-                  Select Gender 
-                </option> 
-                <option value="male">Male</option> 
-                <option value="female">Female</option> 
-                <option value="other">Other</option> 
-              </select> 
-            </div> 
-            <div> 
-              <label className="block font-medium mb-1">Marital Status:</label> 
-              <select value={maritalStatus} onChange={(e) => setMaritalStatus(e.target.value)} required className="w-full p-2 border border-gray-300 rounded-md"> 
-                <option value="" disabled> 
-                  Select Marital Status 
-                </option> 
-                <option value="single">Single</option> 
-                <option value="married">Married</option> 
-                <option value="divorced">Divorced</option> 
-                <option value="widowed">Widowed</option> 
-              </select> 
-            </div> 
-          </div> 
-
-          {/* DOB, Community */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-          <div> 
               <label className="block font-medium mb-1">Date of Birth:</label> 
               <input 
                 type="date" 
@@ -698,7 +672,35 @@ const ApplyForm = ({ params }) => {
                 className="w-full p-2 border border-gray-300 rounded-md" 
               /> 
               {dob && <span className="block mt-2 text-sm font-medium">Age: {age}</span>} 
-          </div>
+            </div>
+          </div> 
+
+          {/* DOB, Community */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div> 
+              <label className="block font-medium mb-1">Gender:</label> 
+              <select value={gender} onChange={(e) => setGender(e.target.value)} required className="w-full p-2 border border-gray-300 rounded-md"> 
+                <option value="" disabled> 
+                  Select Gender 
+                </option> 
+                <option value="male">Male</option> 
+                <option value="female">Female</option> 
+                <option value="other">Other</option> 
+              </select> 
+            </div> 
+            {/* Material Status */}
+            <div> 
+              <label className="block font-medium mb-1">Marital Status:</label> 
+              <select value={maritalStatus} onChange={(e) => setMaritalStatus(e.target.value)} required className="w-full p-2 border border-gray-300 rounded-md"> 
+                <option value="" disabled> 
+                  Select Marital Status 
+                </option> 
+                <option value="single">Single</option> 
+                <option value="married">Married</option> 
+                <option value="divorced">Divorced</option> 
+                <option value="widowed">Widowed</option> 
+              </select> 
+            </div> 
           {/* Community Dropdown */} 
           <div className="flex flex-col"> 
               <label className="block font-medium mb-1">Community:</label> 
