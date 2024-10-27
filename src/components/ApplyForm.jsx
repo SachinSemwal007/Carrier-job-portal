@@ -470,6 +470,7 @@ const ApplyForm = ({ params }) => {
     const applicantId = applicant.id; 
     const applicationId = jobTitle; 
     const booleanIsHandicapped = isHandicapped === "Yes"; 
+    const booleanIsExService = isExService === "Yes";
     // Adjusting fields for courses, experiences, and references 
     const adjustedCourses = courses.map((course) => ({ 
       name: course.courseName, 
@@ -621,9 +622,7 @@ const ApplyForm = ({ params }) => {
               <label className="block font-medium mb-1">Sport:</label> 
               {titlejob !== "HC" ? ( 
                 <select value={sport} onChange={(e) => setSport(e.target.value)} required className="w-full p-2 border border-gray-300 rounded-md"> 
-                  <option value="" disabled> 
-                    Select Sport 
-                  </option> 
+                  <option value="" disabled>Select Sport</option> 
                   <option value="boxing">Boxing</option> 
                   <option value="athletics">Athletics</option> 
                   <option value="swimming">Swimming</option> 
@@ -635,16 +634,14 @@ const ApplyForm = ({ params }) => {
                   <option value="wrestling">Wrestling</option> 
                   <option value="taekwondo">taekwondo</option> 
                   <option value="gymnastics">Gymnastics</option> 
-                  <option value="tableTennis ">Table Tennis </option> 
+                  <option value="tableTennis">Table Tennis</option> 
                   <option value="lawnTennis">Lawn Tennis</option> 
                   <option value="badminton">Badminton</option> 
                   <option value="wushu">Wushu</option> 
                 </select> 
               ) : ( 
                 <select value={sport} onChange={(e) => setSport(e.target.value)} required className="w-full p-2 border border-gray-300 rounded-md"> 
-                  <option value="" disabled> 
-                    Select Sport 
-                  </option> 
+                  <option value="" disabled>Select Sport</option> 
                   <option value="boxing">Boxing</option> 
                   <option value="athletics">Athletics</option> 
                   <option value="swimming">Swimming</option> 
@@ -654,10 +651,10 @@ const ApplyForm = ({ params }) => {
                   <option value="shooting">Shooting</option> 
                   <option value="cycling">Cycling</option> 
                   <option value="wrestling">Wrestling</option> 
-                  <option value="taekwondo">taekwondo</option> 
+                  <option value="taekwondo">Taekwondo</option> 
                 </select> 
               )} 
-              <span className="text-xs text-red-600"><strong>* </strong>Please Select Carefully. You Can't Change after Saving As Draft</span>
+              <span className="text-xs text-red-600"><strong>* </strong> Please Select Carefully. You Can&apos;t Change after Saving As Draft</span>
             </div>
             <div> 
               <label className="block font-medium mb-1">Date of Birth:</label> 
@@ -1159,7 +1156,7 @@ const ApplyForm = ({ params }) => {
               achievement={achievement} 
               description={description} 
               passportPhoto={passportPhoto} 
-              signature={signature} 
+              signature={signature}
               // certification={certification} 
             /> 
  
