@@ -17,6 +17,7 @@ const FormPreview = ({titlejob,
   fhName,
   email,
   gender,
+  sport,
   dob,
   age,
   maritalStatus,
@@ -26,6 +27,7 @@ const FormPreview = ({titlejob,
   state,
   district,
   isHandicapped,
+  isExService,
   community,
   matriculationYear,
   matriculationGrade,
@@ -41,6 +43,12 @@ const FormPreview = ({titlejob,
   bachelorGrade,
   bachelorPercentage,
   bachelorUniversity,
+  masterYear,
+  masterCourse,
+  masterSpecialization,
+  masterGrade,
+  masterPercentage,
+  masterUniversity,
   courses,
   experiences,
   references,
@@ -184,6 +192,9 @@ const FormPreview = ({titlejob,
             <p>
               <strong>Gender:</strong> {gender}
             </p>
+            <p> 
+              <strong>Sport:</strong> {sport} 
+            </p> 
             <p>
               <strong>Date of Birth:</strong> {dob}, <strong>Age:</strong> {age}
             </p>
@@ -199,6 +210,9 @@ const FormPreview = ({titlejob,
             </p>
             <p>
               <strong>Is Handicapped:</strong> {isHandicapped}
+            </p>
+            <p>
+              <strong>Is ExService Man:</strong> {isExService}
             </p>
           </div>
           {/* Display Passport Photo */}
@@ -302,6 +316,41 @@ const FormPreview = ({titlejob,
                 </td>
                 <td className="border border-gray-300 p-2">
                   {bachelorUniversity}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* Master Section */}
+        <h4 className="text-xl font-semibold mt-4">
+          Master Degree/Post Graduation/(10+2+3+2)
+        </h4>
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto border-collapse border border-gray-300">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="border border-gray-300 p-2">Year</th>
+                <th className="border border-gray-300 p-2">Course</th>
+                <th className="border border-gray-300 p-2">Specialization</th>
+                <th className="border border-gray-300 p-2">Grade/Division</th>
+                <th className="border border-gray-300 p-2">Percentage</th>
+                <th className="border border-gray-300 p-2">University</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="border border-gray-300 p-2">{masterYear}</td>
+                <td className="border border-gray-300 p-2">{masterCourse}</td>
+                <td className="border border-gray-300 p-2">
+                  {masterSpecialization}
+                </td>
+                <td className="border border-gray-300 p-2">{masterGrade}</td>
+                <td className="border border-gray-300 p-2">
+                  {masterPercentage}
+                </td>
+                <td className="border border-gray-300 p-2">
+                  {masterUniversity}
                 </td>
               </tr>
             </tbody>

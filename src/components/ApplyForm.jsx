@@ -48,6 +48,7 @@ const ApplyForm = ({ params }) => {
   const [state, setState] = useState(""); 
   const [district, setDistrict] = useState(""); 
   const [isHandicapped, setIsHandicapped] = useState(""); 
+  const [isExService, setIsExService] = useState(""); 
   const [community, setCommunity] = useState(""); 
   const [matriculationYear, setMatriculationYear] = useState(""); 
   const [matriculationGrade, setMatriculationGrade] = useState(""); 
@@ -63,6 +64,12 @@ const ApplyForm = ({ params }) => {
   const [bachelorGrade, setBachelorGrade] = useState(""); 
   const [bachelorPercentage, setBachelorPercentage] = useState(""); 
   const [bachelorUniversity, setBachelorUniversity] = useState(""); 
+  const [masterYear, setMasterYear] = useState(""); 
+  const [masterCourse, setMasterCourse] = useState(""); 
+  const [masterSpecialization, setMasterSpecialization] = useState(""); 
+  const [masterGrade, setMasterGrade] = useState(""); 
+  const [masterPercentage, setMasterPercentage] = useState(""); 
+  const [masterUniversity, setMasterUniversity] = useState("");
   const [courses, setCourses] = useState([ 
     { 
       courseName: "", 
@@ -353,6 +360,7 @@ const ApplyForm = ({ params }) => {
     const applicantId = applicant.id; 
     const applicationId = jobTitle; 
     const booleanIsHandicapped = isHandicapped === "Yes"; 
+    const booleanIsExService = isExService === "Yes";
     // Adjusting fields for courses, experiences, and references 
     const adjustedCourses = courses.map((course) => ({ 
       name: course.courseName, 
@@ -406,6 +414,7 @@ const ApplyForm = ({ params }) => {
       state, 
       district, 
       isHandicapped: booleanIsHandicapped, // Convert to Boolean 
+      isExService: booleanIsExService,
       community, 
       matriculationYear: Number(matriculationYear), // Ensure this is a number 
       matriculationGrade, 
@@ -421,6 +430,12 @@ const ApplyForm = ({ params }) => {
       bachelorGrade, 
       bachelorPercentage: Number(bachelorPercentage), // Ensure this is a number 
       bachelorUniversity, 
+      masterYear: Number(masterYear), // Ensure this is a number 
+      masterCourse, 
+      masterSpecialization, 
+      masterGrade, 
+      masterPercentage: Number(masterPercentage), // Ensure this is a number 
+      masterUniversity,
       courses: adjustedCourses, 
       experiences: adjustedExperiences, 
       references: adjustedReferences, 
@@ -508,6 +523,7 @@ const ApplyForm = ({ params }) => {
       state, 
       district, 
       isHandicapped: booleanIsHandicapped, // Convert to Boolean 
+      isExService: booleanIsExService, // Convert to Boolean
       community, 
       matriculationYear: Number(matriculationYear), // Ensure this is a number 
       matriculationGrade, 
@@ -523,6 +539,12 @@ const ApplyForm = ({ params }) => {
       bachelorGrade, 
       bachelorPercentage: Number(bachelorPercentage), // Ensure this is a number 
       bachelorUniversity, 
+      masterYear: Number(masterYear), // Ensure this is a number 
+      masterCourse, 
+      masterSpecialization, 
+      masterGrade, 
+      masterPercentage: Number(masterPercentage), // Ensure this is a number 
+      masterUniversity,
       courses: adjustedCourses, 
       experiences: adjustedExperiences, 
       references: adjustedReferences, 
@@ -586,9 +608,15 @@ const ApplyForm = ({ params }) => {
               <input type="text" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} required className="w-full p-2 border border-gray-300 rounded-md" /> 
             </div> 
           </div> 
+
+          {/* Father/Husband Field */} 
+          <div className="mb-4"> 
+            <label className="block font-medium mb-1">Father/Husband Name:</label> 
+            <input type="text" placeholder="Father/Husband Name" value={fhName} onChange={(e) => setFhName(e.target.value)} required className="w-full p-2 border border-gray-300 rounded-md" /> 
+          </div> 
  
           {/* Gender, DOB, Marital Status Fields */} 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"> 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6"> 
             <div> 
               <label className="block font-medium mb-1">Sport:</label> 
               {titlejob !== "HC" ? ( 
@@ -629,18 +657,8 @@ const ApplyForm = ({ params }) => {
                   <option value="taekwondo">taekwondo</option> 
                 </select> 
               )} 
-            </div> 
-            <div> 
-              <label className="block font-medium mb-1">Gender:</label> 
-              <select value={gender} onChange={(e) => setGender(e.target.value)} required className="w-full p-2 border border-gray-300 rounded-md"> 
-                <option value="" disabled> 
-                  Select Gender 
-                </option> 
-                <option value="male">Male</option> 
-                <option value="female">Female</option> 
-                <option value="other">Other</option> 
-              </select> 
-            </div> 
+              <span className="text-xs text-red-600"><strong>* </strong>Please Select Carefully. You Can't Change after Saving As Draft</span>
+            </div>
             <div> 
               <label className="block font-medium mb-1">Date of Birth:</label> 
               <input 
@@ -654,7 +672,23 @@ const ApplyForm = ({ params }) => {
                 className="w-full p-2 border border-gray-300 rounded-md" 
               /> 
               {dob && <span className="block mt-2 text-sm font-medium">Age: {age}</span>} 
+            </div>
+          </div> 
+
+          {/* DOB, Community */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div> 
+              <label className="block font-medium mb-1">Gender:</label> 
+              <select value={gender} onChange={(e) => setGender(e.target.value)} required className="w-full p-2 border border-gray-300 rounded-md"> 
+                <option value="" disabled> 
+                  Select Gender 
+                </option> 
+                <option value="male">Male</option> 
+                <option value="female">Female</option> 
+                <option value="other">Other</option> 
+              </select> 
             </div> 
+            {/* Material Status */}
             <div> 
               <label className="block font-medium mb-1">Marital Status:</label> 
               <select value={maritalStatus} onChange={(e) => setMaritalStatus(e.target.value)} required className="w-full p-2 border border-gray-300 rounded-md"> 
@@ -667,13 +701,21 @@ const ApplyForm = ({ params }) => {
                 <option value="widowed">Widowed</option> 
               </select> 
             </div> 
-          </div> 
- 
-          {/* Father/Husband Field */} 
-          <div className="mb-4"> 
-            <label className="block font-medium mb-1">Father/Husband Name:</label> 
-            <input type="text" placeholder="Father/Husband Name" value={fhName} onChange={(e) => setFhName(e.target.value)} required className="w-full p-2 border border-gray-300 rounded-md" /> 
-          </div> 
+          {/* Community Dropdown */} 
+          <div className="flex flex-col"> 
+              <label className="block font-medium mb-1">Community:</label> 
+              <select value={community} onChange={(e) => setCommunity(e.target.value)} required className="border border-gray-300 rounded-md p-2"> 
+                <option value="" disabled> 
+                  Select Community 
+                </option> 
+                <option value="Gen">General</option> 
+                <option value="OBC">OBC</option> 
+                <option value="SC">SC</option> 
+                <option value="ST">ST</option> 
+                <option value="EWS">EWS</option> 
+              </select> 
+            </div> 
+          </div>
  
           {/* Email Field */} 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6"> 
@@ -683,7 +725,7 @@ const ApplyForm = ({ params }) => {
             </div> 
             <div> 
               <label className="block font-medium mb-1">Contact:</label> 
-              <input type="text" placeholder="Contact" value={contact} onChange={(e) => setContact(e.target.value)} maxLength={10} pattern="\d{10}" title="Please enter correct contact" required className="mr-2 mb-2 p-2 border border-gray-300 rounded-md flex-1 min-w-[150px]" /> 
+              <input type="text" placeholder="Contact" value={contact} onChange={(e) => setContact(e.target.value)} maxLength={10} pattern="\d{10}" title="Please enter correct contact" required className="w-full p-2 border border-gray-300 rounded-md" /> 
             </div> 
             <div> 
               <label className="block font-medium mb-1">Whatsapp Contact:</label> 
@@ -717,38 +759,43 @@ const ApplyForm = ({ params }) => {
               <input type="text" placeholder="Pincode" value={pincode} onChange={(e) => setPincode(e.target.value)} maxLength={6} pattern="\d{6}" title="Please enter exactly 6 digits" required className="w-full p-2 border border-gray-300 rounded-md" /> 
             </div> 
           </div> 
-          {/* Physical Handicapped and Community Fields */} 
-          <div className="flex justify-between gap-4"> 
-            {/* Physical Handicapped Radio Button */} 
-            <div className="flex flex-col"> 
-              <label className="block font-medium mb-1">Whether Physical Handicapped?</label> 
-              <div className="flex space-x-4"> 
-                <label className="flex items-center"> 
-                  <input type="radio" value="Yes" name="handicapped" checked={isHandicapped === "Yes"} onChange={(e) => setIsHandicapped(e.target.value)} required className="mr-2" /> 
-                  Yes 
-                </label> 
-                <label className="flex items-center"> 
-                  <input type="radio" value="No" name="handicapped" checked={isHandicapped === "No"} onChange={(e) => setIsHandicapped(e.target.value)} required className="mr-2" /> 
-                  No 
-                </label> 
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            {/* Physical Handicapped and Community Fields */} 
+            <div className="flex justify-between gap-4"> 
+              {/* Radio Button */} 
+              <div className="flex flex-col"> 
+                <label className="block font-medium mb-1">Whether Physical Handicapped?</label> 
+                <div className="flex space-x-4"> 
+                  <label className="flex items-center"> 
+                    <input type="radio" value="Yes" name="handicapped" checked={isHandicapped === "Yes"} onChange={(e) => setIsHandicapped(e.target.value)} required className="mr-2" /> 
+                    Yes 
+                  </label> 
+                  <label className="flex items-center"> 
+                    <input type="radio" value="No" name="handicapped" checked={isHandicapped === "No"} onChange={(e) => setIsHandicapped(e.target.value)} required className="mr-2" /> 
+                    No 
+                  </label> 
+                </div> 
               </div> 
             </div> 
- 
-            {/* Community Dropdown */} 
-            <div className="flex flex-col"> 
-              <label className="block font-medium mb-1">Community:</label> 
-              <select value={community} onChange={(e) => setCommunity(e.target.value)} required className="border border-gray-300 rounded-md p-2"> 
-                <option value="" disabled> 
-                  Select Community 
-                </option> 
-                <option value="Gen">General</option> 
-                <option value="OBC">OBC</option> 
-                <option value="SC">SC</option> 
-                <option value="ST">ST</option> 
-                <option value="EWS">EWS</option> 
-              </select> 
-            </div> 
-          </div> 
+            {/* Ex-Serviceman and Community Fields */} 
+            <div className="flex justify-between gap-4"> 
+              {/* Radio Button */} 
+              <div className="flex flex-col"> 
+                <label className="block font-medium mb-1">Are You Ex-Service Man?</label> 
+                <div className="flex space-x-4"> 
+                  <label className="flex items-center"> 
+                    <input type="radio" value="Yes" name="exservice" checked={isExService === "Yes"} onChange={(e) => setIsExService(e.target.value)} required className="mr-2" /> 
+                    Yes 
+                  </label> 
+                  <label className="flex items-center"> 
+                    <input type="radio" value="No" name="exservice" checked={isExService === "No"} onChange={(e) => setIsExService(e.target.value)} required className="mr-2" /> 
+                    No 
+                  </label> 
+                </div> 
+              </div> 
+            </div>
+          </div>
  
           {/* Matriculation Field */} 
           <div> 
@@ -826,6 +873,37 @@ const ApplyForm = ({ params }) => {
               <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2"> 
                 <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">University</label> 
                 <input type="text" placeholder="" value={bachelorUniversity} onChange={(e) => setBachelorUniversity(e.target.value)} required className="w-full border border-gray-300 rounded-md p-2" /> 
+              </div> 
+            </div> 
+          </div> 
+
+          {/* Master Degree/Post Graduation Field */} 
+          <div className="flex flex-col my-4"> 
+            <label className="block font-medium mb-1">Master Degree/Post Graduation (10+2+3+2):</label> 
+            <div className="flex flex-wrap p-3 border border-gray-300 rounded-lg bg-gray-100 mb-4"> 
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2"> 
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Year of Passing</label> 
+                <input type="number" placeholder="" value={masterYear} onChange={(e) => setMasterYear(e.target.value)} className="w-full border border-gray-300 rounded-md p-2" required /> 
+              </div> 
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2"> 
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Course</label> 
+                <input type="text" placeholder="" value={masterCourse} onChange={(e) => setMasterCourse(e.target.value)} className="w-full border border-gray-300 rounded-md p-2" required /> 
+              </div> 
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2"> 
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Specialization</label> 
+                <input type="text" placeholder="" value={masterSpecialization} onChange={(e) => setMasterSpecialization(e.target.value)} className="w-full border border-gray-300 rounded-md p-2" required /> 
+              </div> 
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2"> 
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Grade/Division</label> 
+                <input type="text" placeholder="" value={masterGrade} onChange={(e) => setMasterGrade(e.target.value)} className="w-full border border-gray-300 rounded-md p-2" required /> 
+              </div> 
+              <div className="relative flex-2 min-w-[150px] mr-2 mb-2 mt-2"> 
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">Percentage</label> 
+                <input type="number" placeholder="" step="0.01" value={masterPercentage} onChange={(e) => setMasterPercentage(e.target.value)} className="w-full border border-gray-300 rounded-md p-2" required /> 
+              </div> 
+              <div className="relative flex-1 min-w-[150px] mr-2 mb-2 mt-2"> 
+                <label className="absolute -top-3 left-2 bg-gray-100 px-1 text-gray-600 text-sm">University</label> 
+                <input type="text" placeholder="" value={masterUniversity} onChange={(e) => setMasterUniversity(e.target.value)} required className="w-full border border-gray-300 rounded-md p-2" /> 
               </div> 
             </div> 
           </div> 
@@ -1069,6 +1147,12 @@ const ApplyForm = ({ params }) => {
               bachelorGrade={bachelorGrade} 
               bachelorPercentage={bachelorPercentage} 
               bachelorUniversity={bachelorUniversity} 
+              masterYear={masterYear} 
+              masterCourse={masterCourse} 
+              masterSpecialization={masterSpecialization} 
+              masterGrade={masterGrade} 
+              masterPercentage={masterPercentage} 
+              masterUniversity={masterUniversity}
               courses={courses} 
               experiences={experiences} 
               references={references} 
