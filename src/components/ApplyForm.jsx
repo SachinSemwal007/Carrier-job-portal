@@ -664,7 +664,7 @@ const ApplyForm = ({ params }) => {
                     Select Sport 
                   </option> 
                   <option value="boxing">Boxing</option> 
-                  <option value="athleticsJump">Athletics</option> 
+                  <option value="athletics">Athletics</option> 
                   <option value="swimming">Swimming</option> 
                   <option value="football">Football</option> 
                   <option value="archery">Archery</option> 
