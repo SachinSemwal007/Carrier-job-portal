@@ -25,7 +25,7 @@ const JobCard = ({ job }) => {
   };
 
   return (
-    <div className="relative bg-white bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl shadow-lg p-5 w-[320px] h-[360px] mx-auto flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-2xl hover:bg-gradient-to-r hover:from-blue-50 hover:to-white duration-300 ease-in-out">
+    <div className="relative bg-white bg-gradient-to-r from-gray-50 to-gray-100 rounded-2xl shadow-lg p-5 w-[330px] h-[300px] mx-auto flex flex-col justify-between transition-transform transform hover:scale-105 hover:shadow-2xl hover:bg-gradient-to-r hover:from-blue-50 hover:to-white duration-300 ease-in-out">
       {/* Decorative Circles for a Stylish Look */}
       <div className="absolute top-[-10px] right-[-10px] bg-blue-400 rounded-full h-16 w-16 opacity-20 blur-2xl"></div>
       <div className="absolute bottom-[-20px] left-[-20px] bg-purple-400 rounded-full h-20 w-20 opacity-20 blur-3xl"></div>
@@ -43,14 +43,11 @@ const JobCard = ({ job }) => {
       {/* Job Details */}
       <div>
         <p className="text-sm text-gray-500 mb-1">
-          <span className="font-semibold">Company:</span> {job.companyName}
+          <span className="font-semibold">organization:</span> {job.companyName}
         </p>
         <p className="text-sm text-gray-500 mb-1">
           <span className="font-semibold">Location:</span> {job.location}
         </p>
-        <p className="text-sm text-gray-500 mb-1">
-          <span className="font-semibold">Salary:</span> {job.salary}
-        </p> 
         <p className="text-sm text-gray-500 mb-1">  
           <span className="font-semibold">Posted:</span>{" "} 
           {new Date(job.postedDate).toLocaleDateString()} 

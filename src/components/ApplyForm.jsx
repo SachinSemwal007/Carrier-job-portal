@@ -664,9 +664,7 @@ const ApplyForm = ({ params }) => {
                     Select Sport 
                   </option> 
                   <option value="boxing">Boxing</option> 
-                  <option value="athleticsJump">Athletics jump</option> 
-                  <option value="athleticsTrack">Athletics track</option> 
-                  <option value="athleticsField">Athletics field</option> 
+                  <option value="athleticsJump">Athletics</option> 
                   <option value="swimming">Swimming</option> 
                   <option value="football">Football</option> 
                   <option value="archery">Archery</option> 
@@ -674,7 +672,7 @@ const ApplyForm = ({ params }) => {
                   <option value="shooting">Shooting</option> 
                   <option value="cycling">Cycling</option> 
                   <option value="wrestling">Wrestling</option> 
-                  <option value="taekwondo">taekwondo</option> 
+                  <option value="taekwondo">Taekwondo</option> 
                   <option value="gymnastics">Gymnastics</option> 
                   <option value="tableTennis">Table Tennis</option> 
                   <option value="lawnTennis">Lawn Tennis</option> 
