@@ -283,20 +283,20 @@ const ApplyForm = ({ params }) => {
   }, [id]);  
   
   // Age validation based on job id  
-  const getAgeLimits = (id) => {  
-    if (!id) return { min: 0, max: 100 }; // Default limits if id is not set  
+  // const getAgeLimits = (id) => {  
+  //   if (!id) return { min: 0, max: 100 }; // Default limits if id is not set  
   
-    switch (id) {  
-      case "66f3bbda358f00b6a0974676": //Head Coach  
-        return { min: 40, max: 70 };  
-      case "66fe964734b4ef6bd0623ab5": //Coach  
-        return { min: 30, max: 50 };  
-      case "66f3bbe4358f00b6a0974678": //Assistant Coach  
-        return { min: 23, max: 40 };  
-      default:  
-        return { min: 0, max: 100 };  
-    }  
-  };  
+  //   switch (id) {  
+  //     case "66f3bbda358f00b6a0974676": //Head Coach  
+  //       return { min: 40, max: 70 };  
+  //     case "66fe964734b4ef6bd0623ab5": //Coach  
+  //       return { min: 30, max: 50 };  
+  //     case "66f3bbe4358f00b6a0974678": //Assistant Coach  
+  //       return { min: 23, max: 40 };  
+  //     default:  
+  //       return { min: 0, max: 100 };  
+  //   }  
+  // };  
   
   // Function to calculate the age based on DOB  
   const calculateAge = (dob) => {  
@@ -319,19 +319,23 @@ const ApplyForm = ({ params }) => {
   };  
   
   // Handle form preview with age validation  
-  const handlePreview = () => {  
-    const age = calculateAge(dob);  
-    if (age < 0) return; // Exit if the DOB is invalid  
+  // const handlePreview = () => {  
+  //   const age = calculateAge(dob);  
+  //   if (age < 0) return; // Exit if the DOB is invalid  
   
-    const { min, max } = getAgeLimits(id); // Check limits based on job ID  
+  //   const { min, max } = getAgeLimits(id); // Check limits based on job ID  
   
-    if (age >= min && age <= max) {  
-      setShowPreview(true);  
-    } else {  
-      alert(`You are not eligible for the job due to age requirements. Minimum age: ${min}, Maximum age: ${max}.`);  
-      setShowPreview(false);  
-    }  
-  };  
+  //   if (age >= min && age <= max) {  
+  //     setShowPreview(true);  
+  //   } else {  
+  //     alert(`You are not eligible for the job due to age requirements. Minimum age: ${min}, Maximum age: ${max}.`);  
+  //     setShowPreview(false);  
+  //   }  
+  // };  
+  const handlePreview = () => {
+    setShowPreview(true); // Set to true when clicked
+  };
+  
   
   function calculateYearsDifference(fromDate, tillDate) {  
     // Parse the input dates  
