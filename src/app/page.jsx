@@ -61,7 +61,7 @@ const Home = () => {
           <p className="text-[16px] sm:text-[20px] font-bold text-yellow-500">
             Application are being Invited For Various Coach Positions at JSSPS.<br/>
             Open From 1st Nov 2024, 11:00 Hrs & Available Upto Nov 21st 2024, 17:00 Hrs<br/>
-            Detailed Advertisement{" "}
+            Detailed Advertisement {" "}
             <a
               href="/Advertisement.pdf"
               download
