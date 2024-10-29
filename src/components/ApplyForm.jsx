@@ -1655,7 +1655,7 @@ const ApplyForm = ({ params }) => {
             {/* Certification */} 
             <div className="mb-4"> 
               <label className="block font-medium mb-1"> 
-                Certification (max 3 MB, PDF): 
+                Documents (max 3 MB, PDF): 
               </label> 
               <input 
                 id="certificationInput" // Add this ID 
