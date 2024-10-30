@@ -98,14 +98,14 @@ const ApplicantLogin = () => {
             </button>
           </form>
           <div className="flex flex-col sm:flex-row justify-between gap-4 mt-4">
-            <Link href="/forgotpassword" className="w-full sm:w-auto">
+            <Link  className="w-full sm:w-auto">
               <button className="bg-red-600 text-white text-[14px] py-2 px-4 rounded-lg shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 w-full">
                 Forgot Password ?
               </button>
             </Link>
             <button
               className="bg-blue-600 text-white text-[14px] py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 w-full sm:w-auto"
-              onClick={handleRegisterClick}
+              // onClick={handleRegisterClick}
             >
               New User Register Here
             </button>

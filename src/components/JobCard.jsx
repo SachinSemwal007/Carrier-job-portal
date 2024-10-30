@@ -48,10 +48,10 @@ const JobCard = ({ job }) => {
         <p className="text-sm text-gray-500 mb-1">
           <span className="font-semibold">Location:</span> {job.location}
         </p>
-        <p className="text-sm text-gray-500 mb-1">  
+        {/* <p className="text-sm text-gray-500 mb-1">  
           <span className="font-semibold">Posted:</span>{" "} 
           {new Date(job.postedDate).toLocaleDateString()} 
-        </p>
+        </p> */}
         <p className="text-sm text-gray-500">
           <span className="font-semibold">Instruction To Apply:</span>{" "}
           <a
