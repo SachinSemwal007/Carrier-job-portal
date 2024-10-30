@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import Signup from '@/components/Signup';
-import { ApplicantAuthProvider } from '@/context/ApplicantAuthProvider';
+import { AuthProvider } from '@/context/authcontext';
 
 const CreateAdminPage = () => {
   return (
@@ -13,9 +13,9 @@ const CreateAdminPage = () => {
 
 export default function HomeWrapper() {
   return (
-    <ApplicantAuthProvider>
+    <AuthProvider>
       <CreateAdminPage />
-    </ApplicantAuthProvider>
+    </AuthProvider>
   );
 }
 
