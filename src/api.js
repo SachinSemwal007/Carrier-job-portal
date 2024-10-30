@@ -1,8 +1,8 @@
 import axios from "axios"; 
  
 // Set up the base URL for your backend 
-const API = axios.create({ 
-  baseURL: "http://localhost:5001/api", 
+const API = axios.create({
+  baseURL: "https://backendtest-beryl.vercel.app/api",
 }); 
  
 // Sign Up 
@@ -42,14 +42,17 @@ export const applyForJob = async (jobId, applicantData, files) => {
   } 
  
   try { 
-    const response = await fetch(`http://localhost:5001/api/posts/${jobId}/apply`, { 
-      method: "POST", 
-      body: formData, 
-      headers: { 
-        // Only add the Authorization header if needed 
-        // 'Authorization': `Bearer ${yourToken}`, 
-      }, 
-    }); 
+    const response = await fetch(
+      `https://backendtest-beryl.vercel.app/api/posts/${jobId}/apply`,
+      {
+        method: "POST",
+        body: formData,
+        headers: {
+          // Only add the Authorization header if needed
+          // 'Authorization': `Bearer ${yourToken}`,
+        },
+      }
+    ); 
  
     return response; 
   } catch (error) { 
@@ -62,7 +65,7 @@ export const applyForJob = async (jobId, applicantData, files) => {
  
 export const deleteApplicant = async (postId, email) => { 
   try { 
-    const response = await fetch(`http://localhost:5001/api/posts/${postId}/applicants/${email}`, { 
+    const response = await fetch(`https://backendtest-beryl.vercel.app/api/posts/${postId}/applicants/${email}`, { 
       method: "DELETE", 
     }); 
  
@@ -81,7 +84,7 @@ export const deleteApplicant = async (postId, email) => {
  
 export const applicantSignUp = async ({ name, email, password }) => { 
  
-  const response = await fetch('http://localhost:5001/api/applicant/signup', { 
+  const response = await fetch('https://backendtest-beryl.vercel.app/api/applicant/signup', { 
     method: 'POST', 
     headers: { 
       'Content-Type': 'application/json', 
@@ -98,7 +101,7 @@ export const applicantSignUp = async ({ name, email, password }) => {
  
 export const applicantLogIn = async ({ email, password }) => { 
   try { 
-    const response = await fetch('http://localhost:5001/api/applicant/login', { 
+    const response = await fetch('https://backendtest-beryl.vercel.app/api/applicant/login', { 
       method: 'POST', 
       headers: { 
         'Content-Type': 'application/json', 
@@ -120,15 +123,15 @@ export const applicantLogIn = async ({ email, password }) => {
 // API call to get applicant details 
 export const getApplicantDetails = async (token) => { 
   try { 
-  const response = await fetch( 
-    "http://localhost:applyForJob/api/applicant/details", 
-    { 
-      method: "GET", 
-      headers: { 
-        Authorization: `Bearer ${token}`, 
-        "Content-Type": "application/json", 
-      }, 
-    } 
+  const response = await fetch(
+    "https://backendtest-beryl.vercel.app/api/applicant/details",
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    }
   ); 
  
   // Log response status for debugging 
@@ -149,7 +152,7 @@ export const getApplicantDetails = async (token) => {
  
 export const sendPasswordResetEmail = async (email) => { 
   try { 
-    const response = await fetch('http://localhost:5001/api/forgot-password', {  
+    const response = await fetch('https://backendtest-beryl.vercel.app/api/forgot-password', {  
       method: 'POST', 
       headers: { 
         'Content-Type': 'application/json', 
@@ -165,7 +168,7 @@ export const sendPasswordResetEmail = async (email) => {
  
 export const resetPassword = async (token, newPassword) => { 
   try { 
-    const response = await fetch(`http://localhost:5001/api/reset-password/${token}`, {  
+    const response = await fetch(`https://backendtest-beryl.vercel.app/api/reset-password/${token}`, {  
       method: 'POST', 
       headers: { 
         'Content-Type': 'application/json', 
@@ -188,7 +191,7 @@ export const refreshAccessToken = async () => {
   } 
  
   try { 
-    const response = await fetch('http://localhost:5001/api/refresh-token', { 
+    const response = await fetch('https://backendtest-beryl.vercel.app/api/refresh-token', { 
       method: 'POST', 
       headers: { 
         'Content-Type': 'application/json', 

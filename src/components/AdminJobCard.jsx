@@ -36,7 +36,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
  
   // Function to delete an applicant using `applicantId` 
   const deleteApplicant = async (applicantId) => { 
-    const url = `http://localhost:5001/api/posts/${job._id}/applications/${applicantId}`; 
+    const url = `https://backendtest-beryl.vercel.app/api/posts/${job._id}/applications/${applicantId}`; 
     console.log(url); 
     try { 
       const response = await fetch(url, { 
