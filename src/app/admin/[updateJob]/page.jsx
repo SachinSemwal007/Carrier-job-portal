@@ -43,7 +43,7 @@ const UpdatePost = ({ params }) => {
         jobDescription,
       };
 
-      const response = await fetch(`https://backendtest-beryl.vercel.app/api/posts/${id}`, {
+      const response = await fetch(`https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/posts/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

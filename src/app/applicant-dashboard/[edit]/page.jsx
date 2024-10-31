@@ -429,7 +429,7 @@ const ApplyForm = ({ params }) => {
   
     try {  
       // Send PUT request with applicationId in the URL and FormData as the body  
-      const response = await fetch(`https://backendtest-beryl.vercel.app/api/applicants/application/${applicationId}`, {  
+      const response = await fetch(`https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/applicants/application/${applicationId}`, {  
         method: "PUT",  
         body: formData,  
       });  
@@ -552,7 +552,7 @@ const ApplyForm = ({ params }) => {
   
     try {  
       // Send PUT request with applicationId in the URL and FormData as the body  
-      const response = await fetch(`https://backendtest-beryl.vercel.app/api/applicants/application/${applicationId}`, {  
+      const response = await fetch(`https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/applicants/application/${applicationId}`, {  
         method: "PUT",  
         body: formData,  
       });  

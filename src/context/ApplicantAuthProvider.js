@@ -11,7 +11,7 @@ export const ApplicantAuthProvider = ({ children }) => {
   // Function to fetch applicant details from the server
   const getApplicantDetails = async (token) => {
     try {
-      const response = await fetch("https://backendtest-beryl.vercel.app/api/applicant/details", {
+      const response = await fetch("https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/applicant/details", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

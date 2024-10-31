@@ -42,7 +42,7 @@ const App = () => {
         jobDetail
       };
 
-      const response = await fetch('https://backendtest-beryl.vercel.app/api/createpost', {
+      const response = await fetch('https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/createpost', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

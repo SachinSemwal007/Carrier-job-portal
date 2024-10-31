@@ -38,7 +38,7 @@ const ChangePassword = () => {
 
       const changePassword = async (authToken) => {
         const response = await fetch(
-          "http://localhost:5001/api/change-password",
+          "https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/change-password",
           {
             method: "POST",
             headers: {

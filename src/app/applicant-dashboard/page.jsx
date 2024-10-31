@@ -36,7 +36,7 @@ const ApplicantDashboard = () => {
   }; 
  
   const deleteApplicant = async (jobid, applicantId) => { 
-    const url = `https://backendtest-beryl.vercel.app/api/posts/${jobid}/applications/${applicantId}`; 
+    const url = `https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/posts/${jobid}/applications/${applicantId}`; 
     console.log(url); 
     try { 
       const response = await fetch(url, { 

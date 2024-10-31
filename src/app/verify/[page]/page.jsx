@@ -18,7 +18,7 @@ console.log(params)
       }
 
       try {
-        const response = await fetch(`http://localhost:5001/api/applicant/verify-email?token=${token}`, {
+        const response = await fetch(`https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/applicant/verify-email?token=${token}`, {
           method: "GET",
         });
 

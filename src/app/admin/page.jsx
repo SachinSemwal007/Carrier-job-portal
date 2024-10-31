@@ -32,7 +32,7 @@ const AdminDashboard = () => {
   //Fetch Admins
   const fetchAdmins = async () => {
     try {
-      const response = await fetch("https://backendtest-beryl.vercel.app/api/admins"); // Fetch from the backend 
+      const response = await fetch("https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/admins"); // Fetch from the backend 
  
       if (!response.ok) {
         throw new Error("Network response was not ok"); 
@@ -51,7 +51,7 @@ const AdminDashboard = () => {
   // Handle remove admin
   const handleRemoveAdmin = async (adminId) => {
     try {
-      await fetch(`https://backendtest-beryl.vercel.app/api/admins/${adminId}`, { 
+      await fetch(`https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/admins/${adminId}`, { 
         method: "DELETE", 
       }); 
       setAdmins(admins.filter((admin) => admin._id !== adminId)); // Use _id from MongoDB

@@ -2,7 +2,7 @@ import axios from "axios";
  
 // Set up the base URL for your backend 
 const API = axios.create({
-  baseURL: "https://backendtest-beryl.vercel.app/api",
+  baseURL: "https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api",
 }); 
  
 // Sign Up 
@@ -24,7 +24,7 @@ export const createJobPost = (postData, token) =>
  
 export const deleteJob = (id, applicantData) => API.delete(`/posts/${id}`, applicantData); 
  
-export const applyForJob = async (jobId, applicantData, files) => { 
+export const applyForJob = async (id, applicantData, files) => { 
   const formData = new FormData(); 
  
   // Append applicant data to FormData 
@@ -43,7 +43,7 @@ export const applyForJob = async (jobId, applicantData, files) => {
  
   try { 
     const response = await fetch(
-      `https://backendtest-beryl.vercel.app/api/posts/${jobId}/apply`,
+      `https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/posts/${id}/apply`,
       {
         method: "POST",
         body: formData,
@@ -65,7 +65,7 @@ export const applyForJob = async (jobId, applicantData, files) => {
  
 export const deleteApplicant = async (postId, email) => { 
   try { 
-    const response = await fetch(`https://backendtest-beryl.vercel.app/api/posts/${postId}/applicants/${email}`, { 
+    const response = await fetch(`https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/posts/${postId}/applicants/${email}`, { 
       method: "DELETE", 
     }); 
  
@@ -84,7 +84,7 @@ export const deleteApplicant = async (postId, email) => {
  
 export const applicantSignUp = async ({ name, email, password }) => { 
  
-  const response = await fetch('https://backendtest-beryl.vercel.app/api/applicant/signup', { 
+  const response = await fetch('https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/applicant/signup', { 
     method: 'POST', 
     headers: { 
       'Content-Type': 'application/json', 
@@ -101,7 +101,7 @@ export const applicantSignUp = async ({ name, email, password }) => {
  
 export const applicantLogIn = async ({ email, password }) => { 
   try { 
-    const response = await fetch('https://backendtest-beryl.vercel.app/api/applicant/login', { 
+    const response = await fetch('https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/applicant/login', { 
       method: 'POST', 
       headers: { 
         'Content-Type': 'application/json', 
@@ -124,7 +124,7 @@ export const applicantLogIn = async ({ email, password }) => {
 export const getApplicantDetails = async (token) => { 
   try { 
   const response = await fetch(
-    "https://backendtest-beryl.vercel.app/api/applicant/details",
+    "https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/applicant/details",
     {
       method: "GET",
       headers: {
@@ -152,7 +152,7 @@ export const getApplicantDetails = async (token) => {
  
 export const sendPasswordResetEmail = async (email) => { 
   try { 
-    const response = await fetch('https://backendtest-beryl.vercel.app/api/forgot-password', {  
+    const response = await fetch('https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/forgot-password', {  
       method: 'POST', 
       headers: { 
         'Content-Type': 'application/json', 
@@ -168,7 +168,7 @@ export const sendPasswordResetEmail = async (email) => {
  
 export const resetPassword = async (token, newPassword) => { 
   try { 
-    const response = await fetch(`https://backendtest-beryl.vercel.app/api/reset-password/${token}`, {  
+    const response = await fetch(`https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/reset-password/${token}`, {  
       method: 'POST', 
       headers: { 
         'Content-Type': 'application/json', 
@@ -191,7 +191,7 @@ export const refreshAccessToken = async () => {
   } 
  
   try { 
-    const response = await fetch('https://backendtest-beryl.vercel.app/api/refresh-token', { 
+    const response = await fetch('https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/refresh-token', { 
       method: 'POST', 
       headers: { 
         'Content-Type': 'application/json', 
