@@ -55,7 +55,7 @@ const JobCard = ({ job }) => {
         <p className="text-sm text-gray-500">
           <span className="font-semibold">Instruction To Apply:</span>{" "}
           <a
-              href="/path/to/your/pdf-file.pdf"
+              href="/HowtoApply.pdf"
               download
               className="text-red-500 underline hover:text-red-700 blinking-text font-semibold"
             >
