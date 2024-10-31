@@ -10,6 +10,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Head from "next/head";
 import ApplicantLogin from "@/components/ApplicantLogin";
+import Howtoapply from "@/components/Howtoapply";
 
 const Home = () => {
   const vacancies = [
@@ -71,7 +72,7 @@ const Home = () => {
             </a>
           </p>
         </div>
-
+        <Howtoapply/>
         <Footer /> 
       </div> 
     </> 
