@@ -60,7 +60,10 @@ const FormPreview = ({titlejob,
 }) => {
   const { id } = useParams();
   // const id = _id;
-
+   function getStringBeforeQuestionMark(inputString) {
+     const index = inputString.indexOf("?");
+     return index !== -1 ? inputString.substring(0, index) : inputString;
+   }
   const handleDownloadPDF = () => {
     const modalHeader = document.getElementById("modal-header");
     const modalContent = document.getElementById("modal-content");
@@ -151,7 +154,8 @@ const FormPreview = ({titlejob,
         </div>
         <div className="flex flex-wrap justify-between items-center mt-2">
           <h2 className="text-xs sm:text-base font-bold">
-            Applied For: <span className="text-red-500">{checktitle(titlejob)}</span>
+            Applied For:{" "}
+            <span className="text-red-500">{checktitle(titlejob)}</span>
           </h2>
           <h2 className="text-xs sm:text-base font-bold">
             Application ID: <span className="text-blue-500">N/A</span>
@@ -192,9 +196,9 @@ const FormPreview = ({titlejob,
             <p>
               <strong>Gender:</strong> {gender}
             </p>
-            <p> 
-              <strong>Sport:</strong> {sport} 
-            </p> 
+            <p>
+              <strong>Sport:</strong> {sport}
+            </p>
             <p>
               <strong>Date of Birth:</strong> {dob}, <strong>Age:</strong> {age}
             </p>
@@ -220,7 +224,7 @@ const FormPreview = ({titlejob,
             <div className="w-1/3 flex justify-center">
               <div className="w-35 h-40 border border-black">
                 <Image
-                  src={passportPhoto}
+                  src={getStringBeforeQuestionMark(passportPhoto)}
                   alt="Passport"
                   width={35}
                   height={40}
@@ -479,7 +483,6 @@ const FormPreview = ({titlejob,
                   <th className="border border-gray-300 p-2">Reference Name</th>
                   <th className="border border-gray-300 p-2">Contact</th>
                   <th className="border border-gray-300 p-2">Relation</th>
-
                 </tr>
               </thead>
               <tbody>
@@ -549,7 +552,7 @@ const FormPreview = ({titlejob,
           <div className="flex flex-col items-center">
             {signature && (
               <Image
-                src={signature}
+                src={getStringBeforeQuestionMark(signature)}
                 alt="Signature"
                 width={32}
                 height={18}
@@ -582,7 +585,6 @@ const FormPreview = ({titlejob,
           >
           Show Certificate
         </Link> */}
-
       </Modal.Footer>
     </Modal>
   );

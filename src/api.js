@@ -23,44 +23,33 @@ export const createJobPost = (postData, token) =>
   }); 
  
 export const deleteJob = (id, applicantData) => API.delete(`/posts/${id}`, applicantData); 
- 
-export const applyForJob = async (id, applicantData, files) => { 
-  const formData = new FormData(); 
- 
-  // Append applicant data to FormData 
-  formData.append("applicationData", JSON.stringify(applicantData)); 
- 
-  // Append files to FormData 
-  if (files.passportPhoto) { 
-    formData.append("passportPhoto", files.passportPhoto); 
-  } 
-  if (files.certification) { 
-    formData.append("certification", files.certification); 
-  } 
-  if (files.signature) { 
-    formData.append("signature", files.signature); 
-  } 
- 
-  try { 
+
+export const applyForJob = async (id, applicantData) => {
+  try {
     const response = await fetch(
       `https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/posts/${id}/apply`,
       {
         method: "POST",
-        body: formData,
         headers: {
-          // Only add the Authorization header if needed
-          // 'Authorization': `Bearer ${yourToken}`,
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({ applicationData: applicantData }), // Send as raw JSON
       }
-    ); 
- 
-    return response; 
-  } catch (error) { 
-    console.error("Error applying for job:", error); 
-    throw error; 
-  } 
-}; 
- 
+    );
+
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      throw new Error(`Failed to submit application: ${errorMessage}`);
+    }
+
+    const { urls } = await response.json(); // Extract pre-signed URLs from the response
+    return urls; // Return the pre-signed URLs
+  } catch (error) {
+    console.error("Error applying for job:", error);
+    throw error;
+  }
+};
+
  
  
 export const deleteApplicant = async (postId, email) => { 
