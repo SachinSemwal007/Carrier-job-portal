@@ -222,14 +222,14 @@ const AdminJobCard = ({ job, refreshJobs }) => {
       <h3 className="text-xl font-bold mb-1">{job.jobTitle}</h3> 
       <h4 className="text-gray-600 text-sm mb-1">Job ID: {job._id}</h4> 
       <p className="text-gray-800 mb-1">Location: {job.location}</p> 
-      <p className="text-gray-800 mb-1">Salary: {job.salary}</p> 
+      {/* <p className="text-gray-800 mb-1">Salary: {job.salary}</p> 
       <p className="text-gray-500 mb-4"> 
         Posted: {new Date(job.postedDate).toLocaleDateString()} 
-      </p> 
+      </p>  */}
  
       {/* Download Button */} 
       <button 
-        onClick={handleDownloadApplicants} 
+        //onClick={handleDownloadApplicants} 
         className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300" 
       > 
         Download Submitted Applicants 
@@ -239,7 +239,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
       <div className="border mt-4 p-4 rounded-lg overflow-hidden bg-gray-100 transition-all duration-300"> 
         <h2 
           className="text-md font-semibold mb-2 flex items-center cursor-pointer" 
-          onClick={handleToggleApplicants} 
+          //onClick={handleToggleApplicants} 
         > 
           {showApplicants ? ( 
             <> 
