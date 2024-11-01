@@ -43,7 +43,7 @@ const JobCard = ({ job }) => {
       {/* Job Details */}
       <div>
         <p className="text-sm text-gray-500 mb-1">
-          <span className="font-semibold">organization:</span> {job.companyName}
+          <span className="font-semibold">Organization:</span> {job.companyName}
         </p>
         <p className="text-sm text-gray-500 mb-1">
           <span className="font-semibold">Location:</span> {job.location}
