@@ -70,7 +70,7 @@ const ForgotPassword = () => {
                   Send Reset Link
                 </button>
               </form>
-            <div className="flex flex-col sm:flex-row justify-between gap-4 mt-10">
+            <div className="flex flex-col sm:flex-row justify-between gap-4 mt-4">
               <Link href='/'
               className="bg-blue-600 text-white text-[14px] py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 w-full sm:w-auto">
                 Click Here to Login

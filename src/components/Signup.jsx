@@ -10,6 +10,7 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [passwordStrength, setPasswordStrength] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [loading , setLoading] = useState(false);
 
   const { signup } = useAuth(); // Access signup function from the auth context
 
