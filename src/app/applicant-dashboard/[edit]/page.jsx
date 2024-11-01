@@ -1538,12 +1538,12 @@ const ApplyForm = ({ params }) => {
             </button>
             {applicant && (
               <div>
-                <button
+                {/* <button
                   onClick={() => handlePreview(edit)} // Pass the applicant ID to handlePreview
                   className="px-6 py-2 flex  items-center bg-yellow-500 text-white rounded-md hover:bg-yellow-700 transition duration-200"
                 >
                   Preview
-                </button>
+                </button> */}
                 <FormDownloadApp
                   show={previewIndex === edit} // Conditionally show the modal based on the applicant ID
                   handleClose={handleClosePreview}
