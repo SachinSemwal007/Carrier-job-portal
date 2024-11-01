@@ -40,55 +40,55 @@ export const ApplicantAuthProvider = ({ children }) => {
     if (!token) return;
 
     try {
-      const applicantData = await getApplicantDetails(token);
-      if (applicantData && applicantData.name) {
-        setApplicant(applicantData);
-      } else {
-        console.error("Applicant data is missing expected properties.");
-      }
-    } catch (error) {
-      console.error("Error fetching applicant details:", error);
-    }
-  };
+      const applicantData = await getApplicantDetails(token); 
+      if (applicantData && applicantData.name) { 
+        setApplicant(applicantData); 
+      } else { 
+        console.error("Applicant data is missing expected properties."); 
+      } 
+    } catch (error) { 
+      console.error("Error fetching applicant details:", error); 
+    } 
+  }; 
+ 
+  // Effect to check if the applicant is already logged in when the app loads 
+  useEffect(() => { 
+    fetchApplicantDetails(); 
+  }, []); 
 
-  // Effect to check if the applicant is already logged in when the app loads
-  useEffect(() => {
-    fetchApplicantDetails();
-  }, []);
-
-  // Applicant Login function using API call
-  const applicantLogin = async (email, password) => {
-    try {
-      const data = await applicantLogIn({ email, password });
-
-      if (data.token) {
-        const { token } = data;
+  // Applicant Login function using API call 
+  const applicantLogin = async (email, password) => { 
+    try { 
+      const data = await applicantLogIn({ email, password }); 
+ 
+      if (data.token) { 
+        const { token } = data; 
         localStorage.setItem("applicantToken", token);
 
         // Fetch and store applicant details after login
-        await fetchApplicantDetails();
+        await fetchApplicantDetails(); 
 
-        return true;
-      } else {
+        return true; 
+      } else { 
         throw new Error("Invalid login response.");
-      }
-    } catch (error) {
-      console.error("Applicant login failed:", error);
-      return false;
-    }
-  };
-
-  // Applicant Signup function using API call
-  const applicantSignup = async (name, email, password) => {
-    try {
+      } 
+    } catch (error) { 
+      console.error("Applicant login failed:", error); 
+      return false; 
+    } 
+  }; 
+ 
+  // Applicant Signup function using API call 
+  const applicantSignup = async (name, email, password) => { 
+    try { 
       await applicantSignUp({ name, email, password });
-      return true;
-    } catch (error) {
+      return true; 
+    } catch (error) { 
       console.error("Applicant signup failed:", error);
-      return false;
-    }
-  };
-
+      return false; 
+    } 
+  }; 
+ 
   // Applicant Logout function
   const applicantLogout = () => {
     localStorage.removeItem("applicantToken");

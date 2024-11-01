@@ -82,12 +82,12 @@ const Navbar = () => {
               >
                 Applicant Dashboard
               </Link>
-              <Link
+              {/* <Link
                 href="/jobs"
                 className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-teal-500 transition duration-300"
               >
                 Jobs
-              </Link>
+              </Link> */}
               <Link
                 href="/"
                 onClick={() => applicantLogout()}
