@@ -64,10 +64,7 @@ const Navbar = () => {
         </div>
         {/* Nav Links */}
         <div
-          className={`lg:flex items-center space-x-4 ${
-            isOpen ? "block" : "hidden"
-          }`}
-        >
+          className={`lg:flex items-center ${isOpen ? "block" : "hidden"}`}>
           {/* <Link
             href="/"
             className="block mt-2 lg:mt-0 lg:ml-4 px-2 py-1 rounded  hover:bg-teal-700 transition duration-300"
@@ -75,7 +72,7 @@ const Navbar = () => {
             Home
           </Link> */}
           {applicant ? (
-            <div className="flex gap-2">
+            <div className="flex flex-col lg:flex-row gap-0 lg:gap-2">
               <Link
                 href="/applicant-dashboard"
                 className="block mt-2 lg:mt-0 px-2 py-1 rounded hover:bg-teal-500 transition duration-300"

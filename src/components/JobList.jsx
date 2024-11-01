@@ -40,7 +40,7 @@ const JobList = () => {
 
 
         {/* Job Cards Container */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-8 -mx-10  sm:grid-cols-2 lg:grid-cols-3">
           {jobs.map((job) => (
             <JobCard key={job._id} job={job} />
           ))}

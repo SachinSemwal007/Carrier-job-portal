@@ -95,26 +95,27 @@ const AdminDashboard = () => {
       ) : (
         <>
           {/* Top Navbar */}
-          <header className="w-full bg-teal-50 text-white py-2 px-6 flex justify-between items-center shadow-lg">
-            <div className="flex items-center">
-              <Image
-                src="/JSSPS.webp"
-                alt="Company Logo"
-                width={190}
-                height={100}
-                quality={100}
-                className="h-20 w-auto object-contain" // Adjust size as necessary
-              />
-              <div>
-                <h1 className="text-base ml-5 sm:text-xl font-bold text-teal-950">
-                  Jharkhand State Sports Promotion Society
-                </h1>
-                <p className="text-sm ml-5 sm:text-md text-teal-950">
-                  (A CCL and State Govt. of Jharkhand Joint Initiative)
-                </p>
-              </div>
-            </div>
-
+          <header className="w-full bg-teal-50 text-white py-2 px-6 flex justify-between items-center shadow-lg"> 
+              <div className="flex items-center"> 
+                  <Image 
+                  src="/JSSPS.webp" 
+                  alt="Company Logo" 
+                  width={190}
+                  height={100}
+                  quality={100}
+                  className="h-10 sm:h-20 w-auto object-contain" // Adjust size as necessary 
+                  />
+                
+              <div className="ml-2 sm:ml-5"> 
+                <h1 className="text-xs sm:text-xl font-bold text-teal-950"> 
+                  Jharkhand State Sports Promotion Society 
+                </h1> 
+                <p className="text-xs sm:text-md text-teal-950"> 
+                  (A CCL and State Govt. of Jharkhand Joint Initiative) 
+                </p> 
+              </div> 
+            </div> 
+ 
             <div className="flex items-center"> 
               <div className="hidden lg:flex items-center"> {/* Hide on mobile */}
                   <p className="mr-2 text-black font-bold">{user.email}</p> 
@@ -128,7 +129,7 @@ const AdminDashboard = () => {
                 {/* Toggle icon */} 
               </button> 
             </div> 
-          </header>
+          </header> 
 
           {/* Sidebar and Main Content */}
           <div className="flex flex-grow">
@@ -220,20 +221,20 @@ const AdminDashboard = () => {
             <main className="flex-grow p-4 lg:p-8 transition-all duration-300 ease-in-out">
               {active === "" ? (
                 <div className="text-center">
-                  <Image
-                    src="/JSSPS.webp"
-                    alt="Logo"
-                    width={220}
-                    height={120}
-                    className="mb-4 h-auto w-auto mx-auto"
-                  />
-                  <h1 className="text-3xl font-bold mb-4">
-                    Welcome to the Admin Dashboard
-                  </h1>
-                  <p className="text-lg text-gray-600">
-                    Please select an option from the menu to get started.
-                  </p>
-                </div>
+                <Image
+                  src="/JSSPS.webp"
+                  alt="Logo"
+                  width={220}
+                  height={120}
+                  className="mb-4 h-36 sm:h-auto w-auto mx-auto"
+                />
+                <h1 className="text-2xl sm:text-3xl font-bold mb-4">
+                  Welcome to the Admin Dashboard
+                </h1>
+                <p className="text-base sm:text-lg text-gray-600">
+                  Please select an option from the menu to get started.
+                </p>
+              </div>
               ) : (
                 <div className="bg-white p-6 rounded-lg shadow-md w-full">
                   {/* Render content based on active selection */}

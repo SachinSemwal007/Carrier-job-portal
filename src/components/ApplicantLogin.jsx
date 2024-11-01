@@ -43,8 +43,8 @@ const ApplicantLogin = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
-      <main className="flex-grow container mx-auto flex flex-col items-center justify-center p-6">
+    <div className="flex flex-col  bg-gray-100">
+      <main className="flex-grow container mx-auto flex flex-col items-center justify-center p-4">
         <div className="w-full max-w-md bg-white p-8 rounded-md shadow-xl">
           <div className="flex flex-col items-center mb-4">
             {/* <Image
