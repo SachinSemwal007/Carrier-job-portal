@@ -132,60 +132,6 @@ const ApplyForm = ({ params }) => {
     setAge(`${years} years and ${months} months`);
   };
 
-  const handleFileChange = (e, type) => {
-    const file = e.target.files[0];
-    let isValid = false;
-    let errorMsg = "";
-
-    switch (type) {
-      case "passport":
-        if (!file) return;
-        if (file.size > 200000)
-          errorMsg = "Passport photo must be less than 200 KB.";
-        else if (!["image/png", "image/jpeg", "image/jpg"].includes(file.type))
-          errorMsg = "Passport photo must be in PNG or JPG format.";
-        else isValid = true;
-        break;
-      case "certification":
-        if (!file) return;
-        if (file.size > 3000000)
-          errorMsg = "Certification file must be less than 3 MB.";
-        else if (file.type !== "application/pdf")
-          errorMsg = "Certification must be in PDF format.";
-        else isValid = true;
-        break;
-      case "signature":
-        if (!file) return;
-        if (file.size > 100000)
-          errorMsg = "Signature must be less than 100 KB.";
-        else if (!["image/png", "image/jpeg", "image/jpg"].includes(file.type))
-          errorMsg = "Signature must be in PNG or JPG format.";
-        else isValid = true;
-        break;
-      default:
-        break;
-    }
-
-    if (isValid) {
-      const fileURL = URL.createObjectURL(file);
-      switch (type) {
-        case "passport":
-          setPassportPhoto(fileURL);
-          break;
-        case "certification":
-          setCertification(fileURL);
-          break;
-        case "signature":
-          setSignature(fileURL);
-          break;
-        default:
-          break;
-      }
-    } else {
-      alert(errorMsg);
-    }
-  };
-
   const handleCourseChange = (index, event) => {
     const { name, value } = event.target;
     const newCourses = [...courses];
@@ -330,9 +276,6 @@ const ApplyForm = ({ params }) => {
       setReferences(appliedPosition.references || []);
       setAchievement(appliedPosition.achievement || "");
       setDescription(appliedPosition.description || "");
-      setPassportPhoto(appliedPosition.passportPhoto || null);
-      setCertification(appliedPosition.certification || null);
-      setSignature(appliedPosition.signature || null);
     }
   }, [applicant, edit]);
 
@@ -370,12 +313,6 @@ const ApplyForm = ({ params }) => {
       relation: reference.refRelation || "",
       contact: reference.refContact,
     }));
-
-    const files = {
-      passportPhoto: document.getElementById("passportPhotoInput").files[0],
-      certification: document.getElementById("certificationInput").files[0],
-      signature: document.getElementById("signatureInput").files[0],
-    };
 
     const formData = {
       applicationId,

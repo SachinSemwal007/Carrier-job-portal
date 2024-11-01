@@ -56,6 +56,10 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
     _id,
   } = applicant;
   const id = applicationId;
+  function getStringBeforeQuestionMark(inputString) {
+    const index = inputString.indexOf("?");
+    return index !== -1 ? inputString.substring(0, index) : inputString;
+  }
   function calculateAge(dobString) {
     const dob = new Date(dobString); // Parse the date string into a Date object
     const now = new Date(); // Get the current date
