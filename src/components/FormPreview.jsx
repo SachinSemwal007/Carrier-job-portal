@@ -129,10 +129,10 @@ const FormPreview = ({titlejob,
       show={show}
       onHide={handleClose}
       size="lg"
-      className=" max-w-6xl mx-auto my-4 p-5 bg-white shadow-lg rounded-lg"
+      className=" max-w-6xl mx-auto my-4 p-5 bg-white shadow-lg rounded-lg w-full sm:w-[90vw] md:w-[80vw] lg:w-[60vw] xl:w-[50vw] h-[100svh] overflow-hidden"
     >
       <Modal.Header
-        className="flex flex-col  border-b-2 border-gray-200 p-4"
+        className="flex flex-col  border-b-2 border-gray-200 p-4 w-full bg-white z-10 rounded-t-lg"
         id="modal-header"
       >
         <div className="flex flex-wrap items-center justify-center sm:flex-wrap ">
@@ -177,7 +177,7 @@ const FormPreview = ({titlejob,
         </div>
       </Modal.Header>
       <Modal.Body
-        className="overflow-y-auto max-h-[70vh] p-3 space-y-3"
+        className="w-full max-w-full overflow-y-auto max-h-[calc(100vh-250px)] p-4"
         id="modal-content"
       >
         <h4 className="text-xl font-semibold mb-2">Personal Details</h4>
@@ -563,7 +563,7 @@ const FormPreview = ({titlejob,
           </div>
         </div>
       </Modal.Body>
-      <Modal.Footer className="flex flex-wrap justify-end space-x-4 p-4 border-t-2 border-gray-200">
+      <Modal.Footer className="w-full bg-white border-t-2 border-gray-200 p-4 flex justify-end rounded-b-lg">
         <Button
           className="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded"
           onClick={handleClose}

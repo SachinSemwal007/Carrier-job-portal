@@ -196,7 +196,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
     return age; 
   }; 
   return ( 
-    <div className="m-5 max-w-[400px] w-full flex-shrink-0 relative bg-white rounded-lg shadow-xl border border-gray-300 p-4 transition duration-300 hover:shadow-2xl hover:border-gray-400"> 
+    <div className="max-w-[400px] w-full flex-shrink-0 relative bg-white rounded-lg shadow-xl border border-gray-300 p-4 transition duration-300 hover:shadow-2xl hover:border-gray-400"> 
       {/* Job Card Header */} 
       <div className="flex justify-between items-center mb-4"> 
         {/* <Link  
@@ -236,7 +236,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
       </button> 
  
       {/* Show Submitted Applicants */} 
-      <div className="border mt-4 p-4 rounded-lg overflow-hidden bg-gray-100 transition-all duration-300"> 
+      <div className="border mt-4 p-2 rounded-lg overflow-hidden bg-gray-100 transition-all duration-300"> 
         <h2 
           className="text-md font-semibold mb-2 flex items-center cursor-pointer" 
           //onClick={handleToggleApplicants} 
