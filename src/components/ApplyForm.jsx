@@ -375,6 +375,12 @@ const ApplyForm = ({ params }) => {
   // Handle Submit
    const handleDraft = async (e) => {
      e.preventDefault();
+
+      // Check for required fields
+    if (!sport || !document.getElementById("passportPhotoInput").files[0] || !document.getElementById("certificationInput").files[0] || !document.getElementById("signatureInput").files[0]) {
+      alert("Please ensure that Sports, Passport Photo, Certification, and Signature files are uploaded before saving as draft.");
+      return;
+  }
      const applicantId = applicant.id;
      const applicationId = jobTitle;
      const booleanIsHandicapped = isHandicapped === "Yes";
@@ -493,7 +499,7 @@ const ApplyForm = ({ params }) => {
        // Wait for all file uploads to complete
        await Promise.all(uploadPromises);
 
-       alert("Application submitted successfully!");
+       alert("Application saved as draft successfully!");
        router.push("/jobs"); // Redirect to the desired page after submission
      } catch (error) {
        console.error("Error during application submission:", error);
