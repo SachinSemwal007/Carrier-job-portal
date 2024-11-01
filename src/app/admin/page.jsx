@@ -115,21 +115,19 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            <div className="flex items-center">
-              <p className="mr-2 text-black font-bold">{user.email}</p>
-              <span className="h-10 w-10 flex items-center justify-center rounded-full bg-teal-600">
-                <FontAwesomeIcon
-                  icon={faUser}
-                  className="text-blue-950 text-2xl"
-                />{" "}
-                {/* Applicant Icon */}
-              </span>
-              {/* Mobile Toggle Button */}
-              <button onClick={toggleMenu} className="lg:hidden p-2 text-black">
-                <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} size="lg" />{" "}
-                {/* Toggle icon */}
-              </button>
-            </div>
+            <div className="flex items-center"> 
+              <div className="hidden lg:flex items-center"> {/* Hide on mobile */}
+                  <p className="mr-2 text-black font-bold">{user.email}</p> 
+                  <span className="h-10 w-10 flex items-center justify-center rounded-full bg-teal-600"> 
+                    <FontAwesomeIcon icon={faUser} className="text-blue-950 text-2xl" /> 
+                  </span> 
+              </div>
+              {/* Mobile Toggle Button */} 
+              <button onClick={toggleMenu} className="lg:hidden p-2 text-black"> 
+                <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} size="lg" />{" "} 
+                {/* Toggle icon */} 
+              </button> 
+            </div> 
           </header>
 
           {/* Sidebar and Main Content */}
