@@ -8,7 +8,10 @@ import html2canvas from "html2canvas";
 import Link from "next/link";
 import Image from "next/image";
 
-const FormPreview = ({titlejob,
+const FormPreview = ({
+  titlejob,
+  createdAt,
+  updatedAt,
   show, // to control modal visibility
   handleClose, // function to close modal
   firstName,
@@ -60,10 +63,10 @@ const FormPreview = ({titlejob,
 }) => {
   const { id } = useParams();
   // const id = _id;
-   function getStringBeforeQuestionMark(inputString) {
-     const index = inputString.indexOf("?");
-     return index !== -1 ? inputString.substring(0, index) : inputString;
-   }
+  function getStringBeforeQuestionMark(inputString) {
+    const index = inputString.indexOf("?");
+    return index !== -1 ? inputString.substring(0, index) : inputString;
+  }
   const handleDownloadPDF = () => {
     const modalHeader = document.getElementById("modal-header");
     const modalContent = document.getElementById("modal-content");
@@ -119,10 +122,42 @@ const FormPreview = ({titlejob,
       pdf.save("form-preview.pdf");
     });
   };
+
   function checktitle(title) {
-    if (title == "CO")return "Coach"
+    if (title == "CO") return "Coach";
     else if (title == "AC") return "Assistant Coach";
     else if (title == "HC") return "Head Coach";
+  }
+
+  function formatDate(isoDate) {
+    const date = new Date(isoDate);
+
+    const day = date.getDate();
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+
+    const daySuffix = (day) => {
+      if (day % 10 === 1 && day !== 11) return "st";
+      if (day % 10 === 2 && day !== 12) return "nd";
+      if (day % 10 === 3 && day !== 13) return "rd";
+      return "th";
+    };
+
+    return `${day}${daySuffix(day)} ${month} ${year}`;
   }
   return (
     <Modal
@@ -163,15 +198,7 @@ const FormPreview = ({titlejob,
           <h2 className="text-xs sm:text-base font-bold">
             Date & Time:{" "}
             <span className="text-gray-600">
-              {new Date().toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-                // hour: "2-digit",
-                // minute: "2-digit",
-                // second: "2-digit",
-                // hour12: true, // Change to false for 24-hour format
-              })}
+              {updatedAt ? formatDate(updatedAt) : formatDate(createdAt)}
             </span>
           </h2>
         </div>
