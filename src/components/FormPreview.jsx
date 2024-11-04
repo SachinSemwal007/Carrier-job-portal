@@ -9,6 +9,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const FormPreview = ({titlejob,
+  date,
   show, // to control modal visibility
   handleClose, // function to close modal
   firstName,
@@ -119,11 +120,11 @@ const FormPreview = ({titlejob,
       pdf.save("form-preview.pdf");
     });
   };
-  function checktitle(title) {
-    if (title == "CO")return "Coach"
-    else if (title == "AC") return "Assistant Coach";
-    else if (title == "HC") return "Head Coach";
-  }
+  function checktitle(title) { 
+    if (title == "CO")return "Coach"   
+    else if (title == "AC") return "Assistant Coach"; 
+    else if (title == "HC") return "Head Coach"; 
+  } 
   return (
     <Modal
       show={show}
@@ -158,20 +159,12 @@ const FormPreview = ({titlejob,
             <span className="text-red-500">{checktitle(titlejob)}</span>
           </h2>
           <h2 className="text-xs sm:text-base font-bold">
-            Application ID: <span className="text-blue-500">N/A</span>
+            Application ID: <span className="text-blue-500">N/A</span> 
           </h2>
           <h2 className="text-xs sm:text-base font-bold">
-            Date & Time:{" "}
+            Date:{" "}
             <span className="text-gray-600">
-              {new Date().toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-                // hour: "2-digit",
-                // minute: "2-digit",
-                // second: "2-digit",
-                // hour12: true, // Change to false for 24-hour format
-              })}
+              {date || " "}
             </span>
           </h2>
         </div>
