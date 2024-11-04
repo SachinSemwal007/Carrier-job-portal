@@ -1,42 +1,42 @@
-import React from "react";  
-import { Modal, Button } from "react-bootstrap";  
-import jsPDF from "jspdf";  
-import html2canvas from "html2canvas";  
-import Link from "next/link";  
-import Image from "next/image";   
-   
-const FormDownloadApp = ({ show, handleClose, applicant }) => {   
-  const {   
-    applicationId,   
-    firstName,   
-    middleName,   
-    lastName,   
-    fhName,   
-    sport, 
-    email,   
-    gender,   
-    maritalStatus,   
-    address,   
-    pincode,   
-    country,   
-    state,   
-    district,   
-    isHandicapped,   
+import React from "react";
+import { Modal, Button } from "react-bootstrap";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import Link from "next/link";
+import Image from "next/image";
+
+const FormDownloadApp = ({ show, handleClose, applicant }) => {
+  const {
+    applicationId,
+    firstName,
+    middleName,
+    lastName,
+    fhName,
+    sport,
+    email,
+    gender,
+    maritalStatus,
+    address,
+    pincode,
+    country,
+    state,
+    district,
+    isHandicapped,
     isExService,
-    community,   
-    matriculationYear,   
-    matriculationGrade,   
-    matriculationPercentage,   
-    matriculationBoard,   
-    interYear,   
-    interGrade,   
-    interPercentage,   
-    interBoard,   
-    bachelorYear,   
-    bachelorCourse,   
-    bachelorSpecialization,   
-    bachelorGrade,   
-    bachelorPercentage,   
+    community,
+    matriculationYear,
+    matriculationGrade,
+    matriculationPercentage,
+    matriculationBoard,
+    interYear,
+    interGrade,
+    interPercentage,
+    interBoard,
+    bachelorYear,
+    bachelorCourse,
+    bachelorSpecialization,
+    bachelorGrade,
+    bachelorPercentage,
     bachelorUniversity,
     masterYear,
     masterCourse,
@@ -44,175 +44,205 @@ const FormDownloadApp = ({ show, handleClose, applicant }) => {
     masterGrade,
     masterPercentage,
     masterUniversity,
-    courses,   
-    experiences,   
-    references,   
-    achievement,   
-    description,   
-    passportPhoto,   
-    signature,   
-    certification,   
-    dob,   
-    _id,   
-  } = applicant;   
-  const id = applicationId;   
-  function calculateAge(dobString) {   
-    const dob = new Date(dobString); // Parse the date string into a Date object   
-    const now = new Date(); // Get the current date   
-   
-    let age = now.getFullYear() - dob.getFullYear(); // Calculate the year difference   
-   
-    // Adjust the age if the current date is before the birthday this year   
-    const monthDiff = now.getMonth() - dob.getMonth();   
-    const dayDiff = now.getDate() - dob.getDate();   
-   
-    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {   
-      age--;   
-    }   
-   
-    return age;   
-  }    
-    function getStringBeforeQuestionMark(inputString) {
-      const index = inputString.indexOf("?");
-      return index !== -1 ? inputString.substring(0, index) : inputString;
+    courses,
+    experiences,
+    references,
+    achievement,
+    description,
+    passportPhoto,
+    signature,
+    certification,
+    dob,
+    createdAt,
+    updatedAt,
+    _id,
+  } = applicant;
+  const id = applicationId;
+  function calculateAge(dobString) {
+    const dob = new Date(dobString); // Parse the date string into a Date object
+    const now = new Date(); // Get the current date
+
+    let age = now.getFullYear() - dob.getFullYear(); // Calculate the year difference
+
+    // Adjust the age if the current date is before the birthday this year
+    const monthDiff = now.getMonth() - dob.getMonth();
+    const dayDiff = now.getDate() - dob.getDate();
+
+    if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+      age--;
     }
-  function checkTitle(code) {  
-    // Extract the first two characters from the input code  
-    const title = code.substring(0, 2);  
-    
-    // Check the title and return the corresponding value  
-    if (title === "CO") return "Coach";  
-    else if (title === "AC") return "Assistant Coach";  
-    else if (title === "HC") return "Head Coach";  
-    else return "Unknown Title"; // Optional default case if no match  
-  }   
-  const titlejob=checkTitle(applicationId)  
-  
-  function formatDate(dobString) {   
-    const date = new Date(dobString); // Parse the date string into a Date object   
-   
-    // Helper function to get ordinal suffix for a date (st, nd, rd, th)   
-    function getOrdinalSuffix(day) {   
-      if (day > 3 && day < 21) return "th"; // Special case for 11th, 12th, 13th, etc.   
-      switch (day % 10) {   
-        case 1:   
-          return "st";   
-        case 2:   
-          return "nd";   
-        case 3:   
-          return "rd";   
-        default:   
-          return "th";   
-      }   
-    }   
-   
-    // Format day with ordinal suffix   
-    const day = date.getDate();   
-    const ordinalSuffix = getOrdinalSuffix(day);   
-   
-    // Format month names   
-    const monthNames = [   
-      "Jan",   
-      "Feb",   
-      "Mar",   
-      "Apr",   
-      "May",   
-      "Jun",    
-      "Jul",   
-      "Aug",   
-      "Sep",   
-      "Oct",   
-      "Nov",   
-      "Dec",   
-    ];   
-    const month = monthNames[date.getMonth()]; // Get the month name   
-   
-    // Get the full year   
-    const year = date.getFullYear();    
-   
-    return `${day}${ordinalSuffix} ${month} ${year}`;   
-  }   
-   
-   
-  const handleDownloadPDF = () => {   
-    const modalHeader = document.getElementById("modal-header");   
-    const modalContent = document.getElementById("modal-content");   
-   
-    // Reset styles to capture full content   
-    modalContent.style.height = "auto";   
-    modalContent.style.maxHeight = "none";    
-    modalContent.style.overflow = "visible";   
-   
-    // Create a temporary wrapper for capturing the content   
-    const wrapper = document.createElement("div");   
-    wrapper.style.width = modalContent.clientWidth + "px"; // Ensure the wrapper width matches modal   
-    wrapper.appendChild(modalHeader.cloneNode(true));   
-    wrapper.appendChild(modalContent.cloneNode(true));   
-    document.body.appendChild(wrapper);   
-   
-    // Use html2canvas to capture the content   
-    html2canvas(wrapper, {   
-      scale: 2, // Adjust scale if needed for better quality   
-      useCORS: true, // Handle cross-origin issues for images   
-      scrollY: 0,   
-      scrollX: 0,   
-    }).then((canvas) => {   
-      const imgData = canvas.toDataURL("image/jpeg", 1.0);   
-      const pdf = new jsPDF("p", "mm", "a4");    
-      const pdfWidth = pdf.internal.pageSize.getWidth();   
-      const pdfHeight = pdf.internal.pageSize.getHeight();   
-   
-      const imgWidth = pdfWidth;   
-      const imgHeight = (canvas.height * pdfWidth) / canvas.width;   
-   
-      let heightLeft = imgHeight;   
-      let position = 0;   
-   
-      // Add the captured image content to PDF   
-      while (heightLeft > 0) {   
-        const pageHeight = Math.min(heightLeft, pdfHeight); // Height that fits on the page   
-        pdf.addImage(imgData, "JPEG", 0, position, imgWidth, pageHeight);   
-        heightLeft -= pageHeight; // Decrease remaining height   
-        position = -heightLeft; // Move position for next page   
-   
-        // Only add a new page if there is more content   
-        if (heightLeft > 0) {   
-          pdf.addPage();   
-        }   
-      }   
-   
-      // === Add Clickable Link to PDF ===   
-      const linkText = "View certificate"; // Replace with your link text   
-      const linkUrl = getStringBeforeQuestionMark(certification); // Replace with your actual URL   
-   
-      // Set link position in the top-right corner   
-      const linkX = pdfWidth - pdf.getTextWidth(linkText) - 10; // 10 is for some padding from the right   
-      const linkY = 10; // Top margin   
-   
-      // Add link text and create clickable area   
-      pdf.text(linkText, linkX, linkY);   
-      pdf.link(linkX, linkY - 3, pdf.getTextWidth(linkText), 10, {   
-        url: linkUrl,   
-        target: "_blank", // Suggest to open in new tab (Note: some PDF viewers may not support this)   
-      });   
-   
-      // === Restore original modal styles ===   
-      modalContent.style.height = "";   
-      modalContent.style.maxHeight = "";   
-      modalContent.style.overflow = "auto";   
-      document.body.removeChild(wrapper);   
-   
-      // Save the PDF   
-      pdf.save(id);   
-    });   
-  };   
-   
+
+    return age;
+  }
+  function getStringBeforeQuestionMark(inputString) {
+    const index = inputString.indexOf("?");
+    return index !== -1 ? inputString.substring(0, index) : inputString;
+  }
+  function checkTitle(code) {
+    // Extract the first two characters from the input code
+    const title = code.substring(0, 2);
+
+    // Check the title and return the corresponding value
+    if (title === "CO") return "Coach";
+    else if (title === "AC") return "Assistant Coach";
+    else if (title === "HC") return "Head Coach";
+    else return "Unknown Title"; // Optional default case if no match
+  }
+  const titlejob = checkTitle(applicationId);
+
+  function formatDate(dobString) {
+    const date = new Date(dobString); // Parse the date string into a Date object
+
+    // Helper function to get ordinal suffix for a date (st, nd, rd, th)
+    function getOrdinalSuffix(day) {
+      if (day > 3 && day < 21) return "th"; // Special case for 11th, 12th, 13th, etc.
+      switch (day % 10) {
+        case 1:
+          return "st";
+        case 2:
+          return "nd";
+        case 3:
+          return "rd";
+        default:
+          return "th";
+      }
+    }
+
+    // Format day with ordinal suffix
+    const day = date.getDate();
+    const ordinalSuffix = getOrdinalSuffix(day);
+
+    // Format month names
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const month = monthNames[date.getMonth()]; // Get the month name
+
+    // Get the full year
+    const year = date.getFullYear();
+
+    return `${day}${ordinalSuffix} ${month} ${year}`;
+  }
+
+  const handleDownloadPDF = () => {
+    const modalHeader = document.getElementById("modal-header");
+    const modalContent = document.getElementById("modal-content");
+
+    // Reset styles to capture full content
+    modalContent.style.height = "auto";
+    modalContent.style.maxHeight = "none";
+    modalContent.style.overflow = "visible";
+
+    // Create a temporary wrapper for capturing the content
+    const wrapper = document.createElement("div");
+    wrapper.style.width = modalContent.clientWidth + "px"; // Ensure the wrapper width matches modal
+    wrapper.appendChild(modalHeader.cloneNode(true));
+    wrapper.appendChild(modalContent.cloneNode(true));
+    document.body.appendChild(wrapper);
+
+    // Use html2canvas to capture the content
+    html2canvas(wrapper, {
+      scale: 2, // Adjust scale if needed for better quality
+      useCORS: true, // Handle cross-origin issues for images
+      scrollY: 0,
+      scrollX: 0,
+    }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/jpeg", 1.0);
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+
+      const imgWidth = pdfWidth;
+      const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      // Add the captured image content to PDF
+      while (heightLeft > 0) {
+        const pageHeight = Math.min(heightLeft, pdfHeight); // Height that fits on the page
+        pdf.addImage(imgData, "JPEG", 0, position, imgWidth, pageHeight);
+        heightLeft -= pageHeight; // Decrease remaining height
+        position = -heightLeft; // Move position for next page
+
+        // Only add a new page if there is more content
+        if (heightLeft > 0) {
+          pdf.addPage();
+        }
+      }
+
+      // === Add Clickable Link to PDF ===
+      const linkText = "View certificate"; // Replace with your link text
+      const linkUrl = getStringBeforeQuestionMark(certification); // Replace with your actual URL
+
+      // Set link position in the top-right corner
+      const linkX = pdfWidth - pdf.getTextWidth(linkText) - 10; // 10 is for some padding from the right
+      const linkY = 10; // Top margin
+
+      // Add link text and create clickable area
+      pdf.text(linkText, linkX, linkY);
+      pdf.link(linkX, linkY - 3, pdf.getTextWidth(linkText), 10, {
+        url: linkUrl,
+        target: "_blank", // Suggest to open in new tab (Note: some PDF viewers may not support this)
+      });
+
+      // === Restore original modal styles ===
+      modalContent.style.height = "";
+      modalContent.style.maxHeight = "";
+      modalContent.style.overflow = "auto";
+      document.body.removeChild(wrapper);
+
+      // Save the PDF
+      pdf.save(id);
+    });
+  };
+  function formatDate(isoDate) {
+    const date = new Date(isoDate);
+
+    const day = date.getDate();
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+
+    const daySuffix = (day) => {
+      if (day % 10 === 1 && day !== 11) return "st";
+      if (day % 10 === 2 && day !== 12) return "nd";
+      if (day % 10 === 3 && day !== 13) return "rd";
+      return "th";
+    };
+
+    return `${day}${daySuffix(day)} ${month} ${year}`;
+  }
   return (
     <Modal
       show={show}
       onHide={handleClose}
       size="lg"
-      className=" max-w-6xl mx-auto my-4 p-5 bg-white shadow-lg rounded-lg w-full sm:w-[90vw] md:w-[80vw] lg:w-[60vw] xl:w-[50vw] h-[100svh] overflow-hidden"
+      className="  mx-auto my-4 p-5 bg-white shadow-lg rounded-lg w-full   overflow-hidden"
       // id="modal-content"
     >
       <Modal.Header
@@ -246,17 +276,9 @@ const FormDownloadApp = ({ show, handleClose, applicant }) => {
             Application ID: <span className="text-blue-500">{id}</span>
           </h2>
           <h2 className="text-xs sm:text-base font-bold">
-            Date & Time:{" "}
+            Date:{" "}
             <span className="text-gray-600">
-              {new Date().toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "2-digit",
-                day: "2-digit",
-                // hour: "2-digit",
-                // minute: "2-digit",
-                // second: "2-digit",
-                // hour12: true, // Change to false for 24-hour format
-              })}
+              {updatedAt ? formatDate(updatedAt) : formatDate(createdAt)}
             </span>
           </h2>
         </div>
@@ -666,7 +688,7 @@ const FormDownloadApp = ({ show, handleClose, applicant }) => {
         </Button>
       </Modal.Footer>
     </Modal>
-  );  
-};  
-  
-export default FormDownloadApp;   
+  );
+};
+
+export default FormDownloadApp;

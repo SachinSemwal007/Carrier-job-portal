@@ -8,7 +8,10 @@ import html2canvas from "html2canvas";
 import Link from "next/link";
 import Image from "next/image";
 
-const FormPreview = ({titlejob,
+const FormPreview = ({ 
+  titlejob, 
+  createdAt, 
+  updatedAt, 
   date,
   show, // to control modal visibility
   handleClose, // function to close modal
@@ -61,10 +64,10 @@ const FormPreview = ({titlejob,
 }) => {
   const { id } = useParams();
   // const id = _id;
-   function getStringBeforeQuestionMark(inputString) {
-     const index = inputString.indexOf("?");
-     return index !== -1 ? inputString.substring(0, index) : inputString;
-   }
+  function getStringBeforeQuestionMark(inputString) {
+    const index = inputString.indexOf("?");
+    return index !== -1 ? inputString.substring(0, index) : inputString;
+  }
   const handleDownloadPDF = () => {
     const modalHeader = document.getElementById("modal-header");
     const modalContent = document.getElementById("modal-content");
