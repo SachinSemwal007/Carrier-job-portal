@@ -54,8 +54,8 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
     certification,
     dob,
     _id,
-    createdAt,
-    updatedAt,
+    createdAt, 
+    updatedAt, 
   } = applicant;
   const id = applicationId;
   function getStringBeforeQuestionMark(inputString) {
@@ -200,37 +200,37 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
     });
   };
 
-   function formatDate(isoDate) {
-     const date = new Date(isoDate);
-
-     const day = date.getDate();
-     const monthNames = [
-       "Jan",
-       "Feb",
-       "Mar",
-       "Apr",
-       "May",
-       "Jun",
-       "Jul",
-       "Aug",
-       "Sep",
-       "Oct",
-       "Nov",
-       "Dec",
-     ];
-     const month = monthNames[date.getMonth()];
-     const year = date.getFullYear();
-
-     const daySuffix = (day) => {
-       if (day % 10 === 1 && day !== 11) return "st";
-       if (day % 10 === 2 && day !== 12) return "nd";
-       if (day % 10 === 3 && day !== 13) return "rd";
-       return "th";
-     };
-
-     return `${day}${daySuffix(day)} ${month} ${year}`;
-   }
-
+   function formatDate(isoDate) { 
+     const date = new Date(isoDate); 
+ 
+     const day = date.getDate(); 
+     const monthNames = [ 
+       "Jan", 
+       "Feb", 
+       "Mar", 
+       "Apr", 
+       "May", 
+       "Jun", 
+       "Jul",  
+       "Aug", 
+       "Sep", 
+       "Oct", 
+       "Nov", 
+       "Dec", 
+     ]; 
+     const month = monthNames[date.getMonth()]; 
+     const year = date.getFullYear(); 
+ 
+     const daySuffix = (day) => { 
+       if (day % 10 === 1 && day !== 11) return "st"; 
+       if (day % 10 === 2 && day !== 12) return "nd"; 
+       if (day % 10 === 3 && day !== 13) return "rd"; 
+       return "th"; 
+     }; 
+ 
+     return `${day}${daySuffix(day)} ${month} ${year}`; 
+   } 
+ 
   return (
     <Modal
       show={show}
