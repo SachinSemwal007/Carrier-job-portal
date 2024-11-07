@@ -276,9 +276,9 @@ const FormDownloadApp = ({ show, handleClose, applicant }) => {
             Application ID: <span className="text-blue-500">{id}</span>
           </h2>
           <h2 className="text-xs sm:text-base font-bold">
-            Date:{" "}
+            Date:{" "} 
             <span className="text-gray-600">
-              {updatedAt ? formatDate(updatedAt) : formatDate(createdAt)}
+              {updatedAt ? formatDate(updatedAt) : formatDate(createdAt)} 
             </span>
           </h2>
         </div>
