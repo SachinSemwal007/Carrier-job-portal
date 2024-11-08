@@ -112,16 +112,16 @@ export const applicantLogIn = async ({ email, password }) => {
 // API call to get applicant details 
 export const getApplicantDetails = async (token) => { 
   try { 
-  const response = await fetch(
+  const response = await fetch( 
     "https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/applicant/details",
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-    }
-  ); 
+    { 
+      method: "GET", 
+      headers: { 
+        Authorization: `Bearer ${token}`, 
+        "Content-Type": "application/json", 
+      }, 
+    } 
+  );  
  
   // Log response status for debugging 
   console.log('Response status:', response.status); 

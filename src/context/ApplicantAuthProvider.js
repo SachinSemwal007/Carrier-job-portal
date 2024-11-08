@@ -1,46 +1,46 @@
-import { applicantLogIn, applicantSignUp } from "@/api"; // Import API functions
-import React, { createContext, useContext, useState, useEffect } from "react";
-
-const ApplicantAuthContext = createContext();
-
-export const useApplicantAuth = () => useContext(ApplicantAuthContext);
-
-export const ApplicantAuthProvider = ({ children }) => {
-  const [applicant, setApplicant] = useState(null);
-
+import { applicantLogIn, applicantSignUp } from "@/api"; // Import API functions 
+import React, { createContext, useContext, useState, useEffect } from "react"; 
+ 
+const ApplicantAuthContext = createContext(); 
+ 
+export const useApplicantAuth = () => useContext(ApplicantAuthContext); 
+ 
+export const ApplicantAuthProvider = ({ children }) => { 
+  const [applicant, setApplicant] = useState(null); 
+ 
   // Function to fetch applicant details from the server
-  const getApplicantDetails = async (token) => {
+  const getApplicantDetails = async (token) => { 
     try {
       const response = await fetch("https://9dwb3ngewc.execute-api.ap-south-1.amazonaws.com/dev/api/applicant/details", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-
-      console.log("Response status:", response.status);
-      if (!response.ok) {
-        const errorData = await response.text();
-        console.error("Error response from server:", errorData);
-        throw new Error("Failed to fetch applicant details.");
-      }
-
-      const data = await response.json();
-      return data;
-    } catch (error) {
-      console.error("Error in getApplicantDetails:", error);
-      throw error;
-    }
-  };
-
-  // Function to check for a saved token and fetch applicant details
-  const fetchApplicantDetails = async () => {
-    const token = localStorage.getItem("applicantToken");
-    if (!token) return;
-
-    try {
-      const applicantData = await getApplicantDetails(token); 
+        method: "GET", 
+        headers: { 
+          Authorization: `Bearer ${token}`, 
+          "Content-Type": "application/json", 
+        }, 
+      }); 
+ 
+      console.log("Response status:", response.status); 
+      if (!response.ok) { 
+        const errorData = await response.text(); 
+        console.error("Error response from server:", errorData); 
+        throw new Error("Failed to fetch applicant details."); 
+      } 
+ 
+      const data = await response.json(); 
+      return data; 
+    } catch (error) { 
+      console.error("Error in getApplicantDetails:", error); 
+      throw error; 
+    } 
+  }; 
+ 
+  // Function to check for a saved token and fetch applicant details 
+  const fetchApplicantDetails = async () => { 
+    const token = localStorage.getItem("applicantToken"); 
+    if (!token) return; 
+ 
+    try { 
+      const applicantData = await getApplicantDetails(token);  
       if (applicantData && applicantData.name) { 
         setApplicant(applicantData); 
       } else { 
@@ -89,27 +89,27 @@ export const ApplicantAuthProvider = ({ children }) => {
     } 
   }; 
  
-  // Applicant Logout function
-  const applicantLogout = () => {
-    localStorage.removeItem("applicantToken");
-    setApplicant(null);
-  };
-
-  const checkUser = () => {
-    if (applicant?.name) {
-      console.log(`Welcome, ${applicant.name}`);
-    } else {
-      console.error("Applicant details are missing.");
-    }
-  };
-
-  const value = {
-    applicant,
-    applicantLogin,
-    applicantSignup,
-    applicantLogout,
-    checkUser,
-  };
-
-  return <ApplicantAuthContext.Provider value={value}>{children}</ApplicantAuthContext.Provider>;
-};
+  // Applicant Logout function 
+  const applicantLogout = () => { 
+    localStorage.removeItem("applicantToken"); 
+    setApplicant(null); 
+  }; 
+ 
+  const checkUser = () => { 
+    if (applicant?.name) { 
+      console.log(`Welcome, ${applicant.name}`); 
+    } else { 
+      console.error("Applicant details are missing."); 
+    } 
+  }; 
+ 
+  const value = { 
+    applicant, 
+    applicantLogin, 
+    applicantSignup, 
+    applicantLogout, 
+    checkUser, 
+  }; 
+ 
+  return <ApplicantAuthContext.Provider value={value}>{children}</ApplicantAuthContext.Provider>; 
+}; 
