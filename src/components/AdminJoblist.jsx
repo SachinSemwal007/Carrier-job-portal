@@ -1,15 +1,15 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import { getJobPosts } from "../api";
+"use client"; 
+import React, { useState, useEffect } from "react"; 
+import { getJobPosts } from "../api"; 
 import AdminJobCard from "./AdminJobCard"; // Make sure AdminJobCard supports props for edit and delete actions
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Font Awesome icons
 import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons"; // Edit and delete icons
 
 const AdminJobList = () => {
   const [jobs, setJobs] = useState([]);
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(""); 
   const [filters, setFilters] = useState({ location: "", experience: "", salary: "" });
-  const [sort, setSort] = useState("desc");
+  const [sort, setSort] = useState("desc"); 
   const [page, setPage] = useState(1);
 
   const fetchJobs = async () => {

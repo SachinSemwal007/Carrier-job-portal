@@ -1,7 +1,7 @@
-// components/ApplicantLogin.jsx
+// components/ApplicantLogin.jsx 
 "use client";
 import { useState } from "react";
-import { useApplicantAuth } from "@/context/ApplicantAuthProvider"; // Adjust the import path accordingly
+import { useApplicantAuth } from "@/context/ApplicantAuthProvider"; 
 import { useRouter } from "next/navigation";
 import Link from "next/link"; // Import Link from Next.js
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Navbar from "@/components/Navbar"; // Assuming you have a Navbar component
 import Footer from "@/components/Footer"; // Assuming you have a Footer component
 import Image from "next/image";
-
+ 
 const ApplicantLogin = () => {
   const { applicantLogin } = useApplicantAuth();
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -17,32 +17,32 @@ const ApplicantLogin = () => {
   const router = useRouter();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value }); 
   };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const { email, password } = formData;
-
-    try {
-      const success = await applicantLogin(email, password);
-      if (success) {
-        setMessage("Login successful!");
+ 
+  const handleSubmit = async (e) => { 
+    e.preventDefault(); 
+    const { email, password } = formData; 
+ 
+    try { 
+      const success = await applicantLogin(email, password); 
+      if (success) { 
+        setMessage("Login successful!"); 
         router.push("/jobs"); // Redirect to a dashboard or another page
-      } else {
+      } else { 
         setMessage("Login failed. Please check your email and password.");
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
+      } 
+    } catch (error) { 
+      console.error("Error during login:", error); 
       setMessage("Login failed. Please try again.");
-    }
-  };
-
+    } 
+  }; 
+ 
   const handleRegisterClick = () => {
     router.push("/signup"); // Navigate to the signup page
   };
 
-  return (
+  return ( 
     <div className="flex flex-col  bg-gray-100">
       <main className="flex-grow container mx-auto flex flex-col items-center justify-center p-4">
         <div className="w-full max-w-md bg-white p-8 rounded-md shadow-xl">
@@ -112,8 +112,8 @@ const ApplicantLogin = () => {
           </div>
         </div>
       </main>
-    </div>
-  );
-};
-
-export default ApplicantLogin;
+    </div> 
+  ); 
+}; 
+ 
+export default ApplicantLogin; 

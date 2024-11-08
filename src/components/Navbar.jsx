@@ -1,5 +1,5 @@
-"use client";
-import React, { useEffect, useState } from "react";
+"use client"; 
+import React, { useEffect, useState } from "react"; 
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -9,10 +9,10 @@ import {
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { applicant, applicantLogout, checkUser } = useApplicantAuth();
-  // console.log(applicant);
-  const [loading, setLoading] = useState(true);
-
+  const { applicant, applicantLogout, checkUser } = useApplicantAuth(); 
+  // console.log(applicant); 
+  const [loading, setLoading] = useState(true); 
+ 
   useEffect(() => {
     const checkApplicant = async () => {
       try {
@@ -23,8 +23,8 @@ const Navbar = () => {
         setLoading(false); // Ensure loading state is updated
       }
     };
-
-    checkApplicant();
+ 
+    checkApplicant(); 
   }, [checkUser]);
 
   return (
@@ -107,10 +107,10 @@ const Navbar = () => {
   );
 };
 
-export default function HomeWrapper() {
-  return (
-    <ApplicantAuthProvider>
-      <Navbar />
-    </ApplicantAuthProvider>
-  );
-}
+export default function HomeWrapper() { 
+  return ( 
+    <ApplicantAuthProvider> 
+      <Navbar /> 
+    </ApplicantAuthProvider> 
+  ); 
+} 

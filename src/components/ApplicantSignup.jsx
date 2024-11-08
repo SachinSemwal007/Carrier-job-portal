@@ -1,19 +1,19 @@
 "use client";
-
+ 
 import { useState } from "react";
 import { useApplicantAuth } from "@/context/ApplicantAuthProvider";
 import Footer from "./Footer";
 import Image from "next/image";
 import Link from "next/link";
-
-const ApplicantSignup = () => {
-  const { applicantSignup } = useApplicantAuth();
-  const [formData, setFormData] = useState({
-    name: "",
+ 
+const ApplicantSignup = () => { 
+  const { applicantSignup } = useApplicantAuth(); 
+  const [formData, setFormData] = useState({ 
+    name: "", 
     email: "",
     password: "",
     confirmPassword: "",
-  });
+  }); 
   const [message, setMessage] = useState("");
   const [passwordStrength, setPasswordStrength] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -44,8 +44,8 @@ const ApplicantSignup = () => {
       setPasswordError("");
     }
   };
-
-  const handleChange = (e) => {
+ 
+  const handleChange = (e) => { 
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
 
@@ -53,10 +53,10 @@ const ApplicantSignup = () => {
     if (name === "password") {
       checkPasswordStrength(value);
     }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  }; 
+ 
+  const handleSubmit = async (e) => { 
+    e.preventDefault(); 
     const { name, email, password, confirmPassword } = formData;
 
     if (passwordError) {
@@ -69,29 +69,29 @@ const ApplicantSignup = () => {
       return;
     }
 
-    try {
+    try { 
       const success = await applicantSignup(name, email, password);
-      if (success) {
+      if (success) { 
         setMessage("Signup successful! Please check your email to verify your account.");
-        setFormData({
-          name: "",
+        setFormData({ 
+          name: "", 
           email: "",
           password: "",
           confirmPassword: "",
-        });
-      } else {
+        }); 
+      } else { 
         setMessage("Signup failed. Please check the form and try again.");
-      }
-    } catch (error) {
+      } 
+    } catch (error) { 
       setMessage(
         error.message.includes("Applicant already exists")
           ? "Email already in use. Please use a different email."
           : "Signup failed. Error: " + error.message
       );
-    }
-  };
-
-  return (
+    } 
+  }; 
+ 
+  return ( 
     <div className="flex flex-col min-h-screen bg-gray-100">
       <main className="flex-grow container mx-auto p-6 sm:p-8">
         <div className="flex flex-col sm:flex-row items-center lg:justify-between mt-0 mb-6">
@@ -104,11 +104,11 @@ const ApplicantSignup = () => {
               quality={100}
               className="w-1/3 mt-20 sm:w-1/2 lg:w-3/5 h-auto mb-1"
             />
-            <h2 className="text-[26px] sm:text-[36px] lg:text-[40px] font-extrabold text-gray-800 whitespace-nowrap">
-              JSSPS Career Portal
+            <h2 className="text-[26px] sm:text-[36px] lg:text-[40px] font-extrabold text-gray-800 whitespace-nowrap"> 
+              JSSPS Career Portal 
             </h2>
             <h4 className="text-base sm:text-lg lg:text-xl font-semibold text-gray-600">
-              (A CCL and State Govt. of Jharkhand Joint Initiative)
+              (A CCL and State Govt. of Jharkhand Joint Initiative) 
             </h4>
           </div>
 
@@ -211,8 +211,8 @@ const ApplicantSignup = () => {
         </p>
       </div>
       <Footer />
-    </div>
-  );
-};
-
-export default ApplicantSignup;
+    </div> 
+  ); 
+}; 
+ 
+export default ApplicantSignup; 

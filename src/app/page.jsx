@@ -1,11 +1,11 @@
-"use client";
-import React from "react";
+"use client"; 
+import React from "react"; 
 import Image from "next/image";
 import NewVacancyBanner from "../components/NewVacancyBanner";
-import {
-  useApplicantAuth,
-  ApplicantAuthProvider,
-} from "@/context/ApplicantAuthProvider";
+import { 
+  useApplicantAuth, 
+  ApplicantAuthProvider, 
+} from "@/context/ApplicantAuthProvider"; 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Head from "next/head";
@@ -19,20 +19,20 @@ const Home = () => {
     { title: "Assistant Coach", location: "Houston", url: "/vacancies/5" },
   ];
 
-  return (
-    <>
-      <Head>
-        <title>JSSPS Careers</title>
-        <link
-          rel="icon"
-          href="/JSSPS-Logo.png"
-          sizes="32x32"
-          type="image/png"
-        />
-      </Head>
-      <div className="bg-gray-100 min-h-screen flex flex-col">
-         {/* <Navbar />  */}
-        <main className="flex-grow container mx-auto p-6 sm:p-8">
+  return ( 
+    <> 
+      <Head> 
+        <title>JSSPS Careers</title> 
+        <link 
+          rel="icon" 
+          href="/JSSPS-Logo.png" 
+          sizes="32x32" 
+          type="image/png" 
+        /> 
+      </Head> 
+      <div className="bg-gray-100 min-h-screen flex flex-col"> 
+         {/* <Navbar />  */} 
+        <main className="flex-grow container mx-auto p-6 sm:p-8"> 
           {/* Flex container for logo/text and login */}
           <div className="flex flex-col sm:flex-row items-center lg: justify-between mt-0 mb-6">
             {/* Logo and text section */}
@@ -56,8 +56,8 @@ const Home = () => {
             <div className="w-full sm:w-1/2 lg:w-2/5 mb-6">
               <ApplicantLogin />
             </div>
-          </div>
-        </main>
+          </div> 
+        </main> 
         <div className="bg-[#252425] py-3 px-2 text-center">
           <p className="text-[16px] sm:text-[20px] font-bold text-yellow-500">
             Application are being Invited For Various Coach Positions at JSSPS.<br/>
@@ -81,11 +81,11 @@ const Home = () => {
  
 //export default Home;
 
-// Wrap the App component with AuthProvider so the context is available throughout the app
-export default function HomeWrapper() {
-  return (
-    <ApplicantAuthProvider>
-      <Home />
-    </ApplicantAuthProvider>
-  );
-}
+// Wrap the App component with AuthProvider so the context is available throughout the app 
+export default function HomeWrapper() { 
+  return ( 
+    <ApplicantAuthProvider> 
+      <Home /> 
+    </ApplicantAuthProvider> 
+  ); 
+} 
