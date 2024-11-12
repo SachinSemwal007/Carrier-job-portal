@@ -11,14 +11,14 @@ import Footer from "@/components/Footer";
 import Head from "next/head";
 import ApplicantLogin from "@/components/ApplicantLogin";
 import Howtoapply from "@/components/Howtoapply";
-
+ 
 const Home = () => {
   const vacancies = [
     { title: "Head Coach", location: "Chicago", url: "/vacancies/1" },
     { title: "Coach", location: "Miami", url: "/vacancies/4" },
     { title: "Assistant Coach", location: "Houston", url: "/vacancies/5" },
   ];
-
+ 
   return ( 
     <> 
       <Head> 
