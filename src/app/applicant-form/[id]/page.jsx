@@ -4,12 +4,12 @@ import ApplyForm from '@/components/ApplyForm'; // Adjust the import path as nec
 
 import { useParams } from 'next/navigation'; // Use App Router's `useParams`
 
-const ApplicantFormPage = ({params}) => {
+const ApplicantFormPage = ({params}) => { 
   const { id } = useParams(); // Get the job ID from the URL
 
   return (
     <div>
-      <ApplyForm jobId={id} params={params} /> {/* Pass the job ID to the ApplyForm */}
+      <ApplyForm jobId={id} params={params} /> {/* Pass the job ID to the ApplyForm */} 
     </div>
   );
 };
