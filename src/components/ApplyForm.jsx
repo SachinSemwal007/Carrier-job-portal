@@ -31,7 +31,7 @@ const ApplyForm = ({ params }) => {
   console.log(applicant);
   const { id } = params; // Job ID from the URL
   const [job, setJob] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); 
   const [showPreview, setShowPreview] = useState(false); //state for Preview
   // console.log(applicant);
   const [firstName, setFirstName] = useState("");
@@ -374,142 +374,142 @@ const ApplyForm = ({ params }) => {
   }
 
   // Handle Submit
-  const handleDraft = async (e) => {
-    e.preventDefault();
+  const handleDraft = async (e) => { 
+    e.preventDefault(); 
 
-    // Check for required fields
-    if (
-      !sport ||
-      !document.getElementById("passportPhotoInput").files[0] ||
-      !document.getElementById("certificationInput").files[0] ||
-      !document.getElementById("signatureInput").files[0]
-    ) {
-      alert(
-        "Please ensure that Sports, Passport Photo, Certification, and Signature files are uploaded before saving as draft."
-      );
-      return;
-    }
-    const applicantId = applicant.id;
-    const applicationId = jobTitle;
-    const booleanIsHandicapped = isHandicapped === "Yes";
-    const booleanIsExService = isExService === "Yes";
-
-    // Adjusting fields for courses, experiences, and references
-    const adjustedCourses = courses.map((course) => ({
-      name: course.courseName,
-      specialSubject: course.specialSubject,
-      yearOfPassing: Number(course.yearOfPassing),
-      duration: Number(course.duration),
-      gradeDivision: course.gradeDivision,
-      percent: Number(course.percent),
-      instituteName: course.instituteName,
-    }));
-
-    const adjustedExperiences = experiences.map((experience) => ({
-      title: experience.post,
-      company: experience.orgName,
-      years: calculateYearsDifference(experience.fromDate, experience.tillDate),
-      jobType: experience.jobType,
-      fromDate: experience.fromDate,
-      post: experience.post,
-      tillDate: experience.tillDate,
-      natureOfDuties: experience.natureOfDuties,
-    }));
-
-    const adjustedReferences = references.map((reference) => ({
-      name: reference.refName,
-      relation: reference.refRelation || "",
-      contact: reference.refContact,
-    }));
-
-    const files = {
-      passportPhoto: document.getElementById("passportPhotoInput").files[0],
-      certification: document.getElementById("certificationInput").files[0],
-      signature: document.getElementById("signatureInput").files[0],
-    };
-
-    const formData = {
-      applicationId,
-      applicantId,
-      sport,
-      firstName,
-      middleName,
-      lastName,
-      contact,
-      fhName,
-      email,
-      gender,
-      dob,
-      maritalStatus,
-      address,
-      pincode,
-      country,
-      state,
-      district,
-      isHandicapped: booleanIsHandicapped,
-      isExService: booleanIsExService,
-      community,
-      matriculationYear: Number(matriculationYear),
-      matriculationGrade,
-      matriculationPercentage: Number(matriculationPercentage),
-      matriculationBoard,
-      interYear: Number(interYear),
-      interGrade,
-      interPercentage: Number(interPercentage),
-      interBoard,
-      bachelorYear: Number(bachelorYear),
-      bachelorCourse,
-      bachelorSpecialization,
-      bachelorGrade,
-      bachelorPercentage: Number(bachelorPercentage),
-      bachelorUniversity,
-      masterYear: Number(masterYear),
-      masterCourse,
-      masterSpecialization,
-      masterGrade,
-      masterPercentage: Number(masterPercentage),
-      masterUniversity,
-      courses: adjustedCourses,
-      experiences: adjustedExperiences,
-      references: adjustedReferences,
-      achievement,
-      description,
-      submitted: false,
-      jobId: id,
-    };
-
-    try {
-      // Get pre-signed URLs for the files
-      const urls = await applyForJob(id, formData);
-
-      // Upload files to the pre-signed URLs
-      const uploadPromises = [];
-
-      if (files.passportPhoto) {
-        uploadPromises.push(
-          uploadFileToS3(urls.passportPhotoUrl, files.passportPhoto)
-        );
-      }
-      if (files.certification) {
-        uploadPromises.push(
-          uploadFileToS3(urls.certificationUrl, files.certification)
-        );
-      }
-      if (files.signature) {
-        uploadPromises.push(uploadFileToS3(urls.signatureUrl, files.signature));
-      }
-
-      // Wait for all file uploads to complete
-      await Promise.all(uploadPromises);
-
-      alert("Application saved as draft successfully!");
-      router.push("/jobs"); // Redirect to the desired page after submission
-    } catch (error) {
-      console.error("Error during application submission:", error);
-      alert("An error occurred. Please try again.");
-    }
-  };
-  // console.log(sport);
+    // Check for required fields 
+    if ( 
+      !sport || 
+      !document.getElementById("passportPhotoInput").files[0] || 
+      !document.getElementById("certificationInput").files[0] || 
+      !document.getElementById("signatureInput").files[0] 
+    ) { 
+      alert( 
+        "Please ensure that Sports, Passport Photo, Certification, and Signature files are uploaded before saving as draft." 
+      ); 
+      return; 
+    } 
+    const applicantId = applicant.id; 
+    const applicationId = jobTitle; 
+    const booleanIsHandicapped = isHandicapped === "Yes"; 
+    const booleanIsExService = isExService === "Yes"; 
+ 
+    // Adjusting fields for courses, experiences, and references 
+    const adjustedCourses = courses.map((course) => ({ 
+      name: course.courseName, 
+      specialSubject: course.specialSubject, 
+      yearOfPassing: Number(course.yearOfPassing), 
+      duration: Number(course.duration), 
+      gradeDivision: course.gradeDivision, 
+      percent: Number(course.percent), 
+      instituteName: course.instituteName, 
+    })); 
+ 
+    const adjustedExperiences = experiences.map((experience) => ({ 
+      title: experience.post, 
+      company: experience.orgName, 
+      years: calculateYearsDifference(experience.fromDate, experience.tillDate), 
+      jobType: experience.jobType, 
+      fromDate: experience.fromDate, 
+      post: experience.post, 
+      tillDate: experience.tillDate, 
+      natureOfDuties: experience.natureOfDuties, 
+    })); 
+ 
+    const adjustedReferences = references.map((reference) => ({ 
+      name: reference.refName, 
+      relation: reference.refRelation || "",  
+      contact: reference.refContact, 
+    })); 
+ 
+    const files = { 
+      passportPhoto: document.getElementById("passportPhotoInput").files[0], 
+      certification: document.getElementById("certificationInput").files[0], 
+      signature: document.getElementById("signatureInput").files[0], 
+    }; 
+ 
+    const formData = { 
+      applicationId, 
+      applicantId, 
+      sport, 
+      firstName, 
+      middleName, 
+      lastName, 
+      contact, 
+      fhName, 
+      email, 
+      gender, 
+      dob, 
+      maritalStatus, 
+      address, 
+      pincode, 
+      country, 
+      state, 
+      district, 
+      isHandicapped: booleanIsHandicapped, 
+      isExService: booleanIsExService, 
+      community, 
+      matriculationYear: Number(matriculationYear), 
+      matriculationGrade, 
+      matriculationPercentage: Number(matriculationPercentage), 
+      matriculationBoard, 
+      interYear: Number(interYear), 
+      interGrade, 
+      interPercentage: Number(interPercentage), 
+      interBoard, 
+      bachelorYear: Number(bachelorYear), 
+      bachelorCourse, 
+      bachelorSpecialization, 
+      bachelorGrade, 
+      bachelorPercentage: Number(bachelorPercentage), 
+      bachelorUniversity, 
+      masterYear: Number(masterYear), 
+      masterCourse, 
+      masterSpecialization, 
+      masterGrade, 
+      masterPercentage: Number(masterPercentage), 
+      masterUniversity, 
+      courses: adjustedCourses, 
+      experiences: adjustedExperiences, 
+      references: adjustedReferences, 
+      achievement, 
+      description, 
+      submitted: false, 
+      jobId: id, 
+    }; 
+ 
+    try { 
+      // Get pre-signed URLs for the files 
+      const urls = await applyForJob(id, formData); 
+ 
+      // Upload files to the pre-signed URLs 
+      const uploadPromises = []; 
+ 
+      if (files.passportPhoto) { 
+        uploadPromises.push( 
+          uploadFileToS3(urls.passportPhotoUrl, files.passportPhoto) 
+        ); 
+      } 
+      if (files.certification) { 
+        uploadPromises.push( 
+          uploadFileToS3(urls.certificationUrl, files.certification) 
+        ); 
+      } 
+      if (files.signature) { 
+        uploadPromises.push(uploadFileToS3(urls.signatureUrl, files.signature)); 
+      } 
+ 
+      // Wait for all file uploads to complete 
+      await Promise.all(uploadPromises); 
+ 
+      alert("Application saved as draft successfully!"); 
+      router.push("/jobs"); // Redirect to the desired page after submission 
+    } catch (error) { 
+      console.error("Error during application submission:", error); 
+      alert("An error occurred. Please try again."); 
+    } 
+  }; 
+  // console.log(sport); 
 
   const uploadFileToS3 = async (url, file) => {
     const response = await fetch(url, {
@@ -644,7 +644,7 @@ const ApplyForm = ({ params }) => {
   // };
 
   const handleSubmit = async (e) => {
-    setLoading(true);
+    setLoading(true); 
     e.preventDefault();
     const applicantId = applicant.id;
     const applicationId = jobTitle;
@@ -760,7 +760,7 @@ const ApplyForm = ({ params }) => {
       await Promise.all(uploadPromises);
 
       alert("Application submitted successfully!");
-      setLoading(false);
+      setLoading(false); 
       router.push("/jobs"); // Redirect to the desired page after submission
     } catch (error) {
       console.error("Error during application submission:", error);
