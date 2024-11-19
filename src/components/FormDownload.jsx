@@ -160,31 +160,50 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
 
       let heightLeft = imgHeight;
       let position = 0;
+      let pageCount = 0;
 
       // Add the captured image content to PDF
       while (heightLeft > 0) {
-        const pageHeight = Math.min(heightLeft, pdfHeight); // Height that fits on the page
-        pdf.addImage(imgData, "JPEG", 0, position, imgWidth, pageHeight);
-        heightLeft -= pageHeight; // Decrease remaining height
-        position = -heightLeft; // Move position for next page
+        // const pageHeight = Math.min(heightLeft, pdfHeight); // Height that fits on the page
+        // pdf.addImage(imgData, "JPEG", 0, position, imgWidth, pageHeight);
+        // heightLeft -= pageHeight; // Decrease remaining height
+        // position = -heightLeft; // Move position for next page
+        const sourceY = pageCount * pdfHeight * (canvas.height / imgHeight); // Pixel position in canvas
+        const pageCanvas = document.createElement("canvas");
+        pageCanvas.width = canvas.width;
+        pageCanvas.height = (pdfHeight * canvas.height) / imgHeight;
+
+        const pageCtx = pageCanvas.getContext("2d");
+        pageCtx.drawImage(canvas, 0, sourceY, canvas.width, pageCanvas.height, 0, 0, pageCanvas.width, pageCanvas.height);
+  
+        const pageImgData = pageCanvas.toDataURL("image/jpeg", 1.0);
 
         // Only add a new page if there is more content
-        if (heightLeft > 0) {
-          pdf.addPage();
-        }
-      }
+      //   if (heightLeft > 0) {
+      //     pdf.addPage();
+      //   }
+      // }
+      if (pageCount > 0) pdf.addPage();
+      pdf.addImage(pageImgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
+
+      heightLeft -= pdfHeight;
+      pageCount++;
+    }
 
       // === Add Clickable Link to PDF ===
       const linkText = "View certificate"; // Replace with your link text
       const linkUrl = getStringBeforeQuestionMark(certification); // Replace with your actual URL
 
+       // Get the current position after the content
+       const lastPageHeight = pdf.internal.pageSize.getHeight(); 
+
       // Set link position in the top-right corner
-      const linkX = pdfWidth - pdf.getTextWidth(linkText) - 10; // 10 is for some padding from the right
-      const linkY = 10; // Top margin
+      //const linkX = pdfWidth - pdf.getTextWidth(linkText) - 10; // 10 is for some padding from the right
+      const linkY = lastPageHeight - 10; // Top margin
 
       // Add link text and create clickable area
-      pdf.text(linkText, linkX, linkY);
-      pdf.link(linkX, linkY - 3, pdf.getTextWidth(linkText), 10, {
+      pdf.text(linkText, 10, linkY);
+      pdf.link(10, linkY - 3, pdf.getTextWidth(linkText), 10, {
         url: linkUrl,
         target: "_blank", // Suggest to open in new tab (Note: some PDF viewers may not support this)
       });
@@ -238,6 +257,7 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
       size="lg"
       className=" max-w-6xl mx-auto my-4 p-5 bg-white shadow-lg rounded-lg w-full sm:w-[90vw] md:w-[80vw]  h-[100svh] overflow-hidden"
       // id="modal-content"
+     // overflowY="auto"
     >
       <Modal.Header
         className="flex flex-col  border-b-2 border-gray-200 p-4 w-full bg-white z-10 rounded-t-lg"
@@ -339,7 +359,7 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
         </div>
 
         {/* Matriculation Section */}
-        <h4 className="text-xl font-semibold mt-4">Matriculation</h4>
+        <h4 className="text-xl font-semibold mt-4 mb-2">Matriculation</h4>
         <div className="overflow-x-auto">
           <table className="min-w-full table-auto border-collapse border border-gray-300">
             <thead>
@@ -370,7 +390,7 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
         </div>
 
         {/* Intermediate Section */}
-        <h4 className="text-xl font-semibold mt-4">Intermediate/+2</h4>
+        <h4 className="text-xl font-semibold mt-4 mb-2">Intermediate/+2</h4>
         <div className="overflow-x-auto">
           <table className="min-w-full table-auto border-collapse border border-gray-300">
             <thead>
@@ -395,7 +415,7 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
         </div>
 
         {/* Bachelor Section */}
-        <h4 className="text-xl font-semibold mt-4">
+        <h4 className="text-xl font-semibold mt-4 mb-2">
           Bachelor Degree/Graduation/(10+2+3)
         </h4>
         <div className="overflow-x-auto">
@@ -430,7 +450,7 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
         </div>
 
         {/* Master Section */}
-        <h4 className="text-xl font-semibold mt-4">
+        <h4 className="text-xl font-semibold mt-4 mb-2">
           Master Degree/Post Graduation/(10+2+3+2)
         </h4>
         <div className="overflow-x-auto">
@@ -465,7 +485,7 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
         </div>
 
         {/* Professional Course Details */}
-        <h4 className="text-xl font-semibold mt-4">
+        <h4 className="text-xl font-semibold mt-4 mb-2">
           Professional Qualification/Diploma/Certificate Course
         </h4>
         {courses && courses.length > 0 ? (
@@ -524,7 +544,7 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
         )}
 
         {/* Experience Section */}
-        <h4 className="text-xl font-semibold mt-4">Experience</h4>
+        <h4 className="text-xl font-semibold mt-4 mb-2">Experience</h4>
         {experiences && experiences.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="min-w-full table-auto border-collapse border border-gray-300">
