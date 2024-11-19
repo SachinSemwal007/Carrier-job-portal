@@ -239,7 +239,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
       <div className="border mt-4 p-2 rounded-lg overflow-hidden bg-gray-100 transition-all duration-300"> 
         <h2 
           className="text-md font-semibold mb-2 flex items-center cursor-pointer" 
-          onClick={handleToggleApplicants} 
+          //onClick={handleToggleApplicants} 
         > 
           {showApplicants ? ( 
             <> 
