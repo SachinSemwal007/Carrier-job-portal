@@ -236,7 +236,7 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
       show={show}
       onHide={handleClose}
       size="lg"
-      className=" max-w-6xl mx-auto my-4 p-5 bg-white shadow-lg rounded-lg w-full sm:w-[90vw] md:w-[80vw] lg:w-[60vw] xl:w-[50vw] h-[100svh] overflow-hidden"
+      className=" max-w-6xl mx-auto my-4 p-5 bg-white shadow-lg rounded-lg w-full sm:w-[90vw] md:w-[80vw]  h-[100svh] overflow-hidden"
       // id="modal-content"
     >
       <Modal.Header

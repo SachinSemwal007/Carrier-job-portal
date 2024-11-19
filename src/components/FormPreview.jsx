@@ -133,7 +133,7 @@ const FormPreview = ({
       show={show}
       onHide={handleClose}
       size="lg"
-      className=" max-w-6xl mx-auto my-4 p-5 bg-white shadow-lg rounded-lg w-full sm:w-[90vw] md:w-[80vw] lg:w-[60vw] xl:w-[50vw] h-[100svh] overflow-hidden"
+      className=" max-w-6xl mx-auto my-4 p-5 bg-white shadow-lg rounded-lg w-full sm:w-[90vw] md:w-[80vw] h-[100svh] overflow-hidden"
     >
       <Modal.Header
         className="flex flex-col  border-b-2 border-gray-200 p-4 w-full bg-white z-10 rounded-t-lg"
