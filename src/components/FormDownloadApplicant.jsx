@@ -135,78 +135,114 @@ const FormDownloadApp = ({ show, handleClose, applicant }) => {
     return `${day}${ordinalSuffix} ${month} ${year}`; 
   } 
  
-  const handleDownloadPDF = () => { 
-    const modalHeader = document.getElementById("modal-header"); 
-    const modalContent = document.getElementById("modal-content"); 
- 
-    // Reset styles to capture full content 
-    modalContent.style.height = "auto"; 
-    modalContent.style.maxHeight = "none"; 
-    modalContent.style.overflow = "visible"; 
- 
-    // Create a temporary wrapper for capturing the content 
-    const wrapper = document.createElement("div"); 
-    wrapper.style.width = modalContent.clientWidth + "px"; // Ensure the wrapper width matches modal 
-    wrapper.appendChild(modalHeader.cloneNode(true)); 
-    wrapper.appendChild(modalContent.cloneNode(true)); 
-    document.body.appendChild(wrapper); 
- 
-    // Use html2canvas to capture the content 
-    html2canvas(wrapper, { 
-      scale: 2, // Adjust scale if needed for better quality 
-      useCORS: true, // Handle cross-origin issues for images 
-      scrollY: 0, 
-      scrollX: 0, 
-    }).then((canvas) => { 
-      const imgData = canvas.toDataURL("image/jpeg", 1.0); 
-      const pdf = new jsPDF("p", "mm", "a4"); 
-      const pdfWidth = pdf.internal.pageSize.getWidth(); 
-      const pdfHeight = pdf.internal.pageSize.getHeight(); 
- 
-      const imgWidth = pdfWidth; 
-      const imgHeight = (canvas.height * pdfWidth) / canvas.width; 
- 
-      let heightLeft = imgHeight; 
-      let position = 0; 
- 
-      // Add the captured image content to PDF 
-      while (heightLeft > 0) { 
-        const pageHeight = Math.min(heightLeft, pdfHeight); // Height that fits on the page 
-        pdf.addImage(imgData, "JPEG", 0, position, imgWidth, pageHeight); 
-        heightLeft -= pageHeight; // Decrease remaining height 
-        position = -heightLeft; // Move position for next page 
- 
-        // Only add a new page if there is more content 
-        if (heightLeft > 0) { 
-          pdf.addPage(); 
-        } 
-      } 
- 
-      // === Add Clickable Link to PDF === 
-      const linkText = "View certificate"; // Replace with your link text 
-      const linkUrl = getStringBeforeQuestionMark(certification); // Replace with your actual URL 
- 
-      // Set link position in the top-right corner 
-      const linkX = pdfWidth - pdf.getTextWidth(linkText) - 10; // 10 is for some padding from the right 
-      const linkY = 10; // Top margin 
- 
-      // Add link text and create clickable area 
-      pdf.text(linkText, linkX, linkY); 
-      pdf.link(linkX, linkY - 3, pdf.getTextWidth(linkText), 10, { 
-        url: linkUrl, 
-        target: "_blank", // Suggest to open in new tab (Note: some PDF viewers may not support this) 
-      }); 
- 
-      // === Restore original modal styles === 
-      modalContent.style.height = ""; 
-      modalContent.style.maxHeight = ""; 
-      modalContent.style.overflow = "auto"; 
-      document.body.removeChild(wrapper); 
- 
-      // Save the PDF 
-      pdf.save(id); 
-    }); 
-  }; 
+  const handleDownloadPDF = () => {
+    const modalHeader = document.getElementById("modal-header");
+    const modalContent = document.getElementById("modal-content");
+
+    // Reset styles to capture full content
+    modalContent.style.height = "auto";
+    modalContent.style.maxHeight = "none";
+    modalContent.style.overflow = "visible";
+
+    // Create a temporary wrapper for capturing the content
+    const wrapper = document.createElement("div");
+    wrapper.style.width = modalContent.clientWidth + "px"; // Ensure the wrapper width matches modal
+    wrapper.appendChild(modalHeader.cloneNode(true));
+    wrapper.appendChild(modalContent.cloneNode(true));
+    document.body.appendChild(wrapper);
+
+    // Use html2canvas to capture the content
+    html2canvas(wrapper, {
+      scale: 2, // Adjust scale if needed for better quality
+      useCORS: true, // Handle cross-origin issues for images
+      scrollY: 0,
+      scrollX: 0,
+    }).then((canvas) => {
+      const imgData = canvas.toDataURL("image/jpeg", 1.0);
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+
+      const imgWidth = pdfWidth;
+      const imgHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = 0;
+      let pageCount = 0;
+
+      // Add the captured image content to PDF
+      while (heightLeft > 0) {
+        // const pageHeight = Math.min(heightLeft, pdfHeight); // Height that fits on the page
+        // pdf.addImage(imgData, "JPEG", 0, position, imgWidth, pageHeight);
+        // heightLeft -= pageHeight; // Decrease remaining height
+        // position = -heightLeft; // Move position for next page
+        const sourceY = pageCount * pdfHeight * (canvas.height / imgHeight); // Pixel position in canvas
+        const pageCanvas = document.createElement("canvas");
+        pageCanvas.width = canvas.width;
+        //pageCanvas.height = (pdfHeight * canvas.height) / imgHeight;
+        const sliceHeight =
+        heightLeft < pdfHeight
+            ? (heightLeft * canvas.height) / imgHeight
+            : (pdfHeight * canvas.height) / imgHeight;
+    pageCanvas.height = sliceHeight;
+
+        const pageCtx = pageCanvas.getContext("2d");
+        pageCtx.drawImage(canvas, 0, sourceY, canvas.width, sliceHeight, 0, 0, pageCanvas.width, sliceHeight);
+  
+        const pageImgData = pageCanvas.toDataURL("image/jpeg", 1.0);
+
+        // Only add a new page if there is more content
+      //   if (heightLeft > 0) {
+      //     pdf.addPage();
+      //   }
+      // }
+      if (pageCount > 0) pdf.addPage();
+      pdf.addImage(pageImgData, "JPEG", 0, position, imgWidth, (sliceHeight * imgWidth) / canvas.width);
+
+      heightLeft -= pdfHeight;
+      pageCount++;
+
+      //position = 5;
+    }
+
+      // === Add Clickable Link to PDF ===
+      const linkText = "View certificate"; // Replace with your link text
+      const linkUrl = getStringBeforeQuestionMark(certification); // Replace with your actual URL
+
+      if (heightLeft <= 0) {
+       // Get the current position after the content
+       const lastPageHeight = pdf.internal.pageSize.getHeight(); 
+       const lastContentY = position + imgHeight % pdfHeight;
+      // Set link position in the top-right corner
+      //const linkX = pdfWidth - pdf.getTextWidth(linkText) - 10; // 10 is for some padding from the right
+      // const linkY = lastPageHeight - 10; // Top margin
+      const linkY = Math.min(lastContentY + 10, pdfHeight - 10);
+
+      // Add link text and create clickable area
+      pdf.text(linkText, 10, linkY);
+      pdf.link(10, linkY - 3, pdf.getTextWidth(linkText), 10, {
+        url: linkUrl,
+        target: "_blank", // Suggest to open in new tab (Note: some PDF viewers may not support this)
+      });
+    }
+
+      // === Restore original modal styles ===
+      modalContent.style.height = "";
+      modalContent.style.maxHeight = "";
+      modalContent.style.overflow = "auto";
+      document.body.removeChild(wrapper);
+
+      // Save the PDF
+      pdf.save(id);
+
+       // Optional: Print the PDF directly
+    // pdf.autoPrint();
+    // window.open(pdf.output("bloburl"));
+    });
+  };
+
+
+
   function formatDate(isoDate) { 
     const date = new Date(isoDate); 
  
@@ -242,7 +278,7 @@ const FormDownloadApp = ({ show, handleClose, applicant }) => {
       show={show}
       onHide={handleClose}
       size="lg"
-      className="  mx-auto my-4 p-5 bg-white shadow-lg rounded-lg w-full   overflow-hidden"
+      className="  mx-auto my-4 p-5 bg-white shadow-lg rounded-lg w-full overflow-hidden"
       // id="modal-content"
     >
       <Modal.Header
@@ -344,7 +380,7 @@ const FormDownloadApp = ({ show, handleClose, applicant }) => {
         </div>
 
         {/* Matriculation Section */}
-        <h4 className="text-xl font-semibold mt-4">Matriculation</h4>
+        <h4 className="text-xl font-semibold mt-4 mb-2">Matriculation</h4>
         <div className="overflow-x-auto">
           <table className="min-w-full table-auto border-collapse border border-gray-300">
             <thead>
@@ -375,7 +411,7 @@ const FormDownloadApp = ({ show, handleClose, applicant }) => {
         </div>
 
         {/* Intermediate Section */}
-        <h4 className="text-xl font-semibold mt-4">Intermediate/+2</h4>
+        <h4 className="text-xl font-semibold mt-4 mb-2">Intermediate/+2</h4>
         <div className="overflow-x-auto">
           <table className="min-w-full table-auto border-collapse border border-gray-300">
             <thead>
@@ -400,7 +436,7 @@ const FormDownloadApp = ({ show, handleClose, applicant }) => {
         </div>
 
         {/* Bachelor Section */}
-        <h4 className="text-xl font-semibold mt-4">
+        <h4 className="text-xl font-semibold mt-4 mb-2">
           Bachelor Degree/Graduation/(10+2+3)
         </h4>
         <div className="overflow-x-auto">
@@ -435,7 +471,7 @@ const FormDownloadApp = ({ show, handleClose, applicant }) => {
         </div>
 
         {/* Master Section */}
-        <h4 className="text-xl font-semibold mt-4">
+        <h4 className="text-xl font-semibold mt-4 mb-2">
           Master Degree/Post Graduation/(10+2+3+2)
         </h4>
         <div className="overflow-x-auto">
@@ -470,7 +506,7 @@ const FormDownloadApp = ({ show, handleClose, applicant }) => {
         </div>
 
         {/* Professional Course Details */}
-        <h4 className="text-xl font-semibold mt-4">
+        <h4 className="text-xl font-semibold mt-4 mb-2">
           Professional Qualification/Diploma/Certificate Course
         </h4>
         {courses && courses.length > 0 ? (
@@ -529,7 +565,7 @@ const FormDownloadApp = ({ show, handleClose, applicant }) => {
         )}
 
         {/* Experience Section */}
-        <h4 className="text-xl font-semibold mt-4">Experience</h4>
+        <h4 className="text-xl font-semibold mt-4 mb-2">Experience</h4>
         {experiences && experiences.length > 0 ? (
           <div className="overflow-x-auto">
             <table className="min-w-full table-auto border-collapse border border-gray-300">

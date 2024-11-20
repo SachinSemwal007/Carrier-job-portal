@@ -127,6 +127,49 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
     return `${day}${ordinalSuffix} ${month} ${year}`;
   }
 
+  const handlePrint = () => {
+    const modalContent = document.getElementById("modal-content"); // Ensure this ID matches your modal's content container
+  
+    // Create a new window for printing
+    const printWindow = window.open("", "_blank");
+    printWindow.document.open();
+  
+    // Write the modal's content into the new window
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Print</title>
+          <style>
+            /* Add styles to format your content for printing */
+            body {
+              font-family: Arial, sans-serif;
+              margin: 20px;
+            }
+            #modal-content {
+              width: 100%;
+            }
+            /* Hide elements you don't want printed (e.g., buttons) */
+            .print-button {
+              display: none;
+            }
+          </style>
+        </head>
+        <body>
+          ${modalContent.innerHTML}
+        </body>
+      </html>
+    `);
+  
+    printWindow.document.close();
+  
+    // Trigger the browser's print dialog
+    printWindow.print();
+  
+    // Automatically close the print window after printing
+    printWindow.onafterprint = () => printWindow.close();
+  };
+  
+
   const handleDownloadPDF = () => {
     const modalHeader = document.getElementById("modal-header");
     const modalContent = document.getElementById("modal-content");
@@ -171,10 +214,15 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
         const sourceY = pageCount * pdfHeight * (canvas.height / imgHeight); // Pixel position in canvas
         const pageCanvas = document.createElement("canvas");
         pageCanvas.width = canvas.width;
-        pageCanvas.height = (pdfHeight * canvas.height) / imgHeight;
+        //pageCanvas.height = (pdfHeight * canvas.height) / imgHeight;
+        const sliceHeight =
+        heightLeft < pdfHeight
+            ? (heightLeft * canvas.height) / imgHeight
+            : (pdfHeight * canvas.height) / imgHeight;
+    pageCanvas.height = sliceHeight;
 
         const pageCtx = pageCanvas.getContext("2d");
-        pageCtx.drawImage(canvas, 0, sourceY, canvas.width, pageCanvas.height, 0, 0, pageCanvas.width, pageCanvas.height);
+        pageCtx.drawImage(canvas, 0, sourceY, canvas.width, sliceHeight, 0, 0, pageCanvas.width, sliceHeight);
   
         const pageImgData = pageCanvas.toDataURL("image/jpeg", 1.0);
 
@@ -184,22 +232,26 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
       //   }
       // }
       if (pageCount > 0) pdf.addPage();
-      pdf.addImage(pageImgData, "JPEG", 0, 0, pdfWidth, pdfHeight);
+      pdf.addImage(pageImgData, "JPEG", 0, position, imgWidth, (sliceHeight * imgWidth) / canvas.width);
 
       heightLeft -= pdfHeight;
       pageCount++;
+
+      //position = 5;
     }
 
       // === Add Clickable Link to PDF ===
       const linkText = "View certificate"; // Replace with your link text
       const linkUrl = getStringBeforeQuestionMark(certification); // Replace with your actual URL
 
+      if (heightLeft <= 0) {
        // Get the current position after the content
        const lastPageHeight = pdf.internal.pageSize.getHeight(); 
-
+       const lastContentY = position + imgHeight % pdfHeight;
       // Set link position in the top-right corner
       //const linkX = pdfWidth - pdf.getTextWidth(linkText) - 10; // 10 is for some padding from the right
-      const linkY = lastPageHeight - 10; // Top margin
+      // const linkY = lastPageHeight - 10; // Top margin
+      const linkY = Math.min(lastContentY + 10, pdfHeight - 10);
 
       // Add link text and create clickable area
       pdf.text(linkText, 10, linkY);
@@ -207,6 +259,7 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
         url: linkUrl,
         target: "_blank", // Suggest to open in new tab (Note: some PDF viewers may not support this)
       });
+    }
 
       // === Restore original modal styles ===
       modalContent.style.height = "";
@@ -216,6 +269,10 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
 
       // Save the PDF
       pdf.save(id);
+
+       // Optional: Print the PDF directly
+    // pdf.autoPrint();
+    // window.open(pdf.output("bloburl"));
     });
   };
 
@@ -295,6 +352,13 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
               {updatedAt ? formatDate(updatedAt) : formatDate(createdAt)} 
             </span>
           </h2>
+          {/* <Button
+          className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
+          onClick={handlePrint}
+          id="download-button"
+        >
+          Print
+        </Button> */}
         </div>
       </Modal.Header>
       <Modal.Body
@@ -669,6 +733,7 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
                 src={getStringBeforeQuestionMark(signature)}
                 alt="Signature"
                 className="w-32 h-18 object-contain border border-gray-300"
+                class="avoid-page-break"
                 width={100}
                 height={100}
               />
