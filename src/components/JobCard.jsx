@@ -66,7 +66,7 @@ const JobCard = ({ job }) => {
 
       {/* Call to Action Button */}
       <button
-        onClick={handleApply}
+       // onClick={handleApply}
         className="mt-4 py-2 bg-gradient-to-r from-teal-400 via-cyan-500 to-teal-600 text-white rounded-full font-medium hover:from-teal-500 hover:via-cyan-600 hover:to-teal-700 transition-all duration-300 shadow-md"
       >
         Apply Now
