@@ -130,26 +130,28 @@ const FormDownload = ({ pdfUrl, show, handleClose, applicant, titlejob }) => {
   }
 
   const handlePrint = () => {
-    const printWindow = window.open('', '_blank');
-    
+    const printWindow = window.open("", "_blank");
+
     // Collect all the content you want to print
-    const modalHeader = document.getElementById('modal-header');
-    const modalContent = document.getElementById('modal-content');
-  
+    const modalHeader = document.getElementById("modal-header");
+    const modalContent = document.getElementById("modal-content");
+
     if (!modalHeader || !modalContent) {
-      alert('Could not find content to print');
+      alert("Could not find content to print");
       printWindow.close();
       return;
     }
-  
+
     // Clone the content to avoid modifying the original DOM
     const headerClone = modalHeader.cloneNode(true);
     const contentClone = modalContent.cloneNode(true);
-  
+
     // Remove any print-irrelevant buttons or interactive elements
-    const buttonsToRemove = contentClone.querySelectorAll('button, .print-hidden');
-    buttonsToRemove.forEach(button => button.remove());
-  
+    const buttonsToRemove = contentClone.querySelectorAll(
+      "button, .print-hidden"
+    );
+    buttonsToRemove.forEach((button) => button.remove());
+
     printWindow.document.write(`
       <html>
         <head>
@@ -251,9 +253,9 @@ const FormDownload = ({ pdfUrl, show, handleClose, applicant, titlejob }) => {
         </body>
       </html>
     `);
-  
+
     printWindow.document.close();
-  
+
     // Trigger print as soon as the window loads
     printWindow.onload = () => {
       printWindow.print();
@@ -472,12 +474,17 @@ const FormDownload = ({ pdfUrl, show, handleClose, applicant, titlejob }) => {
             Application ID: <span className="text-blue-500">{id}</span>
           </h2>
           <div
-            className="flex items-center cursor-pointer text-gray-600 hover:text-gray-800"
+            className="flex items-center cursor-pointer text-gray-600 hover:text-gray-800 "
             onClick={handlePrint}
           >
             {/* <FontAwesomeIcon icon={faPrint} className="mr-2" /> */}
-            <span>🖨️</span>
-            <span >Print Application</span>
+            <span
+              className="inline-block w-5 mr-2 text-center"
+              aria-hidden="true"
+            >
+              🖨️
+            </span>
+            <span className="text-xs sm:text-base">Print Application</span>
           </div>
           <h2 className="text-xs sm:text-base font-bold">
             Date:{" "}
