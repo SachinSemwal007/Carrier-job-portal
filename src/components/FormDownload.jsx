@@ -4,8 +4,10 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Link from "next/link";
 import Image from "next/image";
+import { faPrint } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
+const FormDownload = ({ pdfUrl, show, handleClose, applicant, titlejob }) => {
   const {
     applicationId,
     firstName,
@@ -54,8 +56,8 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
     certification,
     dob,
     _id,
-    createdAt, 
-    updatedAt, 
+    createdAt,
+    updatedAt,
   } = applicant;
   const id = applicationId;
   function getStringBeforeQuestionMark(inputString) {
@@ -128,47 +130,137 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
   }
 
   const handlePrint = () => {
-    const modalContent = document.getElementById("modal-content"); // Ensure this ID matches your modal's content container
+    const printWindow = window.open('', '_blank');
+    
+    // Collect all the content you want to print
+    const modalHeader = document.getElementById('modal-header');
+    const modalContent = document.getElementById('modal-content');
   
-    // Create a new window for printing
-    const printWindow = window.open("", "_blank");
-    printWindow.document.open();
+    if (!modalHeader || !modalContent) {
+      alert('Could not find content to print');
+      printWindow.close();
+      return;
+    }
   
-    // Write the modal's content into the new window
+    // Clone the content to avoid modifying the original DOM
+    const headerClone = modalHeader.cloneNode(true);
+    const contentClone = modalContent.cloneNode(true);
+  
+    // Remove any print-irrelevant buttons or interactive elements
+    const buttonsToRemove = contentClone.querySelectorAll('button, .print-hidden');
+    buttonsToRemove.forEach(button => button.remove());
+  
     printWindow.document.write(`
       <html>
         <head>
-          <title>Print</title>
+          <title>Print Application Form</title>
           <style>
-            /* Add styles to format your content for printing */
-            body {
+            @page {
+              size: A4;
+              margin: 10mm;
+            }
+            
+            html, body {
+              width: 210mm;
+              min-height: 297mm;
+              margin: 0 auto;
+              padding: 0;
               font-family: Arial, sans-serif;
-              margin: 20px;
+              font-size: 12px;
+              line-height: 1.5;
             }
-            #modal-content {
+            
+            .print-page {
+              page-break-after: always;
+              min-height: 297mm;
+              width: 210mm;
+              padding: 10mm;
+              box-sizing: border-box;
+              overflow: hidden;
+            }
+            
+            .print-page:last-child {
+              page-break-after: avoid;
+            }
+            
+            @media print {
+              body {
+                margin: 0;
+                padding: 0;
+              }
+              
+              .print-page {
+                margin: 0;
+                padding: 10mm;
+                page-break-inside: avoid;
+              }
+              
+              table {
+                page-break-inside: avoid;
+              }
+              
+              img {
+                max-width: 100%;
+                height: auto;
+              }
+            }
+            
+            table {
               width: 100%;
+              border-collapse: collapse;
+              margin-bottom: 10px;
             }
-            /* Hide elements you don't want printed (e.g., buttons) */
-            .print-button {
-              display: none;
+            
+            table, th, td {
+              border: 1px solid #000;
+              padding: 4px;
+              font-size: 10px;
+            }
+            
+            h4 {
+              border-bottom: 1px solid #000;
+              padding-bottom: 5px;
+              margin-top: 15px;
+              margin-bottom: 10px;
+            }
+            
+            .declaration {
+              border: 1px solid #000;
+              padding: 10px;
+              margin: 15px 0;
+              font-size: 10px;
+            }
+            
+            .signature-section {
+              display: flex;
+              justify-content: space-between;
+              margin-top: 20px;
+            }
+            
+            .signature-section img {
+              max-width: 150px;
+              max-height: 100px;
             }
           </style>
         </head>
         <body>
-          ${modalContent.innerHTML}
+          <div class="print-page">
+            ${headerClone.outerHTML}
+            ${contentClone.outerHTML}
+          </div>
         </body>
       </html>
     `);
   
     printWindow.document.close();
   
-    // Trigger the browser's print dialog
-    printWindow.print();
-  
-    // Automatically close the print window after printing
-    printWindow.onafterprint = () => printWindow.close();
+    // Trigger print as soon as the window loads
+    printWindow.onload = () => {
+      printWindow.print();
+      // Optionally, close the print window after printing
+      printWindow.onafterprint = () => printWindow.close();
+    };
   };
-  
 
   const handleDownloadPDF = () => {
     const modalHeader = document.getElementById("modal-header");
@@ -216,50 +308,67 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
         pageCanvas.width = canvas.width;
         //pageCanvas.height = (pdfHeight * canvas.height) / imgHeight;
         const sliceHeight =
-        heightLeft < pdfHeight
+          heightLeft < pdfHeight
             ? (heightLeft * canvas.height) / imgHeight
             : (pdfHeight * canvas.height) / imgHeight;
-    pageCanvas.height = sliceHeight;
+        pageCanvas.height = sliceHeight;
 
         const pageCtx = pageCanvas.getContext("2d");
-        pageCtx.drawImage(canvas, 0, sourceY, canvas.width, sliceHeight, 0, 0, pageCanvas.width, sliceHeight);
-  
+        pageCtx.drawImage(
+          canvas,
+          0,
+          sourceY,
+          canvas.width,
+          sliceHeight,
+          0,
+          0,
+          pageCanvas.width,
+          sliceHeight
+        );
+
         const pageImgData = pageCanvas.toDataURL("image/jpeg", 1.0);
 
         // Only add a new page if there is more content
-      //   if (heightLeft > 0) {
-      //     pdf.addPage();
-      //   }
-      // }
-      if (pageCount > 0) pdf.addPage();
-      pdf.addImage(pageImgData, "JPEG", 0, position, imgWidth, (sliceHeight * imgWidth) / canvas.width);
+        //   if (heightLeft > 0) {
+        //     pdf.addPage();
+        //   }
+        // }
+        if (pageCount > 0) pdf.addPage();
+        pdf.addImage(
+          pageImgData,
+          "JPEG",
+          0,
+          position,
+          imgWidth,
+          (sliceHeight * imgWidth) / canvas.width
+        );
 
-      heightLeft -= pdfHeight;
-      pageCount++;
+        heightLeft -= pdfHeight;
+        pageCount++;
 
-      //position = 5;
-    }
+        //position = 5;
+      }
 
       // === Add Clickable Link to PDF ===
       const linkText = "View certificate"; // Replace with your link text
       const linkUrl = getStringBeforeQuestionMark(certification); // Replace with your actual URL
 
       if (heightLeft <= 0) {
-       // Get the current position after the content
-       const lastPageHeight = pdf.internal.pageSize.getHeight(); 
-       const lastContentY = position + imgHeight % pdfHeight;
-      // Set link position in the top-right corner
-      //const linkX = pdfWidth - pdf.getTextWidth(linkText) - 10; // 10 is for some padding from the right
-      // const linkY = lastPageHeight - 10; // Top margin
-      const linkY = Math.min(lastContentY + 10, pdfHeight - 10);
+        // Get the current position after the content
+        const lastPageHeight = pdf.internal.pageSize.getHeight();
+        const lastContentY = position + (imgHeight % pdfHeight);
+        // Set link position in the top-right corner
+        //const linkX = pdfWidth - pdf.getTextWidth(linkText) - 10; // 10 is for some padding from the right
+        // const linkY = lastPageHeight - 10; // Top margin
+        const linkY = Math.min(lastContentY + 10, pdfHeight - 10);
 
-      // Add link text and create clickable area
-      pdf.text(linkText, 10, linkY);
-      pdf.link(10, linkY - 3, pdf.getTextWidth(linkText), 10, {
-        url: linkUrl,
-        target: "_blank", // Suggest to open in new tab (Note: some PDF viewers may not support this)
-      });
-    }
+        // Add link text and create clickable area
+        pdf.text(linkText, 10, linkY);
+        pdf.link(10, linkY - 3, pdf.getTextWidth(linkText), 10, {
+          url: linkUrl,
+          target: "_blank", // Suggest to open in new tab (Note: some PDF viewers may not support this)
+        });
+      }
 
       // === Restore original modal styles ===
       modalContent.style.height = "";
@@ -270,43 +379,59 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
       // Save the PDF
       pdf.save(id);
 
-       // Optional: Print the PDF directly
-    // pdf.autoPrint();
-    // window.open(pdf.output("bloburl"));
+      // Optional: Print the PDF directly
+      // pdf.autoPrint();
+      // window.open(pdf.output("bloburl"));
     });
   };
 
-   function formatDate(isoDate) { 
-     const date = new Date(isoDate); 
- 
-     const day = date.getDate(); 
-     const monthNames = [ 
-       "Jan", 
-       "Feb", 
-       "Mar", 
-       "Apr", 
-       "May", 
-       "Jun", 
-       "Jul",  
-       "Aug", 
-       "Sep", 
-       "Oct", 
-       "Nov", 
-       "Dec", 
-     ]; 
-     const month = monthNames[date.getMonth()]; 
-     const year = date.getFullYear(); 
- 
-     const daySuffix = (day) => { 
-       if (day % 10 === 1 && day !== 11) return "st"; 
-       if (day % 10 === 2 && day !== 12) return "nd"; 
-       if (day % 10 === 3 && day !== 13) return "rd"; 
-       return "th"; 
-     }; 
- 
-     return `${day}${daySuffix(day)} ${month} ${year}`; 
-   } 
- 
+  function formatDate(isoDate) {
+    const date = new Date(isoDate);
+
+    const day = date.getDate();
+    const monthNames = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+
+    const daySuffix = (day) => {
+      if (day % 10 === 1 && day !== 11) return "st";
+      if (day % 10 === 2 && day !== 12) return "nd";
+      if (day % 10 === 3 && day !== 13) return "rd";
+      return "th";
+    };
+
+    return `${day}${daySuffix(day)} ${month} ${year}`;
+  }
+
+  const handlePrintPDF = (pdfUrl) => {
+    if (!pdfUrl) {
+      alert("PDF URL not found!");
+      console.error("PDF URL is undefined!");
+      return;
+    }
+    const iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    iframe.src = pdfUrl;
+    document.body.appendChild(iframe);
+    iframe.onload = () => {
+      iframe.contentWindow.print();
+      document.body.removeChild(iframe);
+    };
+  };
+
   return (
     <Modal
       show={show}
@@ -314,7 +439,7 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
       size="lg"
       className=" max-w-6xl mx-auto my-4 p-5 bg-white shadow-lg rounded-lg w-full sm:w-[90vw] md:w-[80vw]  h-[100svh] overflow-hidden"
       // id="modal-content"
-     // overflowY="auto"
+      // overflowY="auto"
     >
       <Modal.Header
         className="flex flex-col  border-b-2 border-gray-200 p-4 w-full bg-white z-10 rounded-t-lg"
@@ -346,10 +471,18 @@ const FormDownload = ({ show, handleClose, applicant, titlejob }) => {
           <h2 className="text-xs sm:text-base font-bold">
             Application ID: <span className="text-blue-500">{id}</span>
           </h2>
+          <div
+            className="flex items-center cursor-pointer text-gray-600 hover:text-gray-800"
+            onClick={handlePrint}
+          >
+            {/* <FontAwesomeIcon icon={faPrint} className="mr-2" /> */}
+            <span>🖨️</span>
+            <span >Print Application</span>
+          </div>
           <h2 className="text-xs sm:text-base font-bold">
-            Date:{" "} 
+            Date:{" "}
             <span className="text-gray-600">
-              {updatedAt ? formatDate(updatedAt) : formatDate(createdAt)} 
+              {updatedAt ? formatDate(updatedAt) : formatDate(createdAt)}
             </span>
           </h2>
           {/* <Button

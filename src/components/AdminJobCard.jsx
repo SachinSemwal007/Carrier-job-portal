@@ -14,6 +14,7 @@ import { jsPDF } from "jspdf"; // Import jsPDF for PDF generation
 import { FaDownload } from "react-icons/fa"; // Import the download icon 
 import FormDownload from "./FormDownload"; 
 import FormPreview from "./FormPreview"; 
+
  
 const AdminJobCard = ({ job, refreshJobs }) => { 
   const [message, setMessage] = useState(""); 
@@ -195,6 +196,8 @@ const AdminJobCard = ({ job, refreshJobs }) => {
     } 
     return age; 
   }; 
+
+
   return ( 
     <div className="max-w-[400px] w-full flex-shrink-0 relative bg-white rounded-lg shadow-xl border border-gray-300 p-4 transition duration-300 hover:shadow-2xl hover:border-gray-400"> 
       {/* Job Card Header */} 
@@ -213,6 +216,8 @@ const AdminJobCard = ({ job, refreshJobs }) => {
           <FontAwesomeIcon icon={faTrashAlt} className="mr-2" /> 
           Delete Job 
         </h2> */}
+         {/* Print Icon */}
+      
       </div>
  
       {/* Job Information */} 
