@@ -267,7 +267,11 @@ const FormDownload = ({ pdfUrl, show, handleClose, applicant, titlejob }) => {
   const handleDownloadPDF = () => {
     const modalHeader = document.getElementById("modal-header");
     const modalContent = document.getElementById("modal-content");
-
+   
+   
+    
+    
+ 
     // Reset styles to capture full content
     modalContent.style.height = "auto";
     modalContent.style.maxHeight = "none";
@@ -477,7 +481,6 @@ const FormDownload = ({ pdfUrl, show, handleClose, applicant, titlejob }) => {
             className="flex items-center cursor-pointer text-gray-600 hover:text-gray-800 "
             onClick={handlePrint}
           >
-            {/* <FontAwesomeIcon icon={faPrint} className="mr-2" /> */}
             <span
               className="inline-block w-5 mr-2 text-center"
               aria-hidden="true"

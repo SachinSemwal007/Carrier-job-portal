@@ -59,15 +59,15 @@ const Home = () => {
           </div> 
         </main> 
         <div className="bg-[#252425] py-3 px-2 text-center">
+        <p  className="text-[16px] sm:text-[20px] text-red-500 underline hover:text-red-700 font-bold blinking-text">(Application Closed)</p>
           <p className="text-[16px] sm:text-[20px] font-bold text-yellow-500">
             Application are being Invited For Various Coach Positions at JSSPS.<br/>
             Open From 1st Nov 2024, 11:00 Hrs & Available Upto Nov 21st 2024, 17:00 Hrs<br/>
-            <p  className="text-red-500 underline hover:text-red-700 blinking-text">(Application Closed)</p>
             Detailed Advertisement {" "}
             <a
               href="/Advertisement.pdf"
               download
-              className="text-red-500 underline hover:text-red-700 blinking-text"
+              className="text-red-500 underline hover:text-red-700 "
             >
               Click Here
             </a>
