@@ -27,6 +27,7 @@ const AdminJobList = () => {
     fetchJobs();
   }, [search, filters, sort, page]);
 
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-md h-full overflow-hidden">
       <h2 className="text-2xl font-bold mb-4">Job Listings</h2>

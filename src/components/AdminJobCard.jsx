@@ -80,7 +80,7 @@ const AdminJobCard = ({ job, refreshJobs }) => {
     } 
  
     const applicantData = submittedApplicants.map((applicant) => ({
-      ApplicantId: applicant.applicantId,
+      ApplicantId: applicant.applicationId,
       FirstName: applicant.firstName,
       MiddleName: applicant.middleName,
       LastName: applicant.lastName,
